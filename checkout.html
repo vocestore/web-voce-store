@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finalizar pedido — VOCE STORE</title>
+<style>
+  :root{
+    --bg:#ffffff;
+    --ink:#111111;
+    --muted:#6b6b6e;
+    --border:#e6e6e6;
+    --panel:#f7f7f7;
+    --accent:#dcab24;
+    --accent-ink:#111111;
+    --error:#b91c1c;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:inherit; }
+  img{ max-width:100%; display:block; }
+
+  header{
+    border-bottom:1px solid var(--border); padding:14px 18px;
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+  }
+  header img{ height:44px; }
+  header a.back{ font-size:13px; font-weight:700; color:var(--muted); text-decoration:none; }
+
+  main{ max-width:640px; margin:0 auto; padding:24px 18px 80px 18px; }
+  h1{ font-size:22px; font-weight:800; margin:0 0 4px 0; }
+  .sub{ color:var(--muted); font-size:13.5px; margin:0 0 22px 0; }
+
+  .box{
+    border:1px solid var(--border); border-radius:12px; padding:16px; margin-bottom:20px;
+  }
+  .box h2{ font-size:15px; font-weight:800; margin:0 0 12px 0; }
+
+  .cart-line{
+    display:flex; gap:10px; padding:9px 0; border-bottom:1px solid var(--border);
+    align-items:center; font-size:13.5px;
+  }
+  .cart-line:last-child{ border-bottom:none; }
+  .cart-line img{ width:46px; height:58px; object-fit:cover; border-radius:6px; }
+  .cl-info{ flex:1; }
+  .cl-name{ font-weight:700; }
+  .cl-meta{ color:var(--muted); font-size:12px; }
+  .cl-qty{ color:var(--muted); font-size:12.5px; }
+
+  .totals-row{ display:flex; justify-content:space-between; font-size:13.5px; margin-bottom:6px; }
+  .totals-row.grand{ font-weight:800; font-size:16.5px; margin-top:8px; padding-top:8px; border-top:1px solid var(--border); }
+
+  .promo-hint{
+    background:var(--panel); border-radius:8px; padding:10px 12px; font-size:12.5px;
+    color:var(--ink); margin-top:10px;
+  }
+
+  label{ display:block; font-size:13px; font-weight:700; margin:14px 0 6px 0; }
+  label.first{ margin-top:0; }
+  input, select, textarea{
+    width:100%; padding:11px 12px; border:1px solid var(--border); border-radius:8px;
+    font-size:14px; background:#fff; color:var(--ink); font-family:inherit;
+  }
+  textarea{ resize:vertical; min-height:70px; }
+  .field-error{ color:var(--error); font-size:12px; margin-top:4px; display:none; }
+  .field-error.show{ display:block; }
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  @media(max-width:480px){ .row2{ grid-template-columns:1fr; } }
+
+  .submit-btn{
+    width:100%; background:var(--ink); color:#fff; border:none; padding:15px;
+    border-radius:10px; font-weight:800; font-size:15px; cursor:pointer; margin-top:22px;
+  }
+  .submit-btn:disabled{ background:#cfcfcf; color:#888; cursor:not-allowed; }
+  .note-wa{ text-align:center; font-size:12px; color:var(--muted); margin-top:10px; }
+
+  .empty-state{ text-align:center; padding:60px 0; color:var(--muted); }
+  .empty-state a{ display:inline-block; margin-top:14px; background:var(--ink); color:#fff;
+    padding:11px 20px; border-radius:8px; font-weight:700; font-size:13.5px; text-decoration:none; }
+</style>
+</head>
+<body>
+
+<header>
+  <img src="logo-voce-store.png" alt="VOCE STORE">
+  <a class="back" href="index.html">← Volver a la tienda</a>
+</header>
+
+<main>
+  <div id="content"></div>
+</main>
+
+<script>
+const WHATSAPP_NUMBER = "51965165095";
+const BASICOS_PRICE = 43;
+const BASICOS_PROMO_UNIT = 27.30;
+const SHIPPING_FLAT = 9.90;
+const FREE_SHIPPING_MIN = 150;
+
+const DEPARTAMENTOS = {
+  "Amazonas": ["Chachapoyas","Bagua","Bongará","Condorcanqui","Luya","Rodríguez de Mendoza","Utcubamba"],
+  "Áncash": ["Huaraz","Aija","Antonio Raymondi","Asunción","Bolognesi","Carhuaz","Carlos Fermín Fitzcarrald","Casma","Corongo","Huari","Huarmey","Huaylas","Mariscal Luzuriaga","Ocros","Pallasca","Pomabamba","Recuay","Santa","Sihuas","Yungay"],
+  "Apurímac": ["Abancay","Andahuaylas","Antabamba","Aymaraes","Cotabambas","Chincheros","Grau"],
+  "Arequipa": ["Arequipa","Camaná","Caravelí","Castilla","Caylloma","Condesuyos","Islay","La Unión"],
+  "Ayacucho": ["Huamanga","Cangallo","Huanca Sancos","Huanta","La Mar","Lucanas","Parinacochas","Páucar del Sara Sara","Sucre","Víctor Fajardo","Vilcas Huamán"],
+  "Cajamarca": ["Cajamarca","Cajabamba","Celendín","Chota","Contumazá","Cutervo","Hualgayoc","Jaén","San Ignacio","San Marcos","San Miguel","San Pablo","Santa Cruz"],
+  "Callao": ["Callao"],
+  "Cusco": ["Cusco","Acomayo","Anta","Calca","Canas","Canchis","Chumbivilcas","Espinar","La Convención","Paruro","Paucartambo","Quispicanchi","Urubamba"],
+  "Huancavelica": ["Huancavelica","Acobamba","Angaraes","Castrovirreyna","Churcampa","Huaytará","Tayacaja"],
+  "Huánuco": ["Huánuco","Ambo","Dos de Mayo","Huacaybamba","Huamalíes","Leoncio Prado","Marañón","Pachitea","Puerto Inca","Lauricocha","Yarowilca"],
+  "Ica": ["Ica","Chincha","Nazca","Palpa","Pisco"],
+  "Junín": ["Huancayo","Concepción","Chanchamayo","Jauja","Junín","Satipo","Tarma","Yauli","Chupaca"],
+  "La Libertad": ["Trujillo","Ascope","Bolívar","Chepén","Julcán","Otuzco","Pacasmayo","Pataz","Sánchez Carrión","Santiago de Chuco","Gran Chimú","Virú"],
+  "Lambayeque": ["Chiclayo","Ferreñafe","Lambayeque"],
+  "Lima": ["Lima (Metropolitana)","Barranca","Cajatambo","Canta","Cañete","Huaral","Huarochirí","Huaura","Oyón","Yauyos"],
+  "Loreto": ["Maynas","Alto Amazonas","Loreto","Mariscal Ramón Castilla","Requena","Ucayali","Datem del Marañón","Putumayo"],
+  "Madre de Dios": ["Tambopata","Manu","Tahuamanu"],
+  "Moquegua": ["Mariscal Nieto","General Sánchez Cerro","Ilo"],
+  "Pasco": ["Pasco","Daniel Alcides Carrión","Oxapampa"],
+  "Piura": ["Piura","Ayabaca","Huancabamba","Morropón","Paita","Sullana","Talara","Sechura"],
+  "Puno": ["Puno","Azángaro","Carabaya","Chucuito","El Collao","Huancané","Lampa","Melgar","Moho","San Antonio de Putina","San Román","Sandia","Yunguyo"],
+  "San Martín": ["Moyobamba","Bellavista","El Dorado","Huallaga","Lamas","Mariscal Cáceres","Picota","Rioja","San Martín","Tocache"],
+  "Tacna": ["Tacna","Candarave","Jorge Basadre","Tarata"],
+  "Tumbes": ["Tumbes","Contralmirante Villar","Zarumilla"],
+  "Ucayali": ["Coronel Portillo","Atalaya","Padre Abad","Purús"]
+};
+
+function money(n){ return "S/ " + n.toFixed(2); }
+
+function loadCart(){
+  try{ return JSON.parse(localStorage.getItem('voce_cart') || '[]'); }
+  catch(e){ return []; }
+}
+function clearCart(){ localStorage.removeItem('voce_cart'); }
+
+function cartTotalQty(cart){ return cart.reduce((s,l)=>s+l.qty,0); }
+function cartSubtotal(cart){
+  const qty = cartTotalQty(cart);
+  const unit = qty >= 3 ? BASICOS_PROMO_UNIT : BASICOS_PRICE;
+  return qty * unit;
+}
+
+function renderEmpty(){
+  document.getElementById('content').innerHTML = `
+    <div class="empty-state">
+      Tu carrito está vacío.<br>Agrega algún producto antes de continuar.
+      <br><a href="index.html">Volver a la tienda</a>
+    </div>
+  `;
+}
+
+function renderCheckout(cart){
+  const qty = cartTotalQty(cart);
+  const subtotal = cartSubtotal(cart);
+  const shipping = subtotal >= FREE_SHIPPING_MIN ? 0 : SHIPPING_FLAT;
+  const total = subtotal + shipping;
+  const faltaParaEnvio = FREE_SHIPPING_MIN - subtotal;
+
+  const linesHtml = cart.map(l => `
+    <div class="cart-line">
+      <img src="basico-${l.colorSlug}-1.jpg" alt="${l.colorNombre}">
+      <div class="cl-info">
+        <div class="cl-name">Básico ${l.colorNombre}</div>
+        <div class="cl-meta">Talla ${l.talla}</div>
+      </div>
+      <div class="cl-qty">x${l.qty}</div>
+    </div>
+  `).join('');
+
+  const deptOptions = Object.keys(DEPARTAMENTOS).sort().map(d => `<option value="${d}">${d}</option>`).join('');
+
+  document.getElementById('content').innerHTML = `
+    <h1>Finalizar pedido</h1>
+    <p class="sub">Revisa tu pedido y completa tus datos — lo enviamos directo a nuestro WhatsApp para coordinar el pago y el envío.</p>
+
+    <div class="box">
+      <h2>Tu pedido</h2>
+      ${linesHtml}
+      <div class="totals-row" style="margin-top:10px;"><span>Subtotal (${qty} und.)</span><span>${money(subtotal)}</span></div>
+      <div class="totals-row"><span>Envío</span><span>${shipping===0 ? 'GRATIS' : money(shipping)}</span></div>
+      <div class="totals-row grand"><span>Total</span><span>${money(total)}</span></div>
+      ${faltaParaEnvio > 0 ? `<div class="promo-hint">Te faltan <b>${money(faltaParaEnvio)}</b> en tu pedido para envío gratis.</div>` : ''}
+    </div>
+
+    <div class="box">
+      <h2>Tus datos</h2>
+      <form id="checkoutForm" novalidate>
+        <label class="first">Nombre completo</label>
+        <input type="text" id="f_nombre" required>
+        <div class="field-error" id="e_nombre">Ingresa tu nombre completo.</div>
+
+        <label>Celular / WhatsApp de contacto</label>
+        <input type="tel" id="f_celular" inputmode="numeric" placeholder="9XXXXXXXX" required>
+        <div class="field-error" id="e_celular">Ingresa un celular válido (9 dígitos).</div>
+
+        <div class="row2">
+          <div>
+            <label>Departamento</label>
+            <select id="f_departamento" required>
+              <option value="" disabled selected>Selecciona...</option>
+              ${deptOptions}
+            </select>
+            <div class="field-error" id="e_departamento">Selecciona un departamento.</div>
+          </div>
+          <div>
+            <label>Provincia</label>
+            <select id="f_provincia" required disabled>
+              <option value="" disabled selected>Elige un departamento primero</option>
+            </select>
+            <div class="field-error" id="e_provincia">Selecciona una provincia.</div>
+          </div>
+        </div>
+
+        <label>Distrito</label>
+        <input type="text" id="f_distrito" placeholder="Ej: Miraflores" required>
+        <div class="field-error" id="e_distrito">Ingresa tu distrito.</div>
+
+        <label>Dirección exacta (calle, número, referencia)</label>
+        <textarea id="f_direccion" placeholder="Av. Ejemplo 123, dpto 4B, cerca al parque..." required></textarea>
+        <div class="field-error" id="e_direccion">Ingresa tu dirección completa.</div>
+
+        <label>Comentario adicional (opcional)</label>
+        <textarea id="f_comentario" placeholder="Referencias, horario de entrega, etc."></textarea>
+
+        <button type="submit" class="submit-btn">Enviar pedido por WhatsApp</button>
+        <div class="note-wa">Se abrirá WhatsApp con tu pedido y datos ya redactados — solo tienes que darle enviar.</div>
+      </form>
+    </div>
+  `;
+
+  const deptSelect = document.getElementById('f_departamento');
+  const provSelect = document.getElementById('f_provincia');
+  deptSelect.addEventListener('change', () => {
+    const provincias = DEPARTAMENTOS[deptSelect.value] || [];
+    provSelect.innerHTML = '<option value="" disabled selected>Selecciona...</option>' +
+      provincias.map(p => `<option value="${p}">${p}</option>`).join('');
+    provSelect.disabled = false;
+  });
+
+  document.getElementById('checkoutForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!validate()) return;
+    sendToWhatsapp(cart, qty, subtotal, shipping, total);
+  });
+}
+
+function validate(){
+  let ok = true;
+  const checks = [
+    ['f_nombre','e_nombre', v => v.trim().length >= 3],
+    ['f_celular','e_celular', v => /^9\d{8}$/.test(v.trim())],
+    ['f_departamento','e_departamento', v => v !== ''],
+    ['f_provincia','e_provincia', v => v !== ''],
+    ['f_distrito','e_distrito', v => v.trim().length >= 2],
+    ['f_direccion','e_direccion', v => v.trim().length >= 6],
+  ];
+  checks.forEach(([fieldId, errId, fn]) => {
+    const el = document.getElementById(fieldId);
+    const errEl = document.getElementById(errId);
+    if (!fn(el.value)){
+      errEl.classList.add('show');
+      ok = false;
+    } else {
+      errEl.classList.remove('show');
+    }
+  });
+  return ok;
+}
+
+function sendToWhatsapp(cart, qty, subtotal, shipping, total){
+  const nombre = document.getElementById('f_nombre').value.trim();
+  const celular = document.getElementById('f_celular').value.trim();
+  const depto = document.getElementById('f_departamento').value;
+  const prov = document.getElementById('f_provincia').value;
+  const distrito = document.getElementById('f_distrito').value.trim();
+  const direccion = document.getElementById('f_direccion').value.trim();
+  const comentario = document.getElementById('f_comentario').value.trim();
+
+  const lines = cart.map(l => `- Básico ${l.colorNombre}, Talla ${l.talla} x${l.qty}`).join('\n');
+
+  const msg = [
+    `Hola VOCE STORE, quiero confirmar mi pedido:`,
+    ``,
+    lines,
+    ``,
+    `Subtotal: ${money(subtotal)}`,
+    `Envío: ${shipping===0 ? 'GRATIS' : money(shipping)}`,
+    `Total: ${money(total)}`,
+    ``,
+    `Datos de entrega:`,
+    `Nombre: ${nombre}`,
+    `Celular: ${celular}`,
+    `Departamento: ${depto}`,
+    `Provincia: ${prov}`,
+    `Distrito: ${distrito}`,
+    `Dirección: ${direccion}`,
+    comentario ? `Comentario: ${comentario}` : ``,
+  ].filter(Boolean).join('\n');
+
+  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+  clearCart();
+  window.location.href = url;
+}
+
+const cart = loadCart();
+if (!cart.length) renderEmpty();
+else renderCheckout(cart);
+</script>
+</body>
+</html>
