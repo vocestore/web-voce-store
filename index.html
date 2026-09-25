@@ -54,8 +54,7 @@
     width:100%; display:flex; align-items:center; justify-content:space-between; gap:14px;
   }
   .brand{ display:flex; align-items:center; gap:10px; text-decoration:none; }
-  .brand img{ height:52px; width:auto; border-radius:6px; }
-  .brand-name{ font-weight:800; font-size:19px; letter-spacing:-0.01em; }
+  .brand img{ height:72px; width:auto; border-radius:6px; }
   nav{ display:flex; gap:16px; align-items:center; }
   nav a{
     font-size:13.5px; font-weight:600; text-decoration:none; color:var(--ink);
@@ -219,6 +218,14 @@
   }
   .checkout-btn[disabled]{ background:#cfcfcf; color:#888; cursor:not-allowed; }
   .empty-cart{ color:var(--muted); font-size:13.5px; text-align:center; padding:40px 0; }
+
+  /* ---- floating whatsapp button ---- */
+  .wa-float{
+    position:fixed; bottom:20px; left:20px; z-index:35;
+    background:#25D366; color:#fff; width:56px; height:56px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; text-decoration:none;
+    box-shadow:0 4px 14px rgba(0,0,0,.25); font-size:28px;
+  }
 </style>
 </head>
 <body>
@@ -238,13 +245,13 @@
   <div class="headrow">
     <a class="brand" href="#top">
       <img src="logo-voce-store.png" alt="VOCE STORE">
-      <span class="brand-name">VOCE STORE</span>
     </a>
     <div class="headrow-bottom">
       <nav class="navscroll">
         <a href="#personalizados">Personalizados</a>
         <a href="#basicos">Básicos</a>
         <a href="#marketplaces">Marketplaces</a>
+        <a href="faq.html">FAQ</a>
         <a href="politicas.html">Políticas</a>
       </nav>
       <button class="cart-btn" onclick="openCart()">
@@ -324,14 +331,14 @@
       <h4>Contacto</h4>
       <p>
         <a href="https://wa.me/51965165095" target="_blank" rel="noopener">WhatsApp: +51 965 165 095</a><br>
-        <a href="mailto:vocestore1@gmail.com">vocestore1@gmail.com</a><br>
-        Lun–Vie 9am–6pm · Sáb 9am–1pm
+        <a href="mailto:vocestore1@gmail.com">vocestore1@gmail.com</a>
       </p>
     </div>
     <div>
       <h4>Ayuda</h4>
       <p>
-        <a href="politicas.html">Políticas y FAQ</a><br>
+        <a href="faq.html">Preguntas Frecuentes</a><br>
+        <a href="politicas.html">Políticas</a><br>
         <a href="https://forms.gle/syEqzzvzL14ruAAz9" target="_blank" rel="noopener">Libro de reclamaciones</a>
       </p>
     </div>
@@ -349,6 +356,8 @@
   <div class="drawer-body" id="drawerBody"></div>
   <div class="drawer-foot" id="drawerFoot"></div>
 </div>
+
+<a class="wa-float" href="https://wa.me/51965165095?text=Hola%20VOCE%20STORE%2C%20tengo%20una%20consulta" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
 
 <script>
 const WHATSAPP_NUMBER = "51965165095";
