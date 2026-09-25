@@ -48,12 +48,15 @@
   }
   .headrow{
     max-width:1180px; margin:0 auto; padding:12px 18px;
-    display:flex; align-items:center; justify-content:space-between; gap:14px;
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+  }
+  .headrow-bottom{
+    width:100%; display:flex; align-items:center; justify-content:space-between; gap:14px;
   }
   .brand{ display:flex; align-items:center; gap:10px; text-decoration:none; }
-  .brand img{ height:38px; width:auto; border-radius:4px; }
-  .brand-name{ font-weight:800; font-size:16px; letter-spacing:-0.01em; }
-  nav{ display:flex; gap:18px; align-items:center; }
+  .brand img{ height:52px; width:auto; border-radius:6px; }
+  .brand-name{ font-weight:800; font-size:19px; letter-spacing:-0.01em; }
+  nav{ display:flex; gap:16px; align-items:center; }
   nav a{
     font-size:13.5px; font-weight:600; text-decoration:none; color:var(--ink);
     white-space:nowrap;
@@ -91,8 +94,17 @@
     background:var(--accent); color:var(--accent-ink); font-weight:800;
     padding:12px 20px; border-radius:10px; text-decoration:none; font-size:14.5px;
   }
-  .personal-banners{ margin-top:26px; display:flex; flex-direction:column; gap:16px; }
-  .personal-banners img{ border-radius:12px; border:1px solid var(--border); }
+  .personal-banners{ margin-top:26px; display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .personal-banners img{ border-radius:12px; border:1px solid var(--border); width:100%; height:100%; object-fit:cover; }
+  @media(max-width:420px){ .personal-banners{ grid-template-columns:1fr; } }
+
+  /* ---- instagram ---- */
+  .ig-block{
+    background:var(--panel); border:1px solid var(--border); border-radius:14px;
+    padding:26px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:10px;
+  }
+  .ig-block h3{ margin:0; font-size:19px; font-weight:800; }
+  .ig-block p{ margin:0; color:var(--muted); font-size:13.5px; }
 
   .packs-grid{
     margin-top:24px; display:grid; grid-template-columns:repeat(3,1fr); gap:14px;
@@ -228,15 +240,17 @@
       <img src="logo-voce-store.png" alt="VOCE STORE">
       <span class="brand-name">VOCE STORE</span>
     </a>
-    <nav class="navscroll">
-      <a href="#personalizados">Personalizados</a>
-      <a href="#basicos">Básicos</a>
-      <a href="#marketplaces">Marketplaces</a>
-      <a href="politicas.html">Políticas</a>
-    </nav>
-    <button class="cart-btn" onclick="openCart()">
-      🛒 Carrito <span class="cart-badge" id="cartBadge">0</span>
-    </button>
+    <div class="headrow-bottom">
+      <nav class="navscroll">
+        <a href="#personalizados">Personalizados</a>
+        <a href="#basicos">Básicos</a>
+        <a href="#marketplaces">Marketplaces</a>
+        <a href="politicas.html">Políticas</a>
+      </nav>
+      <button class="cart-btn" onclick="openCart()">
+        🛒 <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -288,6 +302,14 @@
     <p class="envios-text">
       En VOCE STORE, tu tranquilidad es nuestra prioridad. Hemos completado con éxito más de 10,000 envíos a todos los rincones del Perú. Trabajamos con socios logísticos de confianza y, ante cualquier inconveniente, nuestro equipo está listo para asistirte.
     </p>
+  </section>
+
+  <section style="border-bottom:none;">
+    <div class="ig-block">
+      <h3>📸 Síguenos en Instagram</h3>
+      <p>Nuevos diseños, packs de personalizados y sorteos — todo primero en Instagram.</p>
+      <a class="btn-outline" href="https://www.instagram.com/voce_store1/" target="_blank" rel="noopener">@voce_store1</a>
+    </div>
   </section>
 
 </main>
