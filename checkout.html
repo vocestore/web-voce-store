@@ -81,6 +81,13 @@
   .empty-state{ text-align:center; padding:60px 0; color:var(--muted); }
   .empty-state a{ display:inline-block; margin-top:14px; background:var(--ink); color:#fff;
     padding:11px 20px; border-radius:8px; font-weight:700; font-size:13.5px; text-decoration:none; }
+
+  .wa-float{
+    position:fixed; bottom:20px; left:20px; z-index:35;
+    background:#25D366; color:#fff; width:56px; height:56px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; text-decoration:none;
+    box-shadow:0 4px 14px rgba(0,0,0,.25); font-size:28px;
+  }
 </style>
 </head>
 <body>
@@ -93,6 +100,8 @@
 <main>
   <div id="content"></div>
 </main>
+
+<a class="wa-float" href="https://wa.me/51965165095?text=Hola%20VOCE%20STORE%2C%20tengo%20una%20consulta" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
 
 <script>
 const WHATSAPP_NUMBER = "51965165095";
