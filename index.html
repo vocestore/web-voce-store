@@ -83,11 +83,25 @@
 
   /* ---- personalizados hero ---- */
   .personal-hero{
-    background:var(--ink); color:#fff; border-radius:16px; padding:36px 26px;
-    display:flex; flex-direction:column; gap:14px; align-items:flex-start;
+    background:linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+    color:#fff; border-radius:18px; padding:40px 30px;
+    display:grid; grid-template-columns:1.2fr 1fr; gap:30px; align-items:center;
+    overflow:hidden; position:relative;
   }
-  .personal-hero h1{ font-size:30px; font-weight:800; margin:0; line-height:1.1; }
-  .personal-hero p{ color:#d8d8d8; font-size:14.5px; max-width:520px; margin:0; }
+  @media(max-width:760px){ .personal-hero{ grid-template-columns:1fr; padding:32px 22px; } }
+  .personal-hero .htext{ display:flex; flex-direction:column; gap:14px; align-items:flex-start; }
+  .personal-eyebrow{
+    color:var(--accent); font-size:12.5px; font-weight:800; letter-spacing:.08em;
+    text-transform:uppercase; display:flex; align-items:center; gap:6px;
+  }
+  .personal-hero h1{ font-size:36px; font-weight:800; margin:0; line-height:1.05; letter-spacing:-0.01em; }
+  @media(max-width:480px){ .personal-hero h1{ font-size:28px; } }
+  .personal-hero p{ color:#c8c8c8; font-size:14.5px; max-width:480px; margin:0; line-height:1.55; }
+  .personal-hero .himg{
+    border-radius:14px; overflow:hidden; aspect-ratio:1/1; border:1px solid #2a2a2a;
+  }
+  .personal-hero .himg img{ width:100%; height:100%; object-fit:cover; }
+  @media(max-width:760px){ .personal-hero .himg{ display:none; } }
   .wa-cta{
     display:inline-flex; align-items:center; gap:8px;
     background:var(--accent); color:var(--accent-ink); font-weight:800;
@@ -179,7 +193,8 @@
     display:inline-block; border:2px solid var(--ink); padding:11px 22px;
     border-radius:10px; font-weight:800; font-size:14px; text-decoration:none;
   }
-  .envios-text{ margin-top:16px; font-size:14px; color:var(--muted); line-height:1.6; max-width:700px; }
+  .envios-text{ margin:16px auto 0 auto; font-size:14px; color:var(--muted); line-height:1.6; max-width:700px; text-align:center; }
+  #envios .banner-block{ max-width:600px; margin:0 auto; }
 
   /* ---- footer ---- */
   footer{ padding:40px 18px 60px 18px; background:var(--ink); color:#ddd; }
@@ -256,6 +271,7 @@
         <a href="#personalizados">Personalizados</a>
         <a href="#basicos">Básicos</a>
         <a href="#marketplaces">Marketplaces</a>
+        <a href="testimonios.html">Testimonios</a>
         <a href="faq.html">FAQ</a>
         <a href="politicas.html">Políticas</a>
       </nav>
@@ -270,12 +286,16 @@
 
   <section id="personalizados" style="border-bottom:none;">
     <div class="personal-hero">
-      <h1>TU IDEA, HECHA PRENDA.</h1>
-      <p>Personaliza polos y hoodies oversize VOCE STORE con tu propio diseño. Acabado DTF de alta durabilidad, tallas S, M y L. Envíanos tu idea y te mandamos el mockup antes de producir.</p>
-      <a class="wa-cta" target="_blank" rel="noopener"
-         href="https://wa.me/51965165095?text=Hola%20VOCE%20STORE%2C%20quiero%20personalizar%20una%20prenda%2C%20%C2%BFme%20ayudan%3F">
-        💬 Personalizar por WhatsApp
-      </a>
+      <div class="htext">
+        <div class="personal-eyebrow">⭐ Nuestro servicio estrella</div>
+        <h1>TU IDEA, HECHA PRENDA.</h1>
+        <p>Personaliza polos y hoodies oversize VOCE STORE con tu propio diseño. Acabado DTF de alta durabilidad, tallas S, M y L. Te mandamos el mockup antes de producir, para que apruebes cómo va a quedar.</p>
+        <a class="wa-cta" target="_blank" rel="noopener"
+           href="https://wa.me/51965165095?text=Hola%20VOCE%20STORE%2C%20quiero%20personalizar%20una%20prenda%2C%20%C2%BFme%20ayudan%3F">
+          💬 Personalizar por WhatsApp
+        </a>
+      </div>
+      <div class="himg"><img src="personalizados-pack-3.jpg" alt="Polos personalizados VOCE STORE"></div>
     </div>
 
     <div class="personal-banners">
@@ -284,6 +304,29 @@
     </div>
 
     <div class="packs-grid" id="packsGrid"></div>
+
+    <div class="product-info">
+      <a class="btn-outline sizeguide-btn" href="tabla-medidas-oversize.jpg" target="_blank" rel="noopener">📏 Ver guía de tallas</a>
+      <details class="product-details">
+        <summary>Ver detalles del producto y cuidados</summary>
+        <div class="pd-body">
+          <h4>Características</h4>
+          <ul>
+            <li>Mismo material que nuestros básicos: algodón jersey 30/1 reactivo peinado premium</li>
+            <li>Estampado DTF de alta durabilidad — tamaño máximo de estampado A3</li>
+            <li>Tallas corte oversize: S · M · L</li>
+          </ul>
+          <p>Los diseños que ves en las fotos son referenciales — al elegir tu pack, nos escribes y nos envías tu propio diseño para personalizarlo.</p>
+          <h4>Cuidados de la prenda</h4>
+          <ul>
+            <li>Separa las prendas blancas de las de color</li>
+            <li>Lava a mano o en máquina en modo suave, por el revés, con agua fría</li>
+            <li>No uses lejía ni detergentes abrasivos o blanqueadores</li>
+            <li>No laves en seco · Plancha a temperatura suave</li>
+          </ul>
+        </div>
+      </details>
+    </div>
   </section>
 
   <section id="basicos">
@@ -375,6 +418,7 @@
       <p>
         <a href="faq.html">Preguntas Frecuentes</a><br>
         <a href="politicas.html">Políticas</a><br>
+        <a href="testimonios.html">Testimonios</a><br>
         <a href="https://forms.gle/syEqzzvzL14ruAAz9" target="_blank" rel="noopener">Libro de reclamaciones</a>
       </p>
     </div>
@@ -414,9 +458,9 @@ const COLORES = [
 const TALLAS = ["S","M","L"];
 
 const PACKS = [
-  { id:"pack3", n:3, precio:"S/99.90", img:"personalizados-pack-3.jpg", nota:"Envío S/9.90" },
-  { id:"pack6", n:6, precio:"S/199", img:"personalizados-pack-6.jpg", nota:"Envío gratis" },
-  { id:"pack12", n:12, precio:"S/379.90", img:"personalizados-pack-12.jpg", nota:"Envío gratis" },
+  { id:"pack3", n:3, precio:"S/99.90", precioNum:99.90, img:"personalizados-pack-3.jpg", nota:"Envío S/9.90" },
+  { id:"pack6", n:6, precio:"S/199", precioNum:199, img:"personalizados-pack-6.jpg", nota:"Envío gratis" },
+  { id:"pack12", n:12, precio:"S/379.90", precioNum:379.90, img:"personalizados-pack-12.jpg", nota:"Envío gratis" },
 ];
 
 function money(n){ return "S/ " + n.toFixed(2); }
@@ -432,9 +476,17 @@ function saveCart(cart){
 }
 function addToCart(colorSlug, colorNombre, talla){
   const cart = loadCart();
-  const line = cart.find(l => l.colorSlug === colorSlug && l.talla === talla);
+  const line = cart.find(l => l.type==='basico' && l.colorSlug === colorSlug && l.talla === talla);
   if (line) line.qty += 1;
-  else cart.push({ colorSlug, colorNombre, talla, qty:1 });
+  else cart.push({ type:'basico', colorSlug, colorNombre, talla, qty:1 });
+  saveCart(cart);
+  renderDrawer();
+}
+function addPackToCart(pack){
+  const cart = loadCart();
+  const line = cart.find(l => l.type==='pack' && l.packId === pack.id);
+  if (line) line.qty += 1;
+  else cart.push({ type:'pack', packId:pack.id, n:pack.n, precio:pack.precioNum, img:pack.img, qty:1 });
   saveCart(cart);
   renderDrawer();
 }
@@ -451,11 +503,16 @@ function removeLine(idx){
   saveCart(cart);
   renderDrawer();
 }
+function basicoLines(cart){ return cart.filter(l => l.type==='basico'); }
+function packLines(cart){ return cart.filter(l => l.type==='pack'); }
 function cartTotalQty(cart){ return cart.reduce((s,l)=>s+l.qty,0); }
 function cartSubtotal(cart){
-  const qty = cartTotalQty(cart);
-  const unit = qty >= 3 ? BASICOS_PROMO_UNIT : BASICOS_PRICE;
-  return qty * unit;
+  const basicos = basicoLines(cart);
+  const bqty = basicos.reduce((s,l)=>s+l.qty,0);
+  const unit = bqty >= 3 ? BASICOS_PROMO_UNIT : BASICOS_PRICE;
+  const basicosTotal = bqty * unit;
+  const packsTotal = packLines(cart).reduce((s,l)=>s + l.precio*l.qty, 0);
+  return basicosTotal + packsTotal;
 }
 function renderCartBadge(){
   const cart = loadCart();
@@ -552,8 +609,20 @@ function buildPackCard(pack){
   btn.className = 'wa-cta'; btn.style.justifyContent='center'; btn.target='_blank'; btn.rel='noopener';
   const msg = encodeURIComponent(`Hola VOCE STORE, quiero el Pack de ${pack.n} polos personalizados (${pack.precio}). Les envío mi diseño por acá.`);
   btn.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
-  btn.textContent = 'Pedir este pack';
+  btn.textContent = 'Pedir por WhatsApp';
   body.appendChild(btn);
+
+  const cartBtn = document.createElement('button');
+  cartBtn.className = 'add-btn';
+  cartBtn.textContent = 'Añadir al carrito';
+  cartBtn.onclick = () => {
+    addPackToCart(pack);
+    cartBtn.classList.add('added');
+    cartBtn.textContent = 'Agregado ✓';
+    setTimeout(()=>{ cartBtn.classList.remove('added'); cartBtn.textContent='Añadir al carrito'; }, 1200);
+  };
+  body.appendChild(cartBtn);
+
   card.appendChild(body);
   return card;
 }
@@ -587,28 +656,42 @@ function renderDrawer(){
   cart.forEach((line, idx) => {
     const div = document.createElement('div');
     div.className = 'cart-line';
-    div.innerHTML = `
-      <img src="basico-${line.colorSlug}-1.jpg" alt="${line.colorNombre}">
-      <div class="cart-line-info">
-        <div class="cl-name">Básico ${line.colorNombre}</div>
-        <div class="cl-meta">Talla ${line.talla}</div>
-      </div>
-      <div class="qty-wrap">
-        <button onclick="changeQty(${idx},-1)">−</button>
-        <span>${line.qty}</span>
-        <button onclick="changeQty(${idx},1)">+</button>
-      </div>
-    `;
+    if (line.type === 'basico'){
+      div.innerHTML = `
+        <img src="basico-${line.colorSlug}-1.jpg" alt="${line.colorNombre}">
+        <div class="cart-line-info">
+          <div class="cl-name">Básico ${line.colorNombre}</div>
+          <div class="cl-meta">Talla ${line.talla}</div>
+        </div>
+        <div class="qty-wrap">
+          <button onclick="changeQty(${idx},-1)">−</button>
+          <span>${line.qty}</span>
+          <button onclick="changeQty(${idx},1)">+</button>
+        </div>
+      `;
+    } else {
+      div.innerHTML = `
+        <img src="${line.img}" alt="Pack ${line.n}">
+        <div class="cart-line-info">
+          <div class="cl-name">Pack ${line.n} personalizados</div>
+          <div class="cl-meta">${money(line.precio)} c/u</div>
+        </div>
+        <div class="qty-wrap">
+          <button onclick="changeQty(${idx},-1)">−</button>
+          <span>${line.qty}</span>
+          <button onclick="changeQty(${idx},1)">+</button>
+        </div>
+      `;
+    }
     body.appendChild(div);
   });
 
-  const qty = cartTotalQty(cart);
   const subtotal = cartSubtotal(cart);
   const shipping = subtotal >= FREE_SHIPPING_MIN ? 0 : SHIPPING_FLAT;
   const total = subtotal + shipping;
 
   foot.innerHTML = `
-    <div class="totals-row"><span>Subtotal (${qty} und.)</span><span>${money(subtotal)}</span></div>
+    <div class="totals-row"><span>Subtotal</span><span>${money(subtotal)}</span></div>
     <div class="totals-row"><span>Envío</span><span>${shipping===0 ? 'GRATIS' : money(shipping)}</span></div>
     <div class="totals-row grand"><span>Total</span><span>${money(total)}</span></div>
     <button class="checkout-btn" onclick="goCheckout()">Ir a pagar</button>
