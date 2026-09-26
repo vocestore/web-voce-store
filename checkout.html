@@ -82,12 +82,35 @@
   .empty-state a{ display:inline-block; margin-top:14px; background:var(--ink); color:#fff;
     padding:11px 20px; border-radius:8px; font-weight:700; font-size:13.5px; text-decoration:none; }
 
-  .wa-float{
-    position:fixed; bottom:20px; left:20px; z-index:35;
-    background:#25D366; color:#fff; width:56px; height:56px; border-radius:50%;
-    display:flex; align-items:center; justify-content:center; text-decoration:none;
-    box-shadow:0 4px 14px rgba(0,0,0,.25); font-size:28px;
+  .pay-tabs{ display:flex; gap:8px; margin-bottom:14px; }
+  .pay-tab{
+    flex:1; text-align:center; padding:10px; border:1px solid var(--border); border-radius:8px;
+    font-weight:700; font-size:13.5px; cursor:pointer; background:#fff;
   }
+  .pay-tab.active{ background:var(--ink); color:#fff; border-color:var(--ink); }
+  .pay-panel{ display:none; }
+  .pay-panel.active{ display:block; }
+  .qr-row{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin:10px 0; }
+  .qr-card{ text-align:center; font-size:12.5px; }
+  .qr-card img{ width:150px; height:150px; object-fit:contain; border:1px solid var(--border); border-radius:10px; }
+  .copy-row{ display:flex; gap:6px; margin-top:8px; align-items:center; }
+  .copy-row input{ flex:1; background:var(--panel); font-weight:700; }
+  .copy-btn{ padding:10px 12px; border:1px solid var(--border); border-radius:8px; background:#fff; cursor:pointer; font-size:12.5px; font-weight:700; white-space:nowrap; }
+  .copy-btn.copied{ background:#1f7a3f; color:#fff; border-color:#1f7a3f; }
+  .titular-note{ font-size:12px; color:var(--muted); margin-top:4px; }
+  .warn-box{
+    background:#fff8e6; border:1px solid #f0d78c; border-radius:8px; padding:10px 12px;
+    font-size:12.5px; color:#5c4a00; margin-top:12px;
+  }
+  .upload-box{
+    border:1.5px dashed var(--border); border-radius:10px; padding:16px; text-align:center;
+    margin-top:14px; cursor:pointer;
+  }
+  .upload-box img{ max-height:140px; margin:0 auto 8px auto; border-radius:8px; }
+  .upload-box span{ font-size:13px; color:var(--muted); }
+
+  .wa-float{ position:fixed; bottom:20px; left:20px; z-index:35; width:58px; height:58px; text-decoration:none; }
+  .wa-float img{ width:100%; height:100%; display:block; filter:drop-shadow(0 4px 10px rgba(0,0,0,.3)); }
 </style>
 </head>
 <body>
@@ -101,7 +124,7 @@
   <div id="content"></div>
 </main>
 
-<a class="wa-float" href="https://wa.me/51965165095?text=Hola%20VOCE%20STORE%2C%20tengo%20una%20consulta" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
+<a class="wa-float" href="https://wa.me/51965165095?text=Hola%20VOCE%20STORE%2C%20tengo%20una%20consulta" target="_blank" rel="noopener" aria-label="WhatsApp"><img src="whatsapp-icon.png" alt="WhatsApp"></a>
 
 <script>
 const WHATSAPP_NUMBER = "51965165095";
@@ -138,7 +161,47 @@ const DEPARTAMENTOS = {
   "Ucayali": ["Coronel Portillo","Atalaya","Padre Abad","Purús"]
 };
 
+const BANCOS = {
+  bcp: { nombre:"BCP", cuenta:"191-98192570-0-12", titular:"Roxana Arámbulo" },
+  interbank: { nombre:"Interbank", cuenta:"898-3372407826", titular:"Roxana Arámbulo" },
+  scotiabank: { nombre:"Scotiabank", cuenta:"825-3496197", titular:"Pierre Iturrizaga" },
+};
+
+let selectedPayMethod = { type:'yape' };
+let capturaFileName = '';
+
 function money(n){ return "S/ " + n.toFixed(2); }
+
+function switchPayTab(tab){
+  document.querySelectorAll('.pay-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  document.getElementById('panel-yape').classList.toggle('active', tab === 'yape');
+  document.getElementById('panel-banco').classList.toggle('active', tab === 'banco');
+  selectedPayMethod = tab === 'yape' ? { type:'yape' } : { type:'banco', banco: document.getElementById('f_banco').value };
+}
+
+function copyField(id, btn){
+  const el = document.getElementById(id);
+  navigator.clipboard.writeText(el.value.replace(/\s/g,'')).then(() => {
+    const original = btn.textContent;
+    btn.textContent = '¡Copiado!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1500);
+  });
+}
+
+function previewCaptura(e){
+  const file = e.target.files[0];
+  if (!file) return;
+  capturaFileName = file.name;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    document.getElementById('capturaPreviewWrap').innerHTML = `
+      <img src="${ev.target.result}" alt="Captura de pago">
+      <span>✓ ${file.name} — toca para cambiarla</span>
+    `;
+  };
+  reader.readAsDataURL(file);
+}
 
 function loadCart(){
   try{ return JSON.parse(localStorage.getItem('voce_cart') || '[]'); }
@@ -196,6 +259,45 @@ function renderCheckout(cart){
     </div>
 
     <div class="box">
+      <h2>Método de pago</h2>
+      <div class="pay-tabs">
+        <div class="pay-tab active" data-tab="yape" onclick="switchPayTab('yape')">Yape / Plin</div>
+        <div class="pay-tab" data-tab="banco" onclick="switchPayTab('banco')">Transferencia bancaria</div>
+      </div>
+
+      <div class="pay-panel active" id="panel-yape">
+        <div class="qr-row">
+          <div class="qr-card"><img src="qr-yape.jpg" alt="QR Yape"><div>Yape</div></div>
+          <div class="qr-card"><img src="qr-plin.jpg" alt="QR Plin"><div>Plin</div></div>
+        </div>
+        <div class="copy-row">
+          <input type="text" id="numYapePlin" value="954 106 866" readonly>
+          <button type="button" class="copy-btn" onclick="copyField('numYapePlin', this)">Copiar</button>
+        </div>
+        <div class="titular-note">Titular: Roxana Arámbulo</div>
+      </div>
+
+      <div class="pay-panel" id="panel-banco">
+        <label class="first">Selecciona el banco</label>
+        <select id="f_banco">
+          <option value="">Selecciona...</option>
+          <option value="bcp">BCP</option>
+          <option value="interbank">Interbank</option>
+          <option value="scotiabank">Scotiabank</option>
+        </select>
+        <div id="bancoInfo"></div>
+        <div class="warn-box">Si vas a transferir desde <b>otro banco</b>, es posible que te pidan el código CCI en vez del número de cuenta — aún no lo tenemos cargado aquí. Si es tu caso, avísanos por WhatsApp y te lo pasamos directo.</div>
+      </div>
+
+      <div class="upload-box" onclick="document.getElementById('f_captura').click()">
+        <input type="file" id="f_captura" accept="image/*" style="display:none" onchange="previewCaptura(event)">
+        <div id="capturaPreviewWrap"><span>📎 Toca para seleccionar tu captura de pago</span></div>
+      </div>
+      <div class="field-error" id="e_captura">Selecciona tu captura de pago.</div>
+      <div class="warn-box">Esta imagen no viaja a WhatsApp (queda solo aquí, como confirmación tuya) — al vendedor le llegará un aviso de que adjuntaste tu comprobante, y él lo verifica directo en su Yape/Plin/banco.</div>
+    </div>
+
+    <div class="box">
       <h2>Tus datos</h2>
       <form id="checkoutForm" novalidate>
         <label class="first">Nombre completo</label>
@@ -241,6 +343,21 @@ function renderCheckout(cart){
     </div>
   `;
 
+  const bancoSelect = document.getElementById('f_banco');
+  bancoSelect.addEventListener('change', () => {
+    const b = BANCOS[bancoSelect.value];
+    selectedPayMethod = { type:'banco', banco: bancoSelect.value };
+    if (!b){ document.getElementById('bancoInfo').innerHTML = ''; return; }
+    document.getElementById('bancoInfo').innerHTML = `
+      <label>Número de cuenta</label>
+      <div class="copy-row">
+        <input type="text" id="numCuenta" value="${b.cuenta}" readonly>
+        <button type="button" class="copy-btn" onclick="copyField('numCuenta', this)">Copiar</button>
+      </div>
+      <div class="titular-note">Titular: ${b.titular}</div>
+    `;
+  });
+
   const deptSelect = document.getElementById('f_departamento');
   const provSelect = document.getElementById('f_provincia');
   deptSelect.addEventListener('change', () => {
@@ -267,6 +384,12 @@ function validate(){
     ['f_distrito','e_distrito', v => v.trim().length >= 2],
     ['f_direccion','e_direccion', v => v.trim().length >= 6],
   ];
+  const capturaOk = capturaFileName !== '';
+  document.getElementById('e_captura').classList.toggle('show', !capturaOk);
+  if (!capturaOk) ok = false;
+  if (selectedPayMethod.type === 'banco' && !selectedPayMethod.banco){
+    ok = false;
+  }
   checks.forEach(([fieldId, errId, fn]) => {
     const el = document.getElementById(fieldId);
     const errEl = document.getElementById(errId);
@@ -291,6 +414,10 @@ function sendToWhatsapp(cart, qty, subtotal, shipping, total){
 
   const lines = cart.map(l => `- Básico ${l.colorNombre}, Talla ${l.talla} x${l.qty}`).join('\n');
 
+  let pagoTexto = '';
+  if (selectedPayMethod.type === 'yape') pagoTexto = 'Yape / Plin';
+  else if (selectedPayMethod.type === 'banco') pagoTexto = 'Transferencia ' + (BANCOS[selectedPayMethod.banco]?.nombre || '');
+
   const msg = [
     `Hola VOCE STORE, quiero confirmar mi pedido:`,
     ``,
@@ -308,6 +435,9 @@ function sendToWhatsapp(cart, qty, subtotal, shipping, total){
     `Distrito: ${distrito}`,
     `Dirección: ${direccion}`,
     comentario ? `Comentario: ${comentario}` : ``,
+    ``,
+    `Pago realizado por: ${pagoTexto}`,
+    `Comprobante de pago: Archivo adjunto ✅`,
   ].filter(Boolean).join('\n');
 
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
