@@ -90,9 +90,16 @@
   .pay-tab.active{ background:var(--ink); color:#fff; border-color:var(--ink); }
   .pay-panel{ display:none; }
   .pay-panel.active{ display:block; }
-  .qr-row{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin:10px 0; }
-  .qr-card{ text-align:center; font-size:12.5px; }
-  .qr-card img{ width:150px; height:150px; object-fit:contain; border:1px solid var(--border); border-radius:10px; }
+  .qr-carousel{ display:flex; align-items:center; justify-content:center; gap:14px; margin:10px 0; }
+  .qr-arrow{
+    width:38px; height:38px; border-radius:50%; border:1px solid var(--border); background:#fff;
+    font-size:20px; cursor:pointer; flex:none; display:flex; align-items:center; justify-content:center;
+  }
+  .qr-big{ text-align:center; font-size:14px; font-weight:700; }
+  .qr-big img{ width:230px; height:230px; object-fit:contain; border:1px solid var(--border); border-radius:14px; margin-bottom:8px; }
+  .qr-dots{ display:flex; justify-content:center; gap:6px; margin-bottom:14px; }
+  .qr-dot{ width:7px; height:7px; border-radius:50%; background:var(--border); cursor:pointer; }
+  .qr-dot.active{ background:var(--ink); }
   .copy-row{ display:flex; gap:6px; margin-top:8px; align-items:center; }
   .copy-row input{ flex:1; background:var(--panel); font-weight:700; }
   .copy-btn{ padding:10px 12px; border:1px solid var(--border); border-radius:8px; background:#fff; cursor:pointer; font-size:12.5px; font-weight:700; white-space:nowrap; }
@@ -170,6 +177,19 @@ const BANCOS = {
 let selectedPayMethod = { type:'yape' };
 let capturaFileName = '';
 
+const QR_OPTIONS = [
+  { img:'qr-yape.jpg', label:'Yape' },
+  { img:'qr-plin.jpg', label:'Plin' },
+];
+let qrIndex = 0;
+function setQr(i){
+  qrIndex = (i + QR_OPTIONS.length) % QR_OPTIONS.length;
+  document.getElementById('qrBigImg').src = QR_OPTIONS[qrIndex].img;
+  document.getElementById('qrBigLabel').textContent = QR_OPTIONS[qrIndex].label;
+  document.querySelectorAll('.qr-dot').forEach((d,i) => d.classList.toggle('active', i === qrIndex));
+}
+function switchQr(delta){ setQr(qrIndex + delta); }
+
 function money(n){ return "S/ " + n.toFixed(2); }
 
 function switchPayTab(tab){
@@ -209,11 +229,16 @@ function loadCart(){
 }
 function clearCart(){ localStorage.removeItem('voce_cart'); }
 
+function basicoLines(cart){ return cart.filter(l => l.type==='basico'); }
+function packLines(cart){ return cart.filter(l => l.type==='pack'); }
 function cartTotalQty(cart){ return cart.reduce((s,l)=>s+l.qty,0); }
 function cartSubtotal(cart){
-  const qty = cartTotalQty(cart);
-  const unit = qty >= 3 ? BASICOS_PROMO_UNIT : BASICOS_PRICE;
-  return qty * unit;
+  const basicos = basicoLines(cart);
+  const bqty = basicos.reduce((s,l)=>s+l.qty,0);
+  const unit = bqty >= 3 ? BASICOS_PROMO_UNIT : BASICOS_PRICE;
+  const basicosTotal = bqty * unit;
+  const packsTotal = packLines(cart).reduce((s,l)=>s + l.precio*l.qty, 0);
+  return basicosTotal + packsTotal;
 }
 
 function renderEmpty(){
@@ -226,22 +251,35 @@ function renderEmpty(){
 }
 
 function renderCheckout(cart){
-  const qty = cartTotalQty(cart);
   const subtotal = cartSubtotal(cart);
   const shipping = subtotal >= FREE_SHIPPING_MIN ? 0 : SHIPPING_FLAT;
   const total = subtotal + shipping;
   const faltaParaEnvio = FREE_SHIPPING_MIN - subtotal;
 
-  const linesHtml = cart.map(l => `
-    <div class="cart-line">
-      <img src="basico-${l.colorSlug}-1.jpg" alt="${l.colorNombre}">
-      <div class="cl-info">
-        <div class="cl-name">Básico ${l.colorNombre}</div>
-        <div class="cl-meta">Talla ${l.talla}</div>
+  const linesHtml = cart.map(l => {
+    if (l.type === 'basico'){
+      return `
+        <div class="cart-line">
+          <img src="basico-${l.colorSlug}-1.jpg" alt="${l.colorNombre}">
+          <div class="cl-info">
+            <div class="cl-name">Básico ${l.colorNombre}</div>
+            <div class="cl-meta">Talla ${l.talla}</div>
+          </div>
+          <div class="cl-qty">x${l.qty}</div>
+        </div>
+      `;
+    }
+    return `
+      <div class="cart-line">
+        <img src="${l.img}" alt="Pack ${l.n}">
+        <div class="cl-info">
+          <div class="cl-name">Pack ${l.n} personalizados</div>
+          <div class="cl-meta">${money(l.precio)} c/u</div>
+        </div>
+        <div class="cl-qty">x${l.qty}</div>
       </div>
-      <div class="cl-qty">x${l.qty}</div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 
   const deptOptions = Object.keys(DEPARTAMENTOS).sort().map(d => `<option value="${d}">${d}</option>`).join('');
 
@@ -252,7 +290,7 @@ function renderCheckout(cart){
     <div class="box">
       <h2>Tu pedido</h2>
       ${linesHtml}
-      <div class="totals-row" style="margin-top:10px;"><span>Subtotal (${qty} und.)</span><span>${money(subtotal)}</span></div>
+      <div class="totals-row" style="margin-top:10px;"><span>Subtotal</span><span>${money(subtotal)}</span></div>
       <div class="totals-row"><span>Envío</span><span>${shipping===0 ? 'GRATIS' : money(shipping)}</span></div>
       <div class="totals-row grand"><span>Total</span><span>${money(total)}</span></div>
       ${faltaParaEnvio > 0 ? `<div class="promo-hint">Te faltan <b>${money(faltaParaEnvio)}</b> en tu pedido para envío gratis.</div>` : ''}
@@ -266,9 +304,17 @@ function renderCheckout(cart){
       </div>
 
       <div class="pay-panel active" id="panel-yape">
-        <div class="qr-row">
-          <div class="qr-card"><img src="qr-yape.jpg" alt="QR Yape"><div>Yape</div></div>
-          <div class="qr-card"><img src="qr-plin.jpg" alt="QR Plin"><div>Plin</div></div>
+        <div class="qr-carousel">
+          <button type="button" class="qr-arrow" onclick="switchQr(-1)">‹</button>
+          <div class="qr-big">
+            <img id="qrBigImg" src="qr-yape.jpg" alt="QR Yape">
+            <div id="qrBigLabel">Yape</div>
+          </div>
+          <button type="button" class="qr-arrow" onclick="switchQr(1)">›</button>
+        </div>
+        <div class="qr-dots">
+          <span class="qr-dot active" data-i="0" onclick="setQr(0)"></span>
+          <span class="qr-dot" data-i="1" onclick="setQr(1)"></span>
         </div>
         <div class="copy-row">
           <input type="text" id="numYapePlin" value="954 106 866" readonly>
@@ -294,7 +340,6 @@ function renderCheckout(cart){
         <div id="capturaPreviewWrap"><span>📎 Toca para seleccionar tu captura de pago</span></div>
       </div>
       <div class="field-error" id="e_captura">Selecciona tu captura de pago.</div>
-      <div class="warn-box">Esta imagen no viaja a WhatsApp (queda solo aquí, como confirmación tuya) — al vendedor le llegará un aviso de que adjuntaste tu comprobante, y él lo verifica directo en su Yape/Plin/banco.</div>
     </div>
 
     <div class="box">
@@ -337,8 +382,8 @@ function renderCheckout(cart){
         <label>Comentario adicional (opcional)</label>
         <textarea id="f_comentario" placeholder="Referencias, horario de entrega, etc."></textarea>
 
-        <button type="submit" class="submit-btn">Enviar pedido por WhatsApp</button>
-        <div class="note-wa">Se abrirá WhatsApp con tu pedido y datos ya redactados — solo tienes que darle enviar.</div>
+        <button type="submit" class="submit-btn">CONFIRMAR PEDIDO</button>
+        <div class="note-wa">Se te redirigirá a WhatsApp con todo ya redactado.</div>
       </form>
     </div>
   `;
@@ -370,7 +415,7 @@ function renderCheckout(cart){
   document.getElementById('checkoutForm').addEventListener('submit', (e) => {
     e.preventDefault();
     if (!validate()) return;
-    sendToWhatsapp(cart, qty, subtotal, shipping, total);
+    sendToWhatsapp(cart, subtotal, shipping, total);
   });
 }
 
@@ -403,7 +448,7 @@ function validate(){
   return ok;
 }
 
-function sendToWhatsapp(cart, qty, subtotal, shipping, total){
+function sendToWhatsapp(cart, subtotal, shipping, total){
   const nombre = document.getElementById('f_nombre').value.trim();
   const celular = document.getElementById('f_celular').value.trim();
   const depto = document.getElementById('f_departamento').value;
@@ -412,7 +457,10 @@ function sendToWhatsapp(cart, qty, subtotal, shipping, total){
   const direccion = document.getElementById('f_direccion').value.trim();
   const comentario = document.getElementById('f_comentario').value.trim();
 
-  const lines = cart.map(l => `- Básico ${l.colorNombre}, Talla ${l.talla} x${l.qty}`).join('\n');
+  const lines = cart.map(l => {
+    if (l.type === 'basico') return `- Básico ${l.colorNombre}, Talla ${l.talla} x${l.qty}`;
+    return `- Pack ${l.n} personalizados (${money(l.precio)} c/u) x${l.qty}`;
+  }).join('\n');
 
   let pagoTexto = '';
   if (selectedPayMethod.type === 'yape') pagoTexto = 'Yape / Plin';
