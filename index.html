@@ -76,32 +76,40 @@
   .navscroll{ overflow-x:auto; scrollbar-width:none; }
   .navscroll::-webkit-scrollbar{ display:none; }
 
+  .search-wrap{ position:relative; }
+  .search-panel{
+    display:none; position:absolute; top:44px; right:0; width:280px; max-width:80vw;
+    background:#fff; border:1px solid var(--border); border-radius:10px; padding:10px;
+    box-shadow:0 8px 24px rgba(0,0,0,.12); z-index:45;
+  }
+  .search-panel.open{ display:block; }
+  .search-panel input{
+    width:100%; padding:9px 10px; border:1px solid var(--border); border-radius:8px; font-size:13px;
+  }
+  .search-results{ margin-top:8px; max-height:260px; overflow-y:auto; }
+  .search-item{
+    padding:9px 8px; font-size:13px; cursor:pointer; border-radius:6px; display:flex;
+    justify-content:space-between; gap:8px;
+  }
+  .search-item:hover{ background:var(--panel); }
+  .search-item .cat{ color:var(--muted); font-size:11px; }
+  .search-empty{ padding:10px 8px; font-size:12.5px; color:var(--muted); }
+
   main{ max-width:1180px; margin:0 auto; padding:0 18px; }
   section{ padding:44px 0; border-bottom:1px solid var(--border); }
   .section-title{ font-size:24px; font-weight:800; letter-spacing:-0.01em; margin:0 0 4px 0; }
   .section-sub{ color:var(--muted); font-size:14px; margin:0 0 24px 0; }
 
-  /* ---- personalizados hero ---- */
-  .personal-hero{
-    background:linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
-    color:#fff; border-radius:18px; padding:40px 30px;
-    display:grid; grid-template-columns:1.2fr 1fr; gap:30px; align-items:center;
-    overflow:hidden; position:relative;
+  /* ---- personalizados hero (video) ---- */
+  .video-hero{
+    position:relative; border-radius:18px; overflow:hidden; background:#000;
   }
-  @media(max-width:760px){ .personal-hero{ grid-template-columns:1fr; padding:32px 22px; } }
-  .personal-hero .htext{ display:flex; flex-direction:column; gap:14px; align-items:flex-start; }
-  .personal-eyebrow{
-    color:var(--accent); font-size:12.5px; font-weight:800; letter-spacing:.08em;
-    text-transform:uppercase; display:flex; align-items:center; gap:6px;
+  .hero-video{ width:100%; height:auto; display:block; aspect-ratio:1920/984; object-fit:cover; }
+  .hero-cta-bar{
+    position:absolute; left:0; right:0; bottom:4%;
+    display:flex; align-items:center; justify-content:center;
   }
-  .personal-hero h1{ font-size:36px; font-weight:800; margin:0; line-height:1.05; letter-spacing:-0.01em; }
-  @media(max-width:480px){ .personal-hero h1{ font-size:28px; } }
-  .personal-hero p{ color:#c8c8c8; font-size:14.5px; max-width:480px; margin:0; line-height:1.55; }
-  .personal-hero .himg{
-    border-radius:14px; overflow:hidden; aspect-ratio:1/1; border:1px solid #2a2a2a;
-  }
-  .personal-hero .himg img{ width:100%; height:100%; object-fit:cover; }
-  @media(max-width:760px){ .personal-hero .himg{ display:none; } }
+  @media(max-width:480px){ .hero-cta-bar .wa-cta{ font-size:12px; padding:9px 14px; } }
   .wa-cta{
     display:inline-flex; align-items:center; gap:8px;
     background:var(--accent); color:var(--accent-ink); font-weight:800;
@@ -178,8 +186,7 @@
   .promo-note b{ color:var(--accent); }
 
   .product-info{ margin-top:26px; }
-  .sizeguide-btn{ display:inline-block; margin-bottom:14px; }
-  .product-details{ border:1px solid var(--border); border-radius:12px; padding:14px 18px; }
+  .product-details{ border:1px solid var(--border); border-radius:12px; padding:14px 18px; margin-bottom:10px; }
   .product-details summary{ font-weight:700; font-size:14px; cursor:pointer; }
   .pd-body{ margin-top:14px; font-size:13.5px; color:#333; line-height:1.6; }
   .pd-body h4{ font-size:13px; margin:14px 0 6px 0; }
@@ -242,6 +249,8 @@
   }
   .checkout-btn[disabled]{ background:#cfcfcf; color:#888; cursor:not-allowed; }
   .empty-cart{ color:var(--muted); font-size:13.5px; text-align:center; padding:40px 0; }
+  .ship-hint{ background:var(--panel); border-radius:8px; padding:8px 10px; font-size:12px; margin-bottom:10px; text-align:center; }
+  .ship-hint b{ color:var(--accent-ink); }
 
   /* ---- floating whatsapp button ---- */
   .wa-float{ position:fixed; bottom:20px; left:20px; z-index:35; width:58px; height:58px; text-decoration:none; }
@@ -275,6 +284,13 @@
         <a href="faq.html">FAQ</a>
         <a href="politicas.html">Políticas</a>
       </nav>
+      <div class="search-wrap">
+        <button class="cart-btn" onclick="toggleSearch()">🔍</button>
+        <div class="search-panel" id="searchPanel">
+          <input type="text" id="searchInput" placeholder="Buscar productos... (ej: negro, hoodie, pack)" oninput="runSearch()">
+          <div class="search-results" id="searchResults"></div>
+        </div>
+      </div>
       <button class="cart-btn" onclick="openCart()">
         🛒 <span class="cart-badge" id="cartBadge">0</span>
       </button>
@@ -285,17 +301,16 @@
 <main id="top">
 
   <section id="personalizados" style="border-bottom:none;">
-    <div class="personal-hero">
-      <div class="htext">
-        <div class="personal-eyebrow">⭐ Nuestro servicio estrella</div>
-        <h1>TU IDEA, HECHA PRENDA.</h1>
-        <p>Personaliza polos y hoodies oversize VOCE STORE con tu propio diseño. Acabado DTF de alta durabilidad, tallas S, M y L. Te mandamos el mockup antes de producir, para que apruebes cómo va a quedar.</p>
+    <div class="video-hero">
+      <video class="hero-video" autoplay muted loop playsinline poster="hero-poster.jpg">
+        <source src="YouCut_20260926_200849175.mp4" type="video/mp4">
+      </video>
+      <div class="hero-cta-bar">
         <a class="wa-cta" target="_blank" rel="noopener"
            href="https://wa.me/51965165095?text=Hola%20VOCE%20STORE%2C%20quiero%20personalizar%20una%20prenda%2C%20%C2%BFme%20ayudan%3F">
           💬 Personalizar por WhatsApp
         </a>
       </div>
-      <div class="himg"><img src="personalizados-pack-3.jpg" alt="Polos personalizados VOCE STORE"></div>
     </div>
 
     <div class="personal-banners">
@@ -306,7 +321,10 @@
     <div class="packs-grid" id="packsGrid"></div>
 
     <div class="product-info">
-      <a class="btn-outline sizeguide-btn" href="tabla-medidas-oversize.jpg" target="_blank" rel="noopener">📏 Ver guía de tallas</a>
+      <details class="product-details">
+        <summary>📏 Ver guía de tallas</summary>
+        <div class="pd-body"><img src="tabla-medidas-oversize.jpg" alt="Tabla de medidas oversize" style="border-radius:10px;"></div>
+      </details>
       <details class="product-details">
         <summary>Ver detalles del producto y cuidados</summary>
         <div class="pd-body">
@@ -338,7 +356,10 @@
     <div class="basicos-grid" id="basicosGrid"></div>
 
     <div class="product-info">
-      <a class="btn-outline sizeguide-btn" href="tabla-medidas-basicos.jpg" target="_blank" rel="noopener">📏 Ver guía de tallas</a>
+      <details class="product-details">
+        <summary>📏 Ver guía de tallas</summary>
+        <div class="pd-body"><img src="tabla-medidas-basicos.jpg" alt="Tabla de medidas básicos" style="border-radius:10px;"></div>
+      </details>
       <details class="product-details">
         <summary>Ver detalles del producto y cuidados</summary>
         <div class="pd-body">
@@ -503,7 +524,7 @@ function removeLine(idx){
   saveCart(cart);
   renderDrawer();
 }
-function basicoLines(cart){ return cart.filter(l => l.type==='basico'); }
+function basicoLines(cart){ return cart.filter(l => l.type!=='pack'); }
 function packLines(cart){ return cart.filter(l => l.type==='pack'); }
 function cartTotalQty(cart){ return cart.reduce((s,l)=>s+l.qty,0); }
 function cartSubtotal(cart){
@@ -511,7 +532,7 @@ function cartSubtotal(cart){
   const bqty = basicos.reduce((s,l)=>s+l.qty,0);
   const unit = bqty >= 3 ? BASICOS_PROMO_UNIT : BASICOS_PRICE;
   const basicosTotal = bqty * unit;
-  const packsTotal = packLines(cart).reduce((s,l)=>s + l.precio*l.qty, 0);
+  const packsTotal = packLines(cart).reduce((s,l)=>s + (l.precio||0)*l.qty, 0);
   return basicosTotal + packsTotal;
 }
 function renderCartBadge(){
@@ -656,12 +677,13 @@ function renderDrawer(){
   cart.forEach((line, idx) => {
     const div = document.createElement('div');
     div.className = 'cart-line';
-    if (line.type === 'basico'){
+    if (line.type === 'pack'){
+      const totalLinea = (line.precio||0) * line.qty;
       div.innerHTML = `
-        <img src="basico-${line.colorSlug}-1.jpg" alt="${line.colorNombre}">
+        <img src="${line.img}" alt="Pack ${line.n}">
         <div class="cart-line-info">
-          <div class="cl-name">Básico ${line.colorNombre}</div>
-          <div class="cl-meta">Talla ${line.talla}</div>
+          <div class="cl-name">Pack ${line.n} personalizados</div>
+          <div class="cl-meta">${money(line.precio||0)} por pack${line.qty>1 ? ' · Total: '+money(totalLinea) : ''}</div>
         </div>
         <div class="qty-wrap">
           <button onclick="changeQty(${idx},-1)">−</button>
@@ -671,10 +693,10 @@ function renderDrawer(){
       `;
     } else {
       div.innerHTML = `
-        <img src="${line.img}" alt="Pack ${line.n}">
+        <img src="basico-${line.colorSlug}-1.jpg" alt="${line.colorNombre}">
         <div class="cart-line-info">
-          <div class="cl-name">Pack ${line.n} personalizados</div>
-          <div class="cl-meta">${money(line.precio)} c/u</div>
+          <div class="cl-name">Básico ${line.colorNombre}</div>
+          <div class="cl-meta">Talla ${line.talla}</div>
         </div>
         <div class="qty-wrap">
           <button onclick="changeQty(${idx},-1)">−</button>
@@ -689,8 +711,10 @@ function renderDrawer(){
   const subtotal = cartSubtotal(cart);
   const shipping = subtotal >= FREE_SHIPPING_MIN ? 0 : SHIPPING_FLAT;
   const total = subtotal + shipping;
+  const falta = FREE_SHIPPING_MIN - subtotal;
 
   foot.innerHTML = `
+    ${falta > 0 ? `<div class="ship-hint">Te faltan <b>${money(falta)}</b> para envío gratis 🚚</div>` : ''}
     <div class="totals-row"><span>Subtotal</span><span>${money(subtotal)}</span></div>
     <div class="totals-row"><span>Envío</span><span>${shipping===0 ? 'GRATIS' : money(shipping)}</span></div>
     <div class="totals-row grand"><span>Total</span><span>${money(total)}</span></div>
@@ -700,6 +724,68 @@ function renderDrawer(){
 function goCheckout(){
   window.location.href = "checkout.html";
 }
+
+function buildSearchIndex(){
+  const idx = [];
+  COLORES.forEach(c => {
+    idx.push({
+      label: `Polo Oversize Básico ${c.nombre}`,
+      cat: "Básico",
+      anchor: "#basicos",
+      keywords: ["polo","basico","básico","oversize", c.nombre.toLowerCase(), c.slug]
+    });
+  });
+  PACKS.forEach(p => {
+    idx.push({
+      label: `Pack ${p.n} Polos Personalizados (${p.precio})`,
+      cat: "Personalizado",
+      anchor: "#personalizados",
+      keywords: ["personalizado","pack","polo",String(p.n)]
+    });
+  });
+  idx.push({
+    label: "Hoodie Personalizado",
+    cat: "Personalizado",
+    anchor: "#personalizados",
+    keywords: ["hoodie","poleron","polerón","casaca","personalizado"]
+  });
+  return idx;
+}
+const SEARCH_INDEX = buildSearchIndex();
+
+function toggleSearch(){
+  const panel = document.getElementById('searchPanel');
+  panel.classList.toggle('open');
+  if (panel.classList.contains('open')) document.getElementById('searchInput').focus();
+}
+function runSearch(){
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  const resultsEl = document.getElementById('searchResults');
+  if (!q){ resultsEl.innerHTML = ''; return; }
+  const matches = SEARCH_INDEX.filter(item =>
+    item.label.toLowerCase().includes(q) ||
+    item.keywords.some(k => k.includes(q) || q.includes(k))
+  ).slice(0, 8);
+  if (!matches.length){
+    resultsEl.innerHTML = '<div class="search-empty">Sin resultados. Prueba con "básico", "pack" o un color.</div>';
+    return;
+  }
+  resultsEl.innerHTML = matches.map(m => `
+    <div class="search-item" onclick="goToSearchResult('${m.anchor}')">
+      <span>${m.label}</span><span class="cat">${m.cat}</span>
+    </div>
+  `).join('');
+}
+function goToSearchResult(anchor){
+  document.getElementById('searchPanel').classList.remove('open');
+  document.getElementById('searchInput').value = '';
+  document.getElementById('searchResults').innerHTML = '';
+  document.querySelector(anchor).scrollIntoView({ behavior:'smooth' });
+}
+document.addEventListener('click', (e) => {
+  const wrap = document.querySelector('.search-wrap');
+  if (wrap && !wrap.contains(e.target)) document.getElementById('searchPanel').classList.remove('open');
+});
 
 renderBasicos();
 renderPacks();
