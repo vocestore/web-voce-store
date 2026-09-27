@@ -76,6 +76,7 @@
   .navscroll{ overflow-x:auto; scrollbar-width:none; }
   .navscroll::-webkit-scrollbar{ display:none; }
 
+  .actions-group{ display:flex; align-items:center; gap:8px; flex:none; }
   .search-wrap{ position:relative; }
   .search-panel{
     display:none; position:absolute; top:44px; right:0; width:280px; max-width:80vw;
@@ -140,6 +141,7 @@
   .pack-title{ font-weight:800; font-size:16px; }
   .pack-price{ font-size:20px; font-weight:800; }
   .pack-note{ font-size:12px; color:var(--muted); }
+  .pack-fineprint{ font-size:11px; color:var(--muted); font-style:italic; }
 
   /* ---- basicos grid ---- */
   .basicos-grid{
@@ -192,6 +194,15 @@
   .pd-body h4{ font-size:13px; margin:14px 0 6px 0; }
   .pd-body h4:first-child{ margin-top:0; }
   .pd-body ul{ margin:0; padding-left:18px; }
+
+  .basicos-pitch{
+    margin-top:30px; background:var(--panel); border-radius:14px; padding:26px;
+    text-align:center; max-width:600px; margin-left:auto; margin-right:auto;
+  }
+  .basicos-pitch h3{ font-size:19px; font-weight:800; margin:0 0 10px 0; }
+  .basicos-pitch p{ font-size:13.5px; color:#333; line-height:1.6; margin:0 0 16px 0; }
+  .pitch-checks{ list-style:none; padding:0; margin:0 0 20px 0; text-align:left; display:inline-block; }
+  .pitch-checks li{ font-size:13.5px; margin-bottom:6px; }
 
   /* ---- marketplaces / envios ---- */
   .banner-block{ border-radius:14px; overflow:hidden; border:1px solid var(--border); }
@@ -284,16 +295,18 @@
         <a href="faq.html">FAQ</a>
         <a href="politicas.html">Políticas</a>
       </nav>
-      <div class="search-wrap">
-        <button class="cart-btn" onclick="toggleSearch()">🔍</button>
-        <div class="search-panel" id="searchPanel">
-          <input type="text" id="searchInput" placeholder="Buscar productos... (ej: negro, hoodie, pack)" oninput="runSearch()">
-          <div class="search-results" id="searchResults"></div>
+      <div class="actions-group">
+        <div class="search-wrap">
+          <button class="cart-btn" onclick="toggleSearch()">🔍</button>
+          <div class="search-panel" id="searchPanel">
+            <input type="text" id="searchInput" placeholder="Buscar productos... (ej: negro, hoodie, pack)" oninput="runSearch()">
+            <div class="search-results" id="searchResults"></div>
+          </div>
         </div>
+        <button class="cart-btn" onclick="openCart()">
+          🛒 <span class="cart-badge" id="cartBadge">0</span>
+        </button>
       </div>
-      <button class="cart-btn" onclick="openCart()">
-        🛒 <span class="cart-badge" id="cartBadge">0</span>
-      </button>
     </div>
   </div>
 </header>
@@ -330,7 +343,7 @@
         <div class="pd-body">
           <h4>Características</h4>
           <ul>
-            <li>Mismo material que nuestros básicos: algodón jersey 30/1 reactivo peinado premium</li>
+            <li>Algodón jersey 30/1 reactivo peinado premium</li>
             <li>Estampado DTF de alta durabilidad — tamaño máximo de estampado A3</li>
             <li>Tallas corte oversize: S · M · L</li>
           </ul>
@@ -348,6 +361,7 @@
   </section>
 
   <section id="basicos">
+    <img src="promo-basicos-banner.jpg" alt="Promo Básicos: 3 polos oversize básicos por S/81.90" style="border-radius:14px; margin-bottom:26px; width:100%;">
     <h2 class="section-title">Polos Oversize Básicos</h2>
     <p class="section-sub">Algodón jersey 30/1 reactivo peinado premium. Corte oversize, tallas S · M · L.</p>
     <div class="promo-note">
@@ -387,6 +401,17 @@
           </ul>
         </div>
       </details>
+    </div>
+
+    <div class="basicos-pitch">
+      <h3>El básico que combina con todo</h3>
+      <p>Ese polo que te pones sin pensarlo, con cualquier jean o jogger, y que después de 20 lavadas sigue viéndose como nuevo. Corte oversize, algodón premium que no destiñe ni se deforma — hecho para ser el que más usas del clóset.</p>
+      <ul class="pitch-checks">
+        <li>✓ No destiñe ni encoge con el uso normal</li>
+        <li>✓ Calce oversize real, no una talla grande cualquiera</li>
+        <li>✓ Combina con todo: para el día a día o para salir</li>
+      </ul>
+      <a class="btn-outline" href="testimonios.html">Mira lo que dicen nuestros clientes →</a>
     </div>
   </section>
 
@@ -442,6 +467,9 @@
         <a href="testimonios.html">Testimonios</a><br>
         <a href="https://forms.gle/syEqzzvzL14ruAAz9" target="_blank" rel="noopener">Libro de reclamaciones</a>
       </p>
+      <a href="https://forms.gle/syEqzzvzL14ruAAz9" target="_blank" rel="noopener">
+        <img src="libro-reclamaciones.png" alt="Libro de Reclamaciones Digital" style="max-width:180px; margin-top:10px;">
+      </a>
     </div>
   </div>
   <div class="footer-bottom">© VOCE STORE — Urban Trend, Clothes and More</div>
@@ -622,9 +650,10 @@ function buildPackCard(pack){
   card.appendChild(img);
   const body = document.createElement('div'); body.className='pack-body';
   body.innerHTML = `
-    <div class="pack-title">Pack de ${pack.n} polos</div>
+    <div class="pack-title">Pack de ${pack.n} Polos Personalizados</div>
     <div class="pack-price">${pack.precio}</div>
     <div class="pack-note">${pack.nota}</div>
+    <div class="pack-fineprint">Al elegirlo, te escribimos por WhatsApp para coordinar tu diseño.</div>
   `;
   const btn = document.createElement('a');
   btn.className = 'wa-cta'; btn.style.justifyContent='center'; btn.target='_blank'; btn.rel='noopener';
