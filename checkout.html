@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2HKVB70EW3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2HKVB70EW3');
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Finalizar pedido — VOCE STORE</title>
@@ -229,7 +237,7 @@ function loadCart(){
 }
 function clearCart(){ localStorage.removeItem('voce_cart'); }
 
-function basicoLines(cart){ return cart.filter(l => l.type==='basico'); }
+function basicoLines(cart){ return cart.filter(l => l.type!=='pack'); }
 function packLines(cart){ return cart.filter(l => l.type==='pack'); }
 function cartTotalQty(cart){ return cart.reduce((s,l)=>s+l.qty,0); }
 function cartSubtotal(cart){
@@ -237,7 +245,7 @@ function cartSubtotal(cart){
   const bqty = basicos.reduce((s,l)=>s+l.qty,0);
   const unit = bqty >= 3 ? BASICOS_PROMO_UNIT : BASICOS_PRICE;
   const basicosTotal = bqty * unit;
-  const packsTotal = packLines(cart).reduce((s,l)=>s + l.precio*l.qty, 0);
+  const packsTotal = packLines(cart).reduce((s,l)=>s + (l.precio||0)*l.qty, 0);
   return basicosTotal + packsTotal;
 }
 
@@ -257,13 +265,14 @@ function renderCheckout(cart){
   const faltaParaEnvio = FREE_SHIPPING_MIN - subtotal;
 
   const linesHtml = cart.map(l => {
-    if (l.type === 'basico'){
+    if (l.type === 'pack'){
+      const totalLinea = (l.precio||0) * l.qty;
       return `
         <div class="cart-line">
-          <img src="basico-${l.colorSlug}-1.jpg" alt="${l.colorNombre}">
+          <img src="${l.img}" alt="Pack ${l.n}">
           <div class="cl-info">
-            <div class="cl-name">Básico ${l.colorNombre}</div>
-            <div class="cl-meta">Talla ${l.talla}</div>
+            <div class="cl-name">Pack ${l.n} personalizados</div>
+            <div class="cl-meta">${money(l.precio||0)} por pack${l.qty>1 ? ' · Total: '+money(totalLinea) : ''}</div>
           </div>
           <div class="cl-qty">x${l.qty}</div>
         </div>
@@ -271,10 +280,10 @@ function renderCheckout(cart){
     }
     return `
       <div class="cart-line">
-        <img src="${l.img}" alt="Pack ${l.n}">
+        <img src="basico-${l.colorSlug}-1.jpg" alt="${l.colorNombre}">
         <div class="cl-info">
-          <div class="cl-name">Pack ${l.n} personalizados</div>
-          <div class="cl-meta">${money(l.precio)} c/u</div>
+          <div class="cl-name">Básico ${l.colorNombre}</div>
+          <div class="cl-meta">Talla ${l.talla}</div>
         </div>
         <div class="cl-qty">x${l.qty}</div>
       </div>
@@ -458,8 +467,8 @@ function sendToWhatsapp(cart, subtotal, shipping, total){
   const comentario = document.getElementById('f_comentario').value.trim();
 
   const lines = cart.map(l => {
-    if (l.type === 'basico') return `- Básico ${l.colorNombre}, Talla ${l.talla} x${l.qty}`;
-    return `- Pack ${l.n} personalizados (${money(l.precio)} c/u) x${l.qty}`;
+    if (l.type === 'pack') return `- Pack ${l.n} personalizados (${money(l.precio||0)} por pack) x${l.qty}`;
+    return `- Básico ${l.colorNombre}, Talla ${l.talla} x${l.qty}`;
   }).join('\n');
 
   let pagoTexto = '';
