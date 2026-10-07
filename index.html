@@ -528,12 +528,12 @@ const SHIPPING_FLAT = 9.90;
 const FREE_SHIPPING_MIN = 150;
 
 const COLORES = [
-  { slug:"baby-pink", nombre:"Baby Pink", disponible:true },
-  { slug:"blanco", nombre:"Blanco", disponible:true },
-  { slug:"lila", nombre:"Lila", disponible:true },
-  { slug:"negro", nombre:"Negro", disponible:true },
-  { slug:"perla", nombre:"Perla", disponible:true },
-  { slug:"vino", nombre:"Vino", disponible:true },
+  { slug:"baby-pink", nombre:"Rosado", stock:{S:2,M:2,L:0} },
+  { slug:"blanco", nombre:"Blanco", stock:{S:2,M:3,L:1} },
+  { slug:"lila", nombre:"Lila", stock:{S:4,M:0,L:3} },
+  { slug:"negro", nombre:"Negro", stock:{S:1,M:1,L:0} },
+  { slug:"perla", nombre:"Perla", stock:{S:2,M:2,L:3} },
+  { slug:"vino", nombre:"Vino", stock:{S:1,M:2,L:1} },
 ];
 const TALLAS = ["S","M","L"];
 
@@ -627,6 +627,8 @@ function buildBasicoCard(color){
   const card = document.createElement('div');
   card.className = 'basico-card';
 
+  const totalStock = TALLAS.reduce((s,t) => s + (color.stock?.[t]||0), 0);
+
   let imgIndex = 0;
   const imgs = [1,2,3,4,5].map(n => `basico-${color.slug}-${n}.jpg`);
 
@@ -636,7 +638,7 @@ function buildBasicoCard(color){
   img.src = imgs[0];
   img.alt = "Polo oversize básico " + color.nombre;
   gallery.appendChild(img);
-  if (!color.disponible){
+  if (totalStock <= 0){
     const badge = document.createElement('div');
     badge.className = 'badge-agotado';
     badge.textContent = 'Agotado';
@@ -667,27 +669,43 @@ function buildBasicoCard(color){
   row.className = 'row';
   const tallaSelect = document.createElement('select');
   TALLAS.forEach(t => {
-    const o = document.createElement('option'); o.value=t; o.textContent="Talla "+t;
+    const stockT = color.stock?.[t] || 0;
+    const o = document.createElement('option');
+    o.value = t;
+    o.textContent = stockT > 0 ? "Talla " + t : "Talla " + t + " (Agotado)";
+    if (stockT <= 0) o.disabled = true;
     tallaSelect.appendChild(o);
   });
+  const firstAvailable = TALLAS.find(t => (color.stock?.[t]||0) > 0);
+  if (firstAvailable) tallaSelect.value = firstAvailable;
+
   const qtyWrap = document.createElement('div'); qtyWrap.className='qty-wrap';
   const minus = document.createElement('button'); minus.textContent='−';
   const qtySpan = document.createElement('span'); qtySpan.textContent='1';
   const plus = document.createElement('button'); plus.textContent='+';
   let qty = 1;
+  function maxQty(){ return Math.max(1, color.stock?.[tallaSelect.value] || 1); }
   minus.onclick = () => { qty = Math.max(1, qty-1); qtySpan.textContent = qty; };
-  plus.onclick = () => { qty = Math.min(20, qty+1); qtySpan.textContent = qty; };
+  plus.onclick = () => { qty = Math.min(maxQty(), qty+1); qtySpan.textContent = qty; };
+  tallaSelect.onchange = () => { qty = 1; qtySpan.textContent = qty; stockHint(); };
   qtyWrap.appendChild(minus); qtyWrap.appendChild(qtySpan); qtyWrap.appendChild(plus);
   row.appendChild(tallaSelect); row.appendChild(qtyWrap);
   body.appendChild(row);
 
+  const hint = document.createElement('div');
+  hint.className = 'stockline';
+  function stockHint(){
+    const s = color.stock?.[tallaSelect.value] || 0;
+    hint.textContent = s > 0 && s <= 2 ? `Últimas ${s} unidades en talla ${tallaSelect.value}` : '';
+  }
+  stockHint();
+  body.appendChild(hint);
+
   const addBtn = document.createElement('button');
   addBtn.className = 'add-btn';
-  if (!color.disponible){
+  if (totalStock <= 0){
     addBtn.textContent = 'Agotado';
     addBtn.disabled = true;
-    tallaSelect.disabled = true;
-    minus.disabled = true; plus.disabled = true;
   } else {
     addBtn.textContent = 'Agregar al carrito';
     addBtn.onclick = () => {
