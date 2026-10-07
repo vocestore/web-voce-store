@@ -237,16 +237,26 @@ function loadCart(){
 }
 function clearCart(){ localStorage.removeItem('voce_cart'); }
 
-function basicoLines(cart){ return cart.filter(l => l.type!=='pack'); }
+const BOXYFIT_PRICE = 45;
+const BOXYFIT_PROMO_UNIT = 40;
+
+function basicoLines(cart){ return cart.filter(l => l.type==='basico' || !l.type); }
+function boxyfitLines(cart){ return cart.filter(l => l.type==='boxyfit'); }
 function packLines(cart){ return cart.filter(l => l.type==='pack'); }
 function cartTotalQty(cart){ return cart.reduce((s,l)=>s+l.qty,0); }
 function cartSubtotal(cart){
   const basicos = basicoLines(cart);
   const bqty = basicos.reduce((s,l)=>s+l.qty,0);
-  const unit = bqty >= 3 ? BASICOS_PROMO_UNIT : BASICOS_PRICE;
-  const basicosTotal = bqty * unit;
+  const bunit = bqty >= 3 ? BASICOS_PROMO_UNIT : BASICOS_PRICE;
+  const basicosTotal = bqty * bunit;
+
+  const boxyfit = boxyfitLines(cart);
+  const xqty = boxyfit.reduce((s,l)=>s+l.qty,0);
+  const xunit = xqty >= 2 ? BOXYFIT_PROMO_UNIT : BOXYFIT_PRICE;
+  const boxyfitTotal = xqty * xunit;
+
   const packsTotal = packLines(cart).reduce((s,l)=>s + (l.precio||0)*l.qty, 0);
-  return basicosTotal + packsTotal;
+  return basicosTotal + boxyfitTotal + packsTotal;
 }
 
 function renderEmpty(){
@@ -273,6 +283,18 @@ function renderCheckout(cart){
           <div class="cl-info">
             <div class="cl-name">Pack ${l.n} personalizados</div>
             <div class="cl-meta">${money(l.precio||0)} por pack${l.qty>1 ? ' · Total: '+money(totalLinea) : ''}</div>
+          </div>
+          <div class="cl-qty">x${l.qty}</div>
+        </div>
+      `;
+    }
+    if (l.type === 'boxyfit'){
+      return `
+        <div class="cart-line">
+          <img src="boxy-${l.colorSlug}-1.jpg" alt="${l.colorNombre}">
+          <div class="cl-info">
+            <div class="cl-name">Boxy Fit ${l.colorNombre}</div>
+            <div class="cl-meta">Talla ${l.talla}</div>
           </div>
           <div class="cl-qty">x${l.qty}</div>
         </div>
@@ -468,6 +490,7 @@ function sendToWhatsapp(cart, subtotal, shipping, total){
 
   const lines = cart.map(l => {
     if (l.type === 'pack') return `- Pack ${l.n} personalizados (${money(l.precio||0)} por pack) x${l.qty}`;
+    if (l.type === 'boxyfit') return `- Boxy Fit ${l.colorNombre}, Talla ${l.talla} x${l.qty}`;
     return `- Básico ${l.colorNombre}, Talla ${l.talla} x${l.qty}`;
   }).join('\n');
 
