@@ -193,6 +193,7 @@
   }
   .add-btn.added{ background:#1f7a3f; }
   .add-btn:disabled{ background:#cfcfcf; color:#888; cursor:not-allowed; }
+  .stockline{ font-size:11px; color:#b45309; min-height:14px; }
 
   .promo-note{
     background:var(--panel); border:1px solid var(--border); border-radius:10px;
@@ -303,6 +304,7 @@
       <nav class="navscroll">
         <a href="#personalizados">Personalizados</a>
         <a href="#basicos">Básicos</a>
+        <a href="#boxyfit">Boxy Fit</a>
         <a href="#marketplaces">Marketplaces</a>
         <a href="testimonios.html">Testimonios</a>
         <a href="faq.html">FAQ</a>
@@ -428,6 +430,22 @@
     </div>
   </section>
 
+  <section id="boxyfit">
+    <h2 class="section-title">Polos Boxy Fit</h2>
+    <p class="section-sub">Corte boxy fit, caída recta y estructurada. Tallas S · M · L.</p>
+    <div class="promo-note">
+      <b>S/45</b> la unidad · desde la <b>2da unidad</b>, cada polo baja a <b>S/40</b> (cualquier combinación de colores).
+    </div>
+    <div class="basicos-grid" id="boxyfitGrid"></div>
+
+    <div class="product-info">
+      <details class="product-details">
+        <summary>📏 Ver guía de tallas</summary>
+        <div class="pd-body"><img src="tabla-medidas-boxyfit.jpg" alt="Tabla de medidas Boxy Fit" style="border-radius:10px;"></div>
+      </details>
+    </div>
+  </section>
+
   <section id="marketplaces">
     <h2 class="section-title">También nos encuentras en</h2>
     <p class="section-sub">Compra por marketplace si prefieres esa opción — recojo gratis en tienda disponible.</p>
@@ -519,6 +537,14 @@ const COLORES = [
 ];
 const TALLAS = ["S","M","L"];
 
+const BOXYFIT_PRICE = 45;
+const BOXYFIT_PROMO_UNIT = 40;
+const BOXYFIT_COLORES = [
+  { slug:"beige", nombre:"Beige", stock:{S:2,M:2,L:2} },
+  { slug:"negro", nombre:"Negro", stock:{S:0,M:0,L:3} },
+  { slug:"marron", nombre:"Marrón", stock:{S:0,M:2,L:1} },
+];
+
 const PACKS = [
   { id:"pack3", n:3, precio:"S/99.90", precioNum:99.90, img:"personalizados-pack-3.jpg", nota:"Envío S/9.90" },
   { id:"pack6", n:6, precio:"S/199", precioNum:199, img:"personalizados-pack-6.jpg", nota:"Envío gratis" },
@@ -552,6 +578,14 @@ function addPackToCart(pack){
   saveCart(cart);
   renderDrawer();
 }
+function addBoxyfitToCart(colorSlug, colorNombre, talla){
+  const cart = loadCart();
+  const line = cart.find(l => l.type==='boxyfit' && l.colorSlug === colorSlug && l.talla === talla);
+  if (line) line.qty += 1;
+  else cart.push({ type:'boxyfit', colorSlug, colorNombre, talla, qty:1 });
+  saveCart(cart);
+  renderDrawer();
+}
 function changeQty(idx, delta){
   const cart = loadCart();
   cart[idx].qty += delta;
@@ -565,16 +599,23 @@ function removeLine(idx){
   saveCart(cart);
   renderDrawer();
 }
-function basicoLines(cart){ return cart.filter(l => l.type!=='pack'); }
+function basicoLines(cart){ return cart.filter(l => l.type==='basico' || !l.type); }
+function boxyfitLines(cart){ return cart.filter(l => l.type==='boxyfit'); }
 function packLines(cart){ return cart.filter(l => l.type==='pack'); }
 function cartTotalQty(cart){ return cart.reduce((s,l)=>s+l.qty,0); }
 function cartSubtotal(cart){
   const basicos = basicoLines(cart);
   const bqty = basicos.reduce((s,l)=>s+l.qty,0);
-  const unit = bqty >= 3 ? BASICOS_PROMO_UNIT : BASICOS_PRICE;
-  const basicosTotal = bqty * unit;
+  const bunit = bqty >= 3 ? BASICOS_PROMO_UNIT : BASICOS_PRICE;
+  const basicosTotal = bqty * bunit;
+
+  const boxyfit = boxyfitLines(cart);
+  const xqty = boxyfit.reduce((s,l)=>s+l.qty,0);
+  const xunit = xqty >= 2 ? BOXYFIT_PROMO_UNIT : BOXYFIT_PRICE;
+  const boxyfitTotal = xqty * xunit;
+
   const packsTotal = packLines(cart).reduce((s,l)=>s + (l.precio||0)*l.qty, 0);
-  return basicosTotal + packsTotal;
+  return basicosTotal + boxyfitTotal + packsTotal;
 }
 function renderCartBadge(){
   const cart = loadCart();
@@ -667,6 +708,110 @@ function renderBasicos(){
   COLORES.forEach(c => grid.appendChild(buildBasicoCard(c)));
 }
 
+/* ---------------- Render: boxy fit ---------------- */
+function buildBoxyfitCard(color){
+  const card = document.createElement('div');
+  card.className = 'basico-card';
+
+  const totalStock = TALLAS.reduce((s,t) => s + (color.stock[t]||0), 0);
+
+  let imgIndex = 0;
+  const imgs = [1,2,3,4,5].map(n => `boxy-${color.slug}-${n}.jpg`);
+
+  const gallery = document.createElement('div');
+  gallery.className = 'gallery';
+  const img = document.createElement('img');
+  img.src = imgs[0];
+  img.alt = "Polo Boxy Fit " + color.nombre;
+  gallery.appendChild(img);
+  if (totalStock <= 0){
+    const badge = document.createElement('div');
+    badge.className = 'badge-agotado';
+    badge.textContent = 'Agotado';
+    gallery.appendChild(badge);
+  }
+
+  const prev = document.createElement('button'); prev.className='prev'; prev.textContent='‹';
+  const next = document.createElement('button'); next.className='next'; next.textContent='›';
+  prev.onclick = () => { imgIndex = (imgIndex - 1 + imgs.length) % imgs.length; img.src = imgs[imgIndex]; };
+  next.onclick = () => { imgIndex = (imgIndex + 1) % imgs.length; img.src = imgs[imgIndex]; };
+  gallery.appendChild(prev); gallery.appendChild(next);
+  card.appendChild(gallery);
+
+  const body = document.createElement('div');
+  body.className = 'basico-body';
+
+  const name = document.createElement('div');
+  name.className = 'basico-name';
+  name.textContent = "Polo Boxy Fit " + color.nombre;
+  body.appendChild(name);
+
+  const price = document.createElement('div');
+  price.className = 'basico-price';
+  price.innerHTML = `<b>${money(BOXYFIT_PRICE)}</b> · 2 x ${money(80)}`;
+  body.appendChild(price);
+
+  const row = document.createElement('div');
+  row.className = 'row';
+  const tallaSelect = document.createElement('select');
+  TALLAS.forEach(t => {
+    const stockT = color.stock[t] || 0;
+    const o = document.createElement('option');
+    o.value = t;
+    o.textContent = stockT > 0 ? "Talla " + t : "Talla " + t + " (Agotado)";
+    if (stockT <= 0) o.disabled = true;
+    tallaSelect.appendChild(o);
+  });
+  // selecciona automáticamente la primera talla con stock
+  const firstAvailable = TALLAS.find(t => (color.stock[t]||0) > 0);
+  if (firstAvailable) tallaSelect.value = firstAvailable;
+
+  const qtyWrap = document.createElement('div'); qtyWrap.className='qty-wrap';
+  const minus = document.createElement('button'); minus.textContent='−';
+  const qtySpan = document.createElement('span'); qtySpan.textContent='1';
+  const plus = document.createElement('button'); plus.textContent='+';
+  let qty = 1;
+  function maxQty(){ return Math.max(1, color.stock[tallaSelect.value] || 1); }
+  minus.onclick = () => { qty = Math.max(1, qty-1); qtySpan.textContent = qty; };
+  plus.onclick = () => { qty = Math.min(maxQty(), qty+1); qtySpan.textContent = qty; };
+  tallaSelect.onchange = () => { qty = 1; qtySpan.textContent = qty; stockHint(); };
+  qtyWrap.appendChild(minus); qtyWrap.appendChild(qtySpan); qtyWrap.appendChild(plus);
+  row.appendChild(tallaSelect); row.appendChild(qtyWrap);
+  body.appendChild(row);
+
+  const hint = document.createElement('div');
+  hint.className = 'stockline';
+  function stockHint(){
+    const s = color.stock[tallaSelect.value] || 0;
+    hint.textContent = s > 0 && s <= 3 ? `Últimas ${s} unidades en talla ${tallaSelect.value}` : '';
+  }
+  stockHint();
+  body.appendChild(hint);
+
+  const addBtn = document.createElement('button');
+  addBtn.className = 'add-btn';
+  if (totalStock <= 0){
+    addBtn.textContent = 'Agotado';
+    addBtn.disabled = true;
+  } else {
+    addBtn.textContent = 'Agregar al carrito';
+    addBtn.onclick = () => {
+      for(let i=0;i<qty;i++) addBoxyfitToCart(color.slug, color.nombre, tallaSelect.value);
+      addBtn.classList.add('added');
+      addBtn.textContent = 'Agregado ✓';
+      setTimeout(()=>{ addBtn.classList.remove('added'); addBtn.textContent='Agregar al carrito'; }, 1200);
+    };
+  }
+  body.appendChild(addBtn);
+
+  card.appendChild(body);
+  return card;
+}
+function renderBoxyfit(){
+  const grid = document.getElementById('boxyfitGrid');
+  BOXYFIT_COLORES.forEach(c => grid.appendChild(buildBoxyfitCard(c)));
+}
+
 /* ---------------- Render: packs ---------------- */
 function buildPackCard(pack){
   const card = document.createElement('div');
@@ -746,6 +891,19 @@ function renderDrawer(){
           <button onclick="changeQty(${idx},1)">+</button>
         </div>
       `;
+    } else if (line.type === 'boxyfit'){
+      div.innerHTML = `
+        <img src="boxy-${line.colorSlug}-1.jpg" alt="${line.colorNombre}">
+        <div class="cart-line-info">
+          <div class="cl-name">Boxy Fit ${line.colorNombre}</div>
+          <div class="cl-meta">Talla ${line.talla}</div>
+        </div>
+        <div class="qty-wrap">
+          <button onclick="changeQty(${idx},-1)">−</button>
+          <span>${line.qty}</span>
+          <button onclick="changeQty(${idx},1)">+</button>
+        </div>
+      `;
     } else {
       div.innerHTML = `
         <img src="basico-${line.colorSlug}-1.jpg" alt="${line.colorNombre}">
@@ -788,6 +946,14 @@ function buildSearchIndex(){
       cat: "Básico",
       anchor: "#basicos",
       keywords: ["polo","basico","básico","oversize", c.nombre.toLowerCase(), c.slug]
+    });
+  });
+  BOXYFIT_COLORES.forEach(c => {
+    idx.push({
+      label: `Polo Boxy Fit ${c.nombre}`,
+      cat: "Boxy Fit",
+      anchor: "#boxyfit",
+      keywords: ["boxy","boxyfit","boxy fit","polo", c.nombre.toLowerCase(), c.slug]
     });
   });
   PACKS.forEach(p => {
@@ -855,6 +1021,7 @@ document.addEventListener('click', (e) => {
 })();
 
 renderBasicos();
+renderBoxyfit();
 renderPacks();
 renderCartBadge();
 </script>
