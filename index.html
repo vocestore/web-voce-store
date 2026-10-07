@@ -201,6 +201,39 @@
   }
   .promo-note b{ color:var(--accent); }
 
+  /* ---- accesos rápidos por color ---- */
+  .section-heading-row{
+    display:flex; align-items:center; flex-wrap:wrap; gap:10px 14px; margin-bottom:4px;
+  }
+  .section-heading-row .section-title{ margin:0; }
+  .color-nav{ display:flex; align-items:center; flex-wrap:wrap; gap:7px; }
+  .color-chip{
+    border:1px solid var(--border); background:#fff; color:var(--ink);
+    border-radius:999px; padding:6px 9px; display:inline-flex; align-items:center; gap:6px;
+    font-size:11.5px; font-weight:700; cursor:pointer; line-height:1;
+  }
+  .color-chip:hover{ border-color:#bdbdbd; background:var(--panel); }
+  .color-chip:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .color-dot{
+    width:11px; height:11px; border-radius:50%; flex:none; border:1px solid rgba(0,0,0,.18);
+  }
+  .basico-card{ scroll-margin-top:130px; }
+  .basico-card.product-focus{ animation:productFocus .9s ease; }
+  @keyframes productFocus{
+    0%,100%{ box-shadow:none; }
+    35%{ box-shadow:0 0 0 3px rgba(220,171,36,.42); }
+  }
+
+  /* Boxy Fit: ficha un poco más alta y foto sin recortes agresivos */
+  .boxyfit-grid .gallery{ aspect-ratio:3/4; background:#fff; }
+  .boxyfit-grid .gallery img{ object-fit:contain; object-position:center top; background:#fff; }
+
+  @media(max-width:520px){
+    .section-heading-row{ align-items:flex-start; }
+    .color-nav{ width:100%; }
+    .color-chip{ padding:7px 10px; }
+  }
+
   .product-info{ margin-top:26px; }
   .product-details{ border:1px solid var(--border); border-radius:12px; padding:14px 18px; margin-bottom:10px; }
   .product-details summary{ font-weight:700; font-size:14px; cursor:pointer; }
@@ -377,7 +410,10 @@
 
   <section id="basicos">
     <img src="promo-basicos-banner.jpg" alt="Promo Básicos: 3 polos oversize básicos por S/81.90" style="border-radius:14px; margin-bottom:26px; width:100%;">
-    <h2 class="section-title">Polos Oversize Básicos</h2>
+    <div class="section-heading-row">
+      <h2 class="section-title">Polos Oversize Básicos</h2>
+      <div class="color-nav" id="basicosColorNav" aria-label="Ir a un color de polos básicos"></div>
+    </div>
     <p class="section-sub">Algodón jersey 30/1 reactivo peinado premium. Corte oversize, tallas S · M · L.</p>
     <div class="promo-note">
       <b>S/43</b> la unidad · desde la <b>3ra unidad</b>, cada polo baja a <b>S/27.30</b> (cualquier combinación de colores).
@@ -431,12 +467,15 @@
   </section>
 
   <section id="boxyfit">
-    <h2 class="section-title">Polos Boxy Fit</h2>
+    <div class="section-heading-row">
+      <h2 class="section-title">Polos Boxy Fit</h2>
+      <div class="color-nav" id="boxyfitColorNav" aria-label="Ir a un color de polos Boxy Fit"></div>
+    </div>
     <p class="section-sub">Corte boxy fit, caída recta y estructurada. Tallas S · M · L.</p>
     <div class="promo-note">
       <b>S/45</b> la unidad · desde la <b>2da unidad</b>, cada polo baja a <b>S/40</b> (cualquier combinación de colores).
     </div>
-    <div class="basicos-grid" id="boxyfitGrid"></div>
+    <div class="basicos-grid boxyfit-grid" id="boxyfitGrid"></div>
 
     <div class="product-info">
       <details class="product-details">
@@ -626,6 +665,7 @@ function renderCartBadge(){
 function buildBasicoCard(color){
   const card = document.createElement('div');
   card.className = 'basico-card';
+  card.id = `basico-${color.slug}`;
 
   const totalStock = TALLAS.reduce((s,t) => s + (color.stock?.[t]||0), 0);
 
@@ -687,19 +727,11 @@ function buildBasicoCard(color){
   function maxQty(){ return Math.max(1, color.stock?.[tallaSelect.value] || 1); }
   minus.onclick = () => { qty = Math.max(1, qty-1); qtySpan.textContent = qty; };
   plus.onclick = () => { qty = Math.min(maxQty(), qty+1); qtySpan.textContent = qty; };
-  tallaSelect.onchange = () => { qty = 1; qtySpan.textContent = qty; stockHint(); };
+  tallaSelect.onchange = () => { qty = 1; qtySpan.textContent = qty; };
   qtyWrap.appendChild(minus); qtyWrap.appendChild(qtySpan); qtyWrap.appendChild(plus);
   row.appendChild(tallaSelect); row.appendChild(qtyWrap);
   body.appendChild(row);
 
-  const hint = document.createElement('div');
-  hint.className = 'stockline';
-  function stockHint(){
-    const s = color.stock?.[tallaSelect.value] || 0;
-    hint.textContent = s > 0 && s <= 2 ? `Últimas ${s} unidades en talla ${tallaSelect.value}` : '';
-  }
-  stockHint();
-  body.appendChild(hint);
 
   const addBtn = document.createElement('button');
   addBtn.className = 'add-btn';
@@ -729,7 +761,8 @@ function renderBasicos(){
 /* ---------------- Render: boxy fit ---------------- */
 function buildBoxyfitCard(color){
   const card = document.createElement('div');
-  card.className = 'basico-card';
+  card.className = 'basico-card boxyfit-card';
+  card.id = `boxyfit-${color.slug}`;
 
   const totalStock = TALLAS.reduce((s,t) => s + (color.stock[t]||0), 0);
 
@@ -792,19 +825,11 @@ function buildBoxyfitCard(color){
   function maxQty(){ return Math.max(1, color.stock[tallaSelect.value] || 1); }
   minus.onclick = () => { qty = Math.max(1, qty-1); qtySpan.textContent = qty; };
   plus.onclick = () => { qty = Math.min(maxQty(), qty+1); qtySpan.textContent = qty; };
-  tallaSelect.onchange = () => { qty = 1; qtySpan.textContent = qty; stockHint(); };
+  tallaSelect.onchange = () => { qty = 1; qtySpan.textContent = qty; };
   qtyWrap.appendChild(minus); qtyWrap.appendChild(qtySpan); qtyWrap.appendChild(plus);
   row.appendChild(tallaSelect); row.appendChild(qtyWrap);
   body.appendChild(row);
 
-  const hint = document.createElement('div');
-  hint.className = 'stockline';
-  function stockHint(){
-    const s = color.stock[tallaSelect.value] || 0;
-    hint.textContent = s > 0 && s <= 3 ? `Últimas ${s} unidades en talla ${tallaSelect.value}` : '';
-  }
-  stockHint();
-  body.appendChild(hint);
 
   const addBtn = document.createElement('button');
   addBtn.className = 'add-btn';
@@ -868,6 +893,47 @@ function buildPackCard(pack){
 function renderPacks(){
   const grid = document.getElementById('packsGrid');
   PACKS.forEach(p => grid.appendChild(buildPackCard(p)));
+}
+
+/* ---------------- Accesos rápidos por color ---------------- */
+const COLOR_SWATCHES = {
+  'baby-pink':'#f3c5d5',
+  'blanco':'#ffffff',
+  'lila':'#c9b8e8',
+  'negro':'#111111',
+  'perla':'#e9e3d8',
+  'vino':'#6f2437',
+  'beige':'#d8c0a7',
+  'marron':'#5b3a2e'
+};
+
+function productHasStock(color){
+  return TALLAS.some(t => (color.stock?.[t] || 0) > 0);
+}
+
+function goToProductCard(id){
+  const card = document.getElementById(id);
+  if (!card) return;
+  card.scrollIntoView({ behavior:'smooth', block:'start' });
+  card.classList.remove('product-focus');
+  void card.offsetWidth;
+  card.classList.add('product-focus');
+  setTimeout(() => card.classList.remove('product-focus'), 1000);
+}
+
+function renderColorNav(containerId, colors, prefix){
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = '';
+  colors.filter(productHasStock).forEach(color => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'color-chip';
+    btn.setAttribute('aria-label', `Ir a ${color.nombre}`);
+    btn.innerHTML = `<span class="color-dot" style="background:${COLOR_SWATCHES[color.slug] || '#ddd'}"></span><span>${color.nombre}</span>`;
+    btn.onclick = () => goToProductCard(`${prefix}-${color.slug}`);
+    container.appendChild(btn);
+  });
 }
 
 /* ---------------- Cart drawer ---------------- */
@@ -1041,6 +1107,8 @@ document.addEventListener('click', (e) => {
 renderBasicos();
 renderBoxyfit();
 renderPacks();
+renderColorNav('basicosColorNav', COLORES, 'basico');
+renderColorNav('boxyfitColorNav', BOXYFIT_COLORES, 'boxyfit');
 renderCartBadge();
 </script>
 </body>
