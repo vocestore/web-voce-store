@@ -11,14 +11,16 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Polos Oversize, Boxy Fit y Personalizados en Perú | VOCE STORE</title>
+<title>VOCE STORE | Polos Oversize, Boxy Fit y Personalizados en Perú</title>
 <meta name="description" content="Compra polos oversize, polos Boxy Fit y prendas personalizadas en VOCE STORE. Envíos a todo el Perú, tallas S, M y L y promociones por cantidad.">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://vocestore.com.pe/">
+<link rel="icon" type="image/png" href="logo-voce-store.png">
+<link rel="shortcut icon" href="logo-voce-store.png">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_PE">
 <meta property="og:site_name" content="VOCE STORE">
-<meta property="og:title" content="Polos Oversize, Boxy Fit y Personalizados en Perú | VOCE STORE">
+<meta property="og:title" content="VOCE STORE | Polos Oversize, Boxy Fit y Personalizados en Perú">
 <meta property="og:description" content="Streetwear peruano: polos oversize, Boxy Fit y personalizados con envíos a todo el Perú.">
 <meta property="og:url" content="https://vocestore.com.pe/">
 <meta property="og:image" content="https://vocestore.com.pe/promo-basicos-banner.jpg">
@@ -247,20 +249,28 @@
   .filter-status.ok{ color:#444; }
   .filter-hidden{ display:none !important; }
 
-  /* Barra amarilla al iniciar la categoría de básicos */
+  /* Barra amarilla continua debajo del banner de básicos */
   .category-marquee-wrap{
-    width:100vw; margin-left:calc(50% - 50vw); margin-bottom:26px;
+    width:100vw; margin-left:calc(50% - 50vw); margin-top:12px; margin-bottom:26px;
     background:var(--accent); color:#111; overflow:hidden; white-space:nowrap; padding:9px 0;
   }
   .category-marquee{
-    display:inline-block; padding-left:100%;
-    animation:categoryScroll 28s linear infinite;
+    display:flex; width:max-content;
+    animation:categoryScroll 30s linear infinite;
     font-size:13px; font-weight:900; letter-spacing:.06em;
+    will-change:transform;
   }
-  .category-marquee span{ margin:0 34px; }
+  .category-marquee-group{
+    display:flex; align-items:center; justify-content:space-around;
+    flex:none; width:100vw;
+  }
+  .category-marquee span{ display:block; padding:0 28px; }
   @keyframes categoryScroll{
-    0%{ transform:translateX(0); }
-    100%{ transform:translateX(-100%); }
+    from{ transform:translateX(0); }
+    to{ transform:translateX(-100vw); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .category-marquee{ animation-duration:50s; }
   }
 
   /* Boxy Fit: ficha un poco más alta y foto sin recortes agresivos */
@@ -481,12 +491,25 @@
   </section>
 
   <section id="basicos">
+    <img src="promo-basicos-banner.jpg" alt="Promo Básicos: 3 polos oversize básicos por S/81.90" style="border-radius:14px; width:100%;">
     <div class="category-marquee-wrap" aria-label="Envíos a todo el Perú">
       <div class="category-marquee">
-        <span>ENVIOS A TODO EL PERÚ</span><span>ENVIOS A TODO EL PERÚ</span><span>ENVIOS A TODO EL PERÚ</span><span>ENVIOS A TODO EL PERÚ</span><span>ENVIOS A TODO EL PERÚ</span><span>ENVIOS A TODO EL PERÚ</span>
+        <div class="category-marquee-group">
+          <span>ENVIOS A TODO EL PERÚ</span>
+          <span>ENVIOS A TODO EL PERÚ</span>
+          <span>ENVIOS A TODO EL PERÚ</span>
+          <span>ENVIOS A TODO EL PERÚ</span>
+          <span>ENVIOS A TODO EL PERÚ</span>
+        </div>
+        <div class="category-marquee-group" aria-hidden="true">
+          <span>ENVIOS A TODO EL PERÚ</span>
+          <span>ENVIOS A TODO EL PERÚ</span>
+          <span>ENVIOS A TODO EL PERÚ</span>
+          <span>ENVIOS A TODO EL PERÚ</span>
+          <span>ENVIOS A TODO EL PERÚ</span>
+        </div>
       </div>
     </div>
-    <img src="promo-basicos-banner.jpg" alt="Promo Básicos: 3 polos oversize básicos por S/81.90" style="border-radius:14px; margin-bottom:26px; width:100%;">
     <h2 class="section-title">Polos Oversize Básicos</h2>
     <p class="section-sub">Algodón jersey 30/1 reactivo peinado premium. Corte oversize, tallas S · M · L.</p>
     <div class="promo-note">
