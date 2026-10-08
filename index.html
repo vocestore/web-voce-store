@@ -11,7 +11,29 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VOCE STORE — Urban Trend, Clothes and More</title>
+<title>Polos Oversize, Boxy Fit y Personalizados en Perú | VOCE STORE</title>
+<meta name="description" content="Compra polos oversize, polos Boxy Fit y prendas personalizadas en VOCE STORE. Envíos a todo el Perú, tallas S, M y L y promociones por cantidad.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://vocestore.com.pe/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_PE">
+<meta property="og:site_name" content="VOCE STORE">
+<meta property="og:title" content="Polos Oversize, Boxy Fit y Personalizados en Perú | VOCE STORE">
+<meta property="og:description" content="Streetwear peruano: polos oversize, Boxy Fit y personalizados con envíos a todo el Perú.">
+<meta property="og:url" content="https://vocestore.com.pe/">
+<meta property="og:image" content="https://vocestore.com.pe/promo-basicos-banner.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#dcab24">
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Organization",
+  "name":"VOCE STORE",
+  "url":"https://vocestore.com.pe/",
+  "logo":"https://vocestore.com.pe/logo-voce-store.png",
+  "sameAs":["https://www.instagram.com/voce_store1/"]
+}
+</script>
 <style>
   :root{
     --bg:#ffffff;
@@ -32,6 +54,10 @@
   }
   a{ color:inherit; }
   img{ max-width:100%; display:block; }
+  .sr-only{
+    position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+    overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  }
 
   /* ---- marquee ---- */
   .marquee-wrap{
@@ -201,27 +227,40 @@
   }
   .promo-note b{ color:var(--accent); }
 
-  /* ---- accesos rápidos por color ---- */
-  .section-heading-row{
-    display:flex; align-items:center; flex-wrap:wrap; gap:10px 14px; margin-bottom:4px;
+  /* ---- filtro por color y talla ---- */
+  .catalog-filter{
+    display:flex; align-items:center; flex-wrap:wrap; gap:8px 10px;
+    margin:0 0 22px 0; padding:12px 14px;
+    background:var(--panel); border:1px solid var(--border); border-radius:10px;
   }
-  .section-heading-row .section-title{ margin:0; }
-  .color-nav{ display:flex; align-items:center; flex-wrap:wrap; gap:7px; }
-  .color-chip{
-    border:1px solid var(--border); background:#fff; color:var(--ink);
-    border-radius:999px; padding:6px 9px; display:inline-flex; align-items:center; gap:6px;
-    font-size:11.5px; font-weight:700; cursor:pointer; line-height:1;
+  .catalog-filter-label{ font-size:12.5px; font-weight:800; margin-right:2px; }
+  .catalog-filter select{
+    flex:none; width:auto; min-width:135px; background:#fff; padding:8px 30px 8px 10px;
   }
-  .color-chip:hover{ border-color:#bdbdbd; background:var(--panel); }
-  .color-chip:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
-  .color-dot{
-    width:11px; height:11px; border-radius:50%; flex:none; border:1px solid rgba(0,0,0,.18);
+  .filter-clear{
+    border:1px solid var(--border); background:#fff; color:var(--ink); border-radius:8px;
+    padding:8px 11px; font-size:12px; font-weight:700; cursor:pointer;
   }
-  .basico-card{ scroll-margin-top:130px; }
-  .basico-card.product-focus{ animation:productFocus .9s ease; }
-  @keyframes productFocus{
-    0%,100%{ box-shadow:none; }
-    35%{ box-shadow:0 0 0 3px rgba(220,171,36,.42); }
+  .filter-clear:hover{ background:#f0f0f0; }
+  .filter-status{ font-size:12px; font-weight:700; margin-left:2px; }
+  .filter-status.error{ color:#b91c1c; }
+  .filter-status.ok{ color:#444; }
+  .filter-hidden{ display:none !important; }
+
+  /* Barra amarilla al iniciar la categoría de básicos */
+  .category-marquee-wrap{
+    width:100vw; margin-left:calc(50% - 50vw); margin-bottom:26px;
+    background:var(--accent); color:#111; overflow:hidden; white-space:nowrap; padding:9px 0;
+  }
+  .category-marquee{
+    display:inline-block; padding-left:100%;
+    animation:categoryScroll 28s linear infinite;
+    font-size:13px; font-weight:900; letter-spacing:.06em;
+  }
+  .category-marquee span{ margin:0 34px; }
+  @keyframes categoryScroll{
+    0%{ transform:translateX(0); }
+    100%{ transform:translateX(-100%); }
   }
 
   /* Boxy Fit: ficha un poco más alta y foto sin recortes agresivos */
@@ -229,9 +268,10 @@
   .boxyfit-grid .gallery img{ object-fit:contain; object-position:center top; background:#fff; }
 
   @media(max-width:520px){
-    .section-heading-row{ align-items:flex-start; }
-    .color-nav{ width:100%; }
-    .color-chip{ padding:7px 10px; }
+    .catalog-filter{ align-items:stretch; }
+    .catalog-filter-label{ width:100%; }
+    .catalog-filter select{ flex:1; min-width:0; }
+    .filter-status{ width:100%; }
   }
 
   .product-info{ margin-top:26px; }
@@ -260,6 +300,18 @@
   }
   .envios-text{ margin:16px auto 0 auto; font-size:14px; color:var(--muted); line-height:1.6; max-width:700px; text-align:center; }
   #envios .banner-block{ max-width:600px; margin:0 auto; }
+
+  /* ---- testimonios en inicio ---- */
+  .testimonials-preview-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  .testimonial-preview-card{ border:1px solid var(--border); border-radius:12px; padding:16px; background:#fff; }
+  .testimonial-preview-stars{ color:var(--accent); font-size:14px; margin-bottom:8px; letter-spacing:.04em; }
+  .testimonial-preview-quote{ margin:0 0 14px 0; color:#2a2a2a; font-size:13.5px; line-height:1.55; }
+  .testimonial-preview-who{ display:flex; justify-content:space-between; gap:8px; align-items:baseline; font-size:12px; }
+  .testimonial-preview-name{ font-weight:800; }
+  .testimonial-preview-date{ color:var(--muted); white-space:nowrap; }
+  .testimonials-state{ text-align:center; color:var(--muted); padding:28px 0; font-size:13.5px; }
+  @media(max-width:900px){ .testimonials-preview-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media(max-width:560px){ .testimonials-preview-grid{ grid-template-columns:1fr; } }
 
   /* ---- footer ---- */
   footer{ padding:40px 18px 60px 18px; background:var(--ink); color:#ddd; }
@@ -309,6 +361,25 @@
   .empty-cart{ color:var(--muted); font-size:13.5px; text-align:center; padding:40px 0; }
   .ship-hint{ background:var(--panel); border-radius:8px; padding:8px 10px; font-size:12px; margin-bottom:10px; text-align:center; }
   .ship-hint b{ color:var(--accent-ink); }
+  .savings-hint{
+    background:#fff5cc; border:1px solid #ead28a; border-radius:8px;
+    padding:9px 10px; font-size:12.5px; font-weight:800; margin-bottom:10px; text-align:center;
+  }
+
+  /* ---- carrito fijo en móvil ---- */
+  .mobile-cart-bar{ display:none; }
+  @media(max-width:700px){
+    .mobile-cart-bar.visible{
+      position:fixed; left:18px; right:18px; bottom:14px; z-index:38;
+      display:block;
+    }
+    .mobile-cart-bar button{
+      width:100%; border:none; border-radius:12px; padding:14px 16px;
+      background:#111; color:#fff; font:inherit; font-size:13.5px; font-weight:800;
+      box-shadow:0 6px 24px rgba(0,0,0,.22); cursor:pointer;
+    }
+    .mobile-cart-bar.visible ~ .wa-float{ bottom:84px; }
+  }
 
   /* ---- floating whatsapp button ---- */
   .wa-float{ position:fixed; bottom:20px; left:20px; z-index:35; width:58px; height:58px; text-decoration:none; }
@@ -360,6 +431,7 @@
 </header>
 
 <main id="top">
+  <h1 class="sr-only">Polos Oversize, Boxy Fit y Personalizados en Perú</h1>
 
   <section id="personalizados" style="border-bottom:none;">
     <div class="video-hero">
@@ -409,14 +481,23 @@
   </section>
 
   <section id="basicos">
-    <img src="promo-basicos-banner.jpg" alt="Promo Básicos: 3 polos oversize básicos por S/81.90" style="border-radius:14px; margin-bottom:26px; width:100%;">
-    <div class="section-heading-row">
-      <h2 class="section-title">Polos Oversize Básicos</h2>
-      <div class="color-nav" id="basicosColorNav" aria-label="Ir a un color de polos básicos"></div>
+    <div class="category-marquee-wrap" aria-label="Envíos a todo el Perú">
+      <div class="category-marquee">
+        <span>ENVIOS A TODO EL PERÚ</span><span>ENVIOS A TODO EL PERÚ</span><span>ENVIOS A TODO EL PERÚ</span><span>ENVIOS A TODO EL PERÚ</span><span>ENVIOS A TODO EL PERÚ</span><span>ENVIOS A TODO EL PERÚ</span>
+      </div>
     </div>
+    <img src="promo-basicos-banner.jpg" alt="Promo Básicos: 3 polos oversize básicos por S/81.90" style="border-radius:14px; margin-bottom:26px; width:100%;">
+    <h2 class="section-title">Polos Oversize Básicos</h2>
     <p class="section-sub">Algodón jersey 30/1 reactivo peinado premium. Corte oversize, tallas S · M · L.</p>
     <div class="promo-note">
       <b>S/43</b> la unidad · desde la <b>3ra unidad</b>, cada polo baja a <b>S/27.30</b> (cualquier combinación de colores).
+    </div>
+    <div class="catalog-filter" aria-label="Filtrar polos oversize básicos">
+      <span class="catalog-filter-label">Filtrar:</span>
+      <select id="basicosFilterColor" aria-label="Filtrar básicos por color"></select>
+      <select id="basicosFilterTalla" aria-label="Filtrar básicos por talla"></select>
+      <button type="button" class="filter-clear" onclick="clearCatalogFilter('basicos')">Limpiar</button>
+      <span class="filter-status" id="basicosFilterStatus" aria-live="polite"></span>
     </div>
     <div class="basicos-grid" id="basicosGrid"></div>
 
@@ -467,13 +548,17 @@
   </section>
 
   <section id="boxyfit">
-    <div class="section-heading-row">
-      <h2 class="section-title">Polos Boxy Fit</h2>
-      <div class="color-nav" id="boxyfitColorNav" aria-label="Ir a un color de polos Boxy Fit"></div>
-    </div>
+    <h2 class="section-title">Polos Boxy Fit</h2>
     <p class="section-sub">Corte boxy fit, caída recta y estructurada. Tallas S · M · L.</p>
     <div class="promo-note">
       <b>S/45</b> la unidad · desde la <b>2da unidad</b>, cada polo baja a <b>S/40</b> (cualquier combinación de colores).
+    </div>
+    <div class="catalog-filter" aria-label="Filtrar polos Boxy Fit">
+      <span class="catalog-filter-label">Filtrar:</span>
+      <select id="boxyfitFilterColor" aria-label="Filtrar Boxy Fit por color"></select>
+      <select id="boxyfitFilterTalla" aria-label="Filtrar Boxy Fit por talla"></select>
+      <button type="button" class="filter-clear" onclick="clearCatalogFilter('boxyfit')">Limpiar</button>
+      <span class="filter-status" id="boxyfitFilterStatus" aria-live="polite"></span>
     </div>
     <div class="basicos-grid boxyfit-grid" id="boxyfitGrid"></div>
 
@@ -504,6 +589,15 @@
     <p class="envios-text">
       En VOCE STORE, tu tranquilidad es nuestra prioridad. Hemos completado con éxito más de 10,000 envíos a todos los rincones del Perú. Trabajamos con socios logísticos de confianza y, ante cualquier inconveniente, nuestro equipo está listo para asistirte.
     </p>
+  </section>
+
+  <section id="testimonios-home">
+    <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+    <p class="section-sub">Opiniones reales de personas que ya compraron en VOCE STORE.</p>
+    <div id="homeTestimonials"><div class="testimonials-state">Cargando testimonios...</div></div>
+    <div class="banner-cta">
+      <a class="btn-outline" href="testimonios.html">Ver todos los testimonios</a>
+    </div>
   </section>
 
   <section style="border-bottom:none;">
@@ -554,6 +648,10 @@
   </div>
   <div class="drawer-body" id="drawerBody"></div>
   <div class="drawer-foot" id="drawerFoot"></div>
+</div>
+
+<div class="mobile-cart-bar" id="mobileCartBar">
+  <button type="button" id="mobileCartButton" onclick="openCart()">Ver carrito</button>
 </div>
 
 <a class="wa-float" href="https://wa.me/51965165095?text=Hola%20VOCE%20STORE%2C%20tengo%20una%20consulta" target="_blank" rel="noopener" aria-label="WhatsApp"><img src="whatsapp-icon.png" alt="WhatsApp"></a>
@@ -656,9 +754,34 @@ function cartSubtotal(cart){
   const packsTotal = packLines(cart).reduce((s,l)=>s + (l.precio||0)*l.qty, 0);
   return basicosTotal + boxyfitTotal + packsTotal;
 }
+function cartSavings(cart){
+  const basicos = basicoLines(cart);
+  const bqty = basicos.reduce((s,l)=>s+l.qty,0);
+  const basicSaving = bqty >= 3 ? bqty * (BASICOS_PRICE - BASICOS_PROMO_UNIT) : 0;
+
+  const boxyfit = boxyfitLines(cart);
+  const xqty = boxyfit.reduce((s,l)=>s+l.qty,0);
+  const boxySaving = xqty >= 2 ? xqty * (BOXYFIT_PRICE - BOXYFIT_PROMO_UNIT) : 0;
+
+  return basicSaving + boxySaving;
+}
+function updateMobileCartBar(cart){
+  const bar = document.getElementById('mobileCartBar');
+  const btn = document.getElementById('mobileCartButton');
+  if (!bar || !btn) return;
+  const qty = cartTotalQty(cart);
+  if (!qty){
+    bar.classList.remove('visible');
+    return;
+  }
+  const subtotal = cartSubtotal(cart);
+  btn.textContent = `Ver carrito · ${qty} ${qty === 1 ? 'producto' : 'productos'} · ${money(subtotal)}`;
+  bar.classList.add('visible');
+}
 function renderCartBadge(){
   const cart = loadCart();
   document.getElementById('cartBadge').textContent = cartTotalQty(cart);
+  updateMobileCartBar(cart);
 }
 
 /* ---------------- Render: basicos grid ---------------- */
@@ -708,6 +831,7 @@ function buildBasicoCard(color){
   const row = document.createElement('div');
   row.className = 'row';
   const tallaSelect = document.createElement('select');
+  tallaSelect.setAttribute('data-size-select','basico');
   TALLAS.forEach(t => {
     const stockT = color.stock?.[t] || 0;
     const o = document.createElement('option');
@@ -727,7 +851,7 @@ function buildBasicoCard(color){
   function maxQty(){ return Math.max(1, color.stock?.[tallaSelect.value] || 1); }
   minus.onclick = () => { qty = Math.max(1, qty-1); qtySpan.textContent = qty; };
   plus.onclick = () => { qty = Math.min(maxQty(), qty+1); qtySpan.textContent = qty; };
-  tallaSelect.onchange = () => { qty = 1; qtySpan.textContent = qty; };
+  tallaSelect.onchange = () => { qty = 1; qtySpan.textContent = qty; updateAvailability(); };
   qtyWrap.appendChild(minus); qtyWrap.appendChild(qtySpan); qtyWrap.appendChild(plus);
   row.appendChild(tallaSelect); row.appendChild(qtyWrap);
   body.appendChild(row);
@@ -735,18 +859,19 @@ function buildBasicoCard(color){
 
   const addBtn = document.createElement('button');
   addBtn.className = 'add-btn';
-  if (totalStock <= 0){
-    addBtn.textContent = 'Agotado';
-    addBtn.disabled = true;
-  } else {
-    addBtn.textContent = 'Agregar al carrito';
-    addBtn.onclick = () => {
-      for(let i=0;i<qty;i++) addToCart(color.slug, color.nombre, tallaSelect.value);
-      addBtn.classList.add('added');
-      addBtn.textContent = 'Agregado ✓';
-      setTimeout(()=>{ addBtn.classList.remove('added'); addBtn.textContent='Agregar al carrito'; }, 1200);
-    };
+  function updateAvailability(){
+    const available = (color.stock?.[tallaSelect.value] || 0) > 0;
+    addBtn.disabled = !available;
+    addBtn.textContent = available ? 'Agregar al carrito' : 'Agotado';
   }
+  addBtn.onclick = () => {
+    if ((color.stock?.[tallaSelect.value] || 0) <= 0) return;
+    for(let i=0;i<qty;i++) addToCart(color.slug, color.nombre, tallaSelect.value);
+    addBtn.classList.add('added');
+    addBtn.textContent = 'Agregado ✓';
+    setTimeout(()=>{ addBtn.classList.remove('added'); updateAvailability(); }, 1200);
+  };
+  updateAvailability();
   body.appendChild(addBtn);
 
   card.appendChild(body);
@@ -805,6 +930,7 @@ function buildBoxyfitCard(color){
   const row = document.createElement('div');
   row.className = 'row';
   const tallaSelect = document.createElement('select');
+  tallaSelect.setAttribute('data-size-select','boxyfit');
   TALLAS.forEach(t => {
     const stockT = color.stock[t] || 0;
     const o = document.createElement('option');
@@ -825,7 +951,7 @@ function buildBoxyfitCard(color){
   function maxQty(){ return Math.max(1, color.stock[tallaSelect.value] || 1); }
   minus.onclick = () => { qty = Math.max(1, qty-1); qtySpan.textContent = qty; };
   plus.onclick = () => { qty = Math.min(maxQty(), qty+1); qtySpan.textContent = qty; };
-  tallaSelect.onchange = () => { qty = 1; qtySpan.textContent = qty; };
+  tallaSelect.onchange = () => { qty = 1; qtySpan.textContent = qty; updateAvailability(); };
   qtyWrap.appendChild(minus); qtyWrap.appendChild(qtySpan); qtyWrap.appendChild(plus);
   row.appendChild(tallaSelect); row.appendChild(qtyWrap);
   body.appendChild(row);
@@ -833,18 +959,19 @@ function buildBoxyfitCard(color){
 
   const addBtn = document.createElement('button');
   addBtn.className = 'add-btn';
-  if (totalStock <= 0){
-    addBtn.textContent = 'Agotado';
-    addBtn.disabled = true;
-  } else {
-    addBtn.textContent = 'Agregar al carrito';
-    addBtn.onclick = () => {
-      for(let i=0;i<qty;i++) addBoxyfitToCart(color.slug, color.nombre, tallaSelect.value);
-      addBtn.classList.add('added');
-      addBtn.textContent = 'Agregado ✓';
-      setTimeout(()=>{ addBtn.classList.remove('added'); addBtn.textContent='Agregar al carrito'; }, 1200);
-    };
+  function updateAvailability(){
+    const available = (color.stock[tallaSelect.value] || 0) > 0;
+    addBtn.disabled = !available;
+    addBtn.textContent = available ? 'Agregar al carrito' : 'Agotado';
   }
+  addBtn.onclick = () => {
+    if ((color.stock[tallaSelect.value] || 0) <= 0) return;
+    for(let i=0;i<qty;i++) addBoxyfitToCart(color.slug, color.nombre, tallaSelect.value);
+    addBtn.classList.add('added');
+    addBtn.textContent = 'Agregado ✓';
+    setTimeout(()=>{ addBtn.classList.remove('added'); updateAvailability(); }, 1200);
+  };
+  updateAvailability();
   body.appendChild(addBtn);
 
   card.appendChild(body);
@@ -895,45 +1022,94 @@ function renderPacks(){
   PACKS.forEach(p => grid.appendChild(buildPackCard(p)));
 }
 
-/* ---------------- Accesos rápidos por color ---------------- */
-const COLOR_SWATCHES = {
-  'baby-pink':'#f3c5d5',
-  'blanco':'#ffffff',
-  'lila':'#c9b8e8',
-  'negro':'#111111',
-  'perla':'#e9e3d8',
-  'vino':'#6f2437',
-  'beige':'#d8c0a7',
-  'marron':'#5b3a2e'
-};
-
-function productHasStock(color){
-  return TALLAS.some(t => (color.stock?.[t] || 0) > 0);
+/* ---------------- Filtros por color y talla ---------------- */
+function setCardSelectedSize(card, talla){
+  if (!card || !talla) return;
+  const select = card.querySelector('select[data-size-select]');
+  if (!select) return;
+  const option = Array.from(select.options).find(o => o.value === talla);
+  if (option){
+    select.value = talla;
+    select.dispatchEvent(new Event('change'));
+  }
 }
 
-function goToProductCard(id){
-  const card = document.getElementById(id);
+function resetCardSelectedSize(card){
   if (!card) return;
-  card.scrollIntoView({ behavior:'smooth', block:'start' });
-  card.classList.remove('product-focus');
-  void card.offsetWidth;
-  card.classList.add('product-focus');
-  setTimeout(() => card.classList.remove('product-focus'), 1000);
+  const select = card.querySelector('select[data-size-select]');
+  if (!select) return;
+  const option = Array.from(select.options).find(o => !o.disabled);
+  if (option){
+    select.value = option.value;
+    select.dispatchEvent(new Event('change'));
+  }
 }
 
-function renderColorNav(containerId, colors, prefix){
-  const container = document.getElementById(containerId);
-  if (!container) return;
-  container.innerHTML = '';
-  colors.filter(productHasStock).forEach(color => {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'color-chip';
-    btn.setAttribute('aria-label', `Ir a ${color.nombre}`);
-    btn.innerHTML = `<span class="color-dot" style="background:${COLOR_SWATCHES[color.slug] || '#ddd'}"></span><span>${color.nombre}</span>`;
-    btn.onclick = () => goToProductCard(`${prefix}-${color.slug}`);
-    container.appendChild(btn);
+function setupCatalogFilter(type, colors){
+  const colorSelect = document.getElementById(`${type}FilterColor`);
+  const tallaSelect = document.getElementById(`${type}FilterTalla`);
+  if (!colorSelect || !tallaSelect) return;
+
+  colorSelect.innerHTML = '<option value="">Todos los colores</option>' +
+    colors.map(c => `<option value="${c.slug}">${c.nombre}</option>`).join('');
+  tallaSelect.innerHTML = '<option value="">Todas las tallas</option>' +
+    TALLAS.map(t => `<option value="${t}">Talla ${t}</option>`).join('');
+
+  colorSelect.addEventListener('change', () => applyCatalogFilter(type, colors));
+  tallaSelect.addEventListener('change', () => applyCatalogFilter(type, colors));
+}
+
+function clearCatalogFilter(type){
+  const colors = type === 'basicos' ? COLORES : BOXYFIT_COLORES;
+  const colorSelect = document.getElementById(`${type}FilterColor`);
+  const tallaSelect = document.getElementById(`${type}FilterTalla`);
+  if (colorSelect) colorSelect.value = '';
+  if (tallaSelect) tallaSelect.value = '';
+  applyCatalogFilter(type, colors);
+}
+
+function applyCatalogFilter(type, colors){
+  const colorSelect = document.getElementById(`${type}FilterColor`);
+  const tallaSelect = document.getElementById(`${type}FilterTalla`);
+  const status = document.getElementById(`${type}FilterStatus`);
+  const prefix = type === 'basicos' ? 'basico' : 'boxyfit';
+  const selectedColor = colorSelect?.value || '';
+  const selectedTalla = tallaSelect?.value || '';
+
+  colors.forEach(color => {
+    const card = document.getElementById(`${prefix}-${color.slug}`);
+    if (!card) return;
+
+    let visible = true;
+    if (selectedColor && color.slug !== selectedColor) visible = false;
+    if (!selectedColor && selectedTalla && (color.stock?.[selectedTalla] || 0) <= 0) visible = false;
+    card.classList.toggle('filter-hidden', !visible);
+
+    if (visible && selectedTalla) setCardSelectedSize(card, selectedTalla);
+    else if (visible) resetCardSelectedSize(card);
   });
+
+  status.className = 'filter-status';
+  status.textContent = '';
+
+  if (selectedColor && selectedTalla){
+    const color = colors.find(c => c.slug === selectedColor);
+    const available = (color?.stock?.[selectedTalla] || 0) > 0;
+    if (!available){
+      status.classList.add('error');
+      status.textContent = 'Producto agotado, lo invitamos a elegir otra talla/color.';
+    } else {
+      status.classList.add('ok');
+      status.textContent = `Mostrando: ${color.nombre} · Talla ${selectedTalla}`;
+    }
+  } else if (selectedColor){
+    const color = colors.find(c => c.slug === selectedColor);
+    status.classList.add('ok');
+    status.textContent = color ? `Mostrando: ${color.nombre}` : '';
+  } else if (selectedTalla){
+    status.classList.add('ok');
+    status.textContent = `Mostrando productos disponibles en talla ${selectedTalla}`;
+  }
 }
 
 /* ---------------- Cart drawer ---------------- */
@@ -1009,9 +1185,11 @@ function renderDrawer(){
   const shipping = subtotal >= FREE_SHIPPING_MIN ? 0 : SHIPPING_FLAT;
   const total = subtotal + shipping;
   const falta = FREE_SHIPPING_MIN - subtotal;
+  const savings = cartSavings(cart);
 
   foot.innerHTML = `
     ${falta > 0 ? `<div class="ship-hint">Te faltan <b>${money(falta)}</b> para envío gratis 🚚</div>` : ''}
+    ${savings > 0 ? `<div class="savings-hint">Ahorras ${money(savings)} con las promociones de tu carrito</div>` : ''}
     <div class="totals-row"><span>Subtotal</span><span>${money(subtotal)}</span></div>
     <div class="totals-row"><span>Envío</span><span>${shipping===0 ? 'GRATIS' : money(shipping)}</span></div>
     <div class="totals-row grand"><span>Total</span><span>${money(total)}</span></div>
@@ -1020,6 +1198,91 @@ function renderDrawer(){
 }
 function goCheckout(){
   window.location.href = "checkout.html";
+}
+
+/* ---------------- Testimonios en la página principal ---------------- */
+const HOME_TESTIMONIOS_SHEET_ID = "1uoEz-3Gj8rV6esD0lbH3jSATYrWOfq_j8oT7UfkRD0c";
+const HOME_TESTIMONIOS_CSV_URL = `https://docs.google.com/spreadsheets/d/${HOME_TESTIMONIOS_SHEET_ID}/gviz/tq?tqx=out:csv`;
+
+function parseHomeTestimonialsCSV(text){
+  const rows = [];
+  let row = [], field = '', inQuotes = false;
+  for (let i=0; i<text.length; i++){
+    const c = text[i];
+    if (inQuotes){
+      if (c === '"'){
+        if (text[i+1] === '"'){ field += '"'; i++; }
+        else inQuotes = false;
+      } else field += c;
+    } else {
+      if (c === '"') inQuotes = true;
+      else if (c === ','){ row.push(field); field=''; }
+      else if (c === '\r'){}
+      else if (c === '\n'){ row.push(field); rows.push(row); row=[]; field=''; }
+      else field += c;
+    }
+  }
+  if (field.length || row.length){ row.push(field); rows.push(row); }
+  return rows.filter(r => r.length > 1 || (r.length === 1 && r[0] !== ''));
+}
+
+function parseHomeTestimonialDate(s){
+  const [datePart] = (s || '').trim().split(' ');
+  const [d,m,y] = datePart.split('/').map(Number);
+  if (!d || !m || !y) return null;
+  return new Date(y,m-1,d);
+}
+
+const HOME_TESTIMONIAL_MONTHS = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+function formatHomeTestimonialDate(dateObj){
+  if (!dateObj) return '';
+  return `${dateObj.getDate()} ${HOME_TESTIMONIAL_MONTHS[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
+}
+
+function escapeHomeTestimonialText(value){
+  return String(value || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+async function loadHomeTestimonials(){
+  const content = document.getElementById('homeTestimonials');
+  if (!content) return;
+  try{
+    const res = await fetch(HOME_TESTIMONIOS_CSV_URL);
+    if (!res.ok) throw new Error('fetch failed');
+    const rows = parseHomeTestimonialsCSV(await res.text());
+    if (!rows.length) throw new Error('empty');
+
+    const headers = rows[0].map(h => h.trim().toLowerCase());
+    const idxFecha = headers.findIndex(h => h.includes('marca temporal'));
+    const idxNombre = headers.findIndex(h => h.includes('tu nombre'));
+    const idxMotivo = headers.findIndex(h => h.includes('indicarnos la razón') || h.includes('indicarnos la razon'));
+    if (idxNombre < 0 || idxMotivo < 0) throw new Error('headers');
+
+    const items = [];
+    for (let i=1; i<rows.length; i++){
+      const r = rows[i];
+      const nombre = (r[idxNombre] || '').trim();
+      const motivo = (r[idxMotivo] || '').trim();
+      if (!nombre || !motivo) continue;
+      items.push({ nombre, motivo, fecha: idxFecha >= 0 ? parseHomeTestimonialDate(r[idxFecha] || '') : null });
+    }
+    items.sort((a,b) => (b.fecha?.getTime() || 0) - (a.fecha?.getTime() || 0));
+    const preview = items.slice(0,4);
+    if (!preview.length) throw new Error('no items');
+
+    content.innerHTML = `<div class="testimonials-preview-grid">` + preview.map(it => `
+      <article class="testimonial-preview-card">
+        <div class="testimonial-preview-stars" aria-label="5 estrellas">★★★★★</div>
+        <p class="testimonial-preview-quote">“${escapeHomeTestimonialText(it.motivo)}”</p>
+        <div class="testimonial-preview-who">
+          <span class="testimonial-preview-name">${escapeHomeTestimonialText(it.nombre)}</span>
+          <span class="testimonial-preview-date">${formatHomeTestimonialDate(it.fecha)}</span>
+        </div>
+      </article>
+    `).join('') + `</div>`;
+  } catch(err){
+    content.innerHTML = '<div class="testimonials-state">No pudimos cargar las opiniones en este momento. Puedes verlas en la página de testimonios.</div>';
+  }
 }
 
 function buildSearchIndex(){
@@ -1107,8 +1370,9 @@ document.addEventListener('click', (e) => {
 renderBasicos();
 renderBoxyfit();
 renderPacks();
-renderColorNav('basicosColorNav', COLORES, 'basico');
-renderColorNav('boxyfitColorNav', BOXYFIT_COLORES, 'boxyfit');
+setupCatalogFilter('basicos', COLORES);
+setupCatalogFilter('boxyfit', BOXYFIT_COLORES);
+loadHomeTestimonials();
 renderCartBadge();
 </script>
 </body>
