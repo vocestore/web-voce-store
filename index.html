@@ -152,6 +152,79 @@
     background:var(--accent); color:var(--accent-ink); font-weight:800;
     padding:12px 20px; border-radius:10px; text-decoration:none; font-size:14.5px;
   }
+  /* ---- envia tu diseno ---- */
+  .design-request{
+    margin-top:26px; border:1px solid var(--border); border-radius:18px; overflow:hidden;
+    background:linear-gradient(135deg,#111 0%,#1d1d1d 100%); color:#fff;
+  }
+  .design-request-inner{ display:grid; grid-template-columns:.9fr 1.1fr; min-height:100%; }
+  .design-request-copy{ padding:32px; display:flex; flex-direction:column; justify-content:center; }
+  .design-request-kicker{
+    display:inline-flex; width:max-content; max-width:100%; background:var(--accent); color:#111;
+    padding:6px 10px; border-radius:999px; font-size:11px; font-weight:900; letter-spacing:.06em;
+    text-transform:uppercase; margin-bottom:14px;
+  }
+  .design-request-copy h2{ margin:0 0 10px; font-size:30px; line-height:1.02; letter-spacing:-.02em; }
+  .design-request-copy p{ margin:0; color:#d4d4d4; font-size:14px; line-height:1.65; max-width:480px; }
+  .design-request-steps{ margin:20px 0 0; padding:0; list-style:none; display:grid; gap:10px; }
+  .design-request-steps li{ display:flex; gap:10px; align-items:flex-start; font-size:13px; color:#efefef; }
+  .design-step-num{
+    flex:none; width:24px; height:24px; border-radius:50%; background:var(--accent); color:#111;
+    font-size:11px; font-weight:900; display:flex; align-items:center; justify-content:center;
+  }
+  .design-request-form-wrap{ background:#fff; color:var(--ink); padding:26px; }
+  .design-form{ display:flex; flex-direction:column; gap:14px; }
+  .design-form-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .design-field{ min-width:0; }
+  .design-field.full{ grid-column:1 / -1; }
+  .design-field label{ display:block; font-size:12.5px; font-weight:800; margin:0 0 6px; }
+  .design-field input,
+  .design-field select,
+  .design-field textarea{
+    width:100%; border:1px solid var(--border); border-radius:10px; background:#fff; color:var(--ink);
+    font:inherit; font-size:13.5px; padding:11px 12px; outline:none;
+  }
+  .design-field textarea{ min-height:92px; resize:vertical; line-height:1.5; }
+  .design-field input:focus,
+  .design-field select:focus,
+  .design-field textarea:focus{ border-color:#b88c18; box-shadow:0 0 0 3px rgba(220,171,36,.12); }
+  .design-upload{
+    border:1.5px dashed #cfcfcf; border-radius:12px; padding:18px; text-align:center;
+    background:var(--panel); cursor:pointer; transition:.15s ease;
+  }
+  .design-upload:hover{ border-color:var(--accent); background:#fffaf0; }
+  .design-upload strong{ display:block; font-size:13.5px; margin-bottom:4px; }
+  .design-upload span{ color:var(--muted); font-size:11.5px; line-height:1.45; }
+  .design-files{ display:grid; gap:7px; margin-top:9px; }
+  .design-file-row{
+    display:flex; align-items:center; justify-content:space-between; gap:10px; padding:8px 10px;
+    border:1px solid var(--border); border-radius:9px; background:#fff; font-size:12px;
+  }
+  .design-file-name{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .design-file-remove{ border:0; background:none; color:#b91c1c; font-size:12px; font-weight:800; cursor:pointer; flex:none; }
+  .design-submit{
+    width:100%; border:0; border-radius:10px; background:var(--accent); color:#111;
+    padding:13px 16px; font-weight:900; font-size:14px; cursor:pointer;
+  }
+  .design-submit:hover{ filter:brightness(.97); }
+  .design-submit:disabled{ opacity:.55; cursor:not-allowed; }
+  .design-form-note{ margin:0; text-align:center; color:var(--muted); font-size:11.5px; line-height:1.45; }
+  .design-form-status{ display:none; border-radius:10px; padding:11px 12px; font-size:12.5px; line-height:1.45; }
+  .design-form-status.show{ display:block; }
+  .design-form-status.success{ background:#edf8f0; color:#176b36; border:1px solid #bfe2c9; }
+  .design-form-status.error{ background:#fff0f0; color:#a61b1b; border:1px solid #efc2c2; }
+  .design-honeypot{ position:absolute !important; left:-9999px !important; width:1px !important; height:1px !important; overflow:hidden !important; }
+  @media(max-width:760px){
+    .design-request-inner{ grid-template-columns:1fr; }
+    .design-request-copy{ padding:24px 20px; }
+    .design-request-copy h2{ font-size:26px; }
+    .design-request-form-wrap{ padding:20px; }
+  }
+  @media(max-width:520px){
+    .design-form-grid{ grid-template-columns:1fr; }
+    .design-field.full{ grid-column:auto; }
+  }
+
   .personal-banners{ margin-top:26px; display:grid; grid-template-columns:1fr 1fr; gap:12px; }
   .personal-banners img{ border-radius:12px; border:1px solid var(--border); width:100%; height:100%; object-fit:cover; }
   @media(max-width:420px){ .personal-banners{ grid-template-columns:1fr; } }
@@ -486,6 +559,85 @@
       </div>
     </div>
 
+    <div class="design-request" id="manda-tu-diseno">
+      <div class="design-request-inner">
+        <div class="design-request-copy">
+          <span class="design-request-kicker">Personaliza sin complicarte</span>
+          <h2>MÁNDAME TU DISEÑO</h2>
+          <p>Envíanos tu archivo, déjanos tu WhatsApp y cuéntanos cómo quieres tu prenda. Nosotros preparamos el mockup y te lo enviamos por WhatsApp antes de producir.</p>
+          <ul class="design-request-steps">
+            <li><span class="design-step-num">1</span><span>Sube hasta 3 diseños en PNG, JPG o PDF.</span></li>
+            <li><span class="design-step-num">2</span><span>Indica color, talla y cualquier detalle que debamos considerar.</span></li>
+            <li><span class="design-step-num">3</span><span>Te escribimos por WhatsApp con el mockup para que lo revises.</span></li>
+          </ul>
+        </div>
+
+        <div class="design-request-form-wrap">
+          <form class="design-form" id="designRequestForm" novalidate>
+            <div class="design-form-grid">
+              <div class="design-field">
+                <label for="designNombre">Nombre</label>
+                <input id="designNombre" name="nombre" type="text" autocomplete="name" placeholder="Tu nombre" required>
+              </div>
+
+              <div class="design-field">
+                <label for="designWhatsapp">WhatsApp</label>
+                <input id="designWhatsapp" name="whatsapp" type="tel" inputmode="numeric" autocomplete="tel" maxlength="9" placeholder="9XXXXXXXX" required>
+              </div>
+
+              <div class="design-field">
+                <label for="designColor">Color de la prenda</label>
+                <select id="designColor" name="color" required>
+                  <option value="" selected disabled>Elige un color</option>
+                  <option value="Negro">Negro</option>
+                  <option value="Blanco">Blanco</option>
+                  <option value="Perla">Perla</option>
+                  <option value="Rosado">Rosado</option>
+                  <option value="Lila">Lila</option>
+                  <option value="Vino">Vino</option>
+                  <option value="Otro / por coordinar">Otro / por coordinar</option>
+                </select>
+              </div>
+
+              <div class="design-field">
+                <label for="designTalla">Talla</label>
+                <select id="designTalla" name="talla" required>
+                  <option value="" selected disabled>Elige una talla</option>
+                  <option value="S">S</option>
+                  <option value="M">M</option>
+                  <option value="L">L</option>
+                </select>
+              </div>
+
+              <div class="design-field full">
+                <label for="designComentarios">Indicaciones o comentarios</label>
+                <textarea id="designComentarios" name="comentarios" placeholder="Ej: estampado grande en la espalda, logo pequeño al pecho, usar este diseño como referencia..."></textarea>
+              </div>
+
+              <div class="design-field full design-honeypot" aria-hidden="true">
+                <label for="designWebsite">Website</label>
+                <input id="designWebsite" name="website" type="text" tabindex="-1" autocomplete="off">
+              </div>
+
+              <div class="design-field full">
+                <label>Archivos de tu diseño</label>
+                <div class="design-upload" id="designUploadBox" role="button" tabindex="0" aria-controls="designFilesInput">
+                  <strong>📎 Toca aquí para subir tus diseños</strong>
+                  <span>Máximo 3 archivos · PNG, JPG/JPEG o PDF · hasta 5 MB por archivo</span>
+                  <input id="designFilesInput" type="file" accept=".png,.jpg,.jpeg,.pdf,image/png,image/jpeg,application/pdf" multiple hidden>
+                </div>
+                <div class="design-files" id="designFilesList"></div>
+              </div>
+            </div>
+
+            <div class="design-form-status" id="designFormStatus" role="status" aria-live="polite"></div>
+            <button class="design-submit" id="designSubmitBtn" type="submit">ENVIAR MI DISEÑO</button>
+            <p class="design-form-note">No necesitas comprar todavía. Primero revisamos tu diseño y te enviamos el mockup por WhatsApp.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <div class="personal-banners">
       <img src="banner-personalizados-polos.jpg" alt="Packs de polos personalizados">
       <img src="banner-personalizados-hoodie.jpg" alt="Packs de hoodies personalizados">
@@ -718,12 +870,12 @@ const SHIPPING_FLAT = 9.90;
 const FREE_SHIPPING_MIN = 150;
 
 const COLORES = [
-  { slug:"baby-pink", nombre:"Rosado", stock:{S:2,M:2,L:0} },
-  { slug:"blanco", nombre:"Blanco", stock:{S:2,M:3,L:1} },
-  { slug:"lila", nombre:"Lila", stock:{S:4,M:0,L:3} },
-  { slug:"negro", nombre:"Negro", stock:{S:1,M:1,L:0} },
-  { slug:"perla", nombre:"Perla", stock:{S:2,M:2,L:3} },
-  { slug:"vino", nombre:"Vino", stock:{S:1,M:2,L:1} },
+  { slug:"baby-pink", nombre:"Rosado", stock:{S:Infinity,M:Infinity,L:Infinity} },
+  { slug:"blanco", nombre:"Blanco", stock:{S:Infinity,M:Infinity,L:Infinity} },
+  { slug:"lila", nombre:"Lila", stock:{S:Infinity,M:Infinity,L:Infinity} },
+  { slug:"negro", nombre:"Negro", stock:{S:Infinity,M:Infinity,L:Infinity} },
+  { slug:"perla", nombre:"Perla", stock:{S:Infinity,M:Infinity,L:Infinity} },
+  { slug:"vino", nombre:"Vino", stock:{S:Infinity,M:Infinity,L:Infinity} },
 ];
 const TALLAS = ["S","M","L"];
 
@@ -732,7 +884,7 @@ const BOXYFIT_PROMO_UNIT = 40;
 const BOXYFIT_COLORES = [
   { slug:"beige", nombre:"Beige", stock:{S:2,M:2,L:2} },
   { slug:"negro", nombre:"Negro", stock:{S:0,M:0,L:3} },
-  { slug:"marron", nombre:"Marrón", stock:{S:0,M:2,L:1} },
+  { slug:"marron", nombre:"Marrón", stock:{S:0,M:2,L:0} },
 ];
 
 const PACKS = [
@@ -1408,6 +1560,214 @@ document.addEventListener('click', (e) => {
   if (wrap && !wrap.contains(e.target)) document.getElementById('searchPanel').classList.remove('open');
 });
 
+/* ---------------- Solicitud de mockup / envio de diseno ---------------- */
+const DESIGN_FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbxtl7CM52OM5P_iZgQMJhdX3KrCAdj3ddHLJUCSsUc1ooQQAe9MPitS5EiYD6iThzsJ/exec";
+const DESIGN_MAX_FILES = 3;
+const DESIGN_MAX_FILE_BYTES = 5 * 1024 * 1024;
+let selectedDesignFiles = [];
+
+function inferDesignMime(file){
+  if (file.type) return file.type;
+  const n = file.name.toLowerCase();
+  if (n.endsWith('.png')) return 'image/png';
+  if (n.endsWith('.jpg') || n.endsWith('.jpeg')) return 'image/jpeg';
+  if (n.endsWith('.pdf')) return 'application/pdf';
+  return '';
+}
+
+function isAllowedDesignFile(file){
+  return ['image/png','image/jpeg','application/pdf'].includes(inferDesignMime(file));
+}
+
+function setDesignStatus(type, message){
+  const el = document.getElementById('designFormStatus');
+  if (!el) return;
+  el.className = `design-form-status show ${type}`;
+  el.textContent = message;
+}
+
+function clearDesignStatus(){
+  const el = document.getElementById('designFormStatus');
+  if (!el) return;
+  el.className = 'design-form-status';
+  el.textContent = '';
+}
+
+function renderDesignFiles(){
+  const list = document.getElementById('designFilesList');
+  if (!list) return;
+  list.innerHTML = '';
+
+  selectedDesignFiles.forEach((file, idx) => {
+    const row = document.createElement('div');
+    row.className = 'design-file-row';
+    const kb = Math.max(1, Math.round(file.size / 1024));
+    row.innerHTML = `
+      <span class="design-file-name">${escapeDesignHtml(file.name)} · ${kb} KB</span>
+      <button type="button" class="design-file-remove" data-index="${idx}">Quitar</button>
+    `;
+    list.appendChild(row);
+  });
+
+  list.querySelectorAll('.design-file-remove').forEach(btn => {
+    btn.addEventListener('click', () => {
+      selectedDesignFiles.splice(Number(btn.dataset.index), 1);
+      renderDesignFiles();
+      clearDesignStatus();
+    });
+  });
+}
+
+function escapeDesignHtml(text){
+  return String(text || '')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#039;');
+}
+
+function addDesignFiles(fileList){
+  clearDesignStatus();
+  const incoming = Array.from(fileList || []);
+
+  for (const file of incoming){
+    if (selectedDesignFiles.length >= DESIGN_MAX_FILES){
+      setDesignStatus('error', 'Puedes adjuntar como máximo 3 archivos.');
+      break;
+    }
+    if (!isAllowedDesignFile(file)){
+      setDesignStatus('error', `El archivo “${file.name}” no es PNG, JPG/JPEG o PDF.`);
+      continue;
+    }
+    if (file.size > DESIGN_MAX_FILE_BYTES){
+      setDesignStatus('error', `El archivo “${file.name}” supera los 5 MB.`);
+      continue;
+    }
+    const duplicate = selectedDesignFiles.some(f => f.name === file.name && f.size === file.size && f.lastModified === file.lastModified);
+    if (!duplicate) selectedDesignFiles.push(file);
+  }
+
+  renderDesignFiles();
+}
+
+function fileToDesignPayload(file){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = String(reader.result || '');
+      const comma = result.indexOf(',');
+      if (comma < 0) return reject(new Error('No se pudo leer el archivo.'));
+      resolve({
+        name: file.name,
+        mimeType: inferDesignMime(file),
+        base64: result.slice(comma + 1)
+      });
+    };
+    reader.onerror = () => reject(new Error(`No se pudo leer ${file.name}.`));
+    reader.readAsDataURL(file);
+  });
+}
+
+function resetDesignForm(){
+  const form = document.getElementById('designRequestForm');
+  if (form) form.reset();
+  selectedDesignFiles = [];
+  renderDesignFiles();
+  const input = document.getElementById('designFilesInput');
+  if (input) input.value = '';
+}
+
+function initDesignRequestForm(){
+  const form = document.getElementById('designRequestForm');
+  const input = document.getElementById('designFilesInput');
+  const box = document.getElementById('designUploadBox');
+  const submit = document.getElementById('designSubmitBtn');
+  if (!form || !input || !box || !submit) return;
+
+  box.addEventListener('click', () => input.click());
+  box.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' '){
+      e.preventDefault();
+      input.click();
+    }
+  });
+  input.addEventListener('change', () => {
+    addDesignFiles(input.files);
+    input.value = '';
+  });
+
+  ['dragenter','dragover'].forEach(evt => box.addEventListener(evt, e => {
+    e.preventDefault();
+    box.style.borderColor = 'var(--accent)';
+  }));
+  ['dragleave','drop'].forEach(evt => box.addEventListener(evt, e => {
+    e.preventDefault();
+    box.style.borderColor = '';
+  }));
+  box.addEventListener('drop', e => addDesignFiles(e.dataTransfer.files));
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    clearDesignStatus();
+
+    const nombre = document.getElementById('designNombre').value.trim();
+    const whatsapp = document.getElementById('designWhatsapp').value.trim().replace(/\s+/g,'');
+    const color = document.getElementById('designColor').value;
+    const talla = document.getElementById('designTalla').value;
+    const comentarios = document.getElementById('designComentarios').value.trim();
+    const website = document.getElementById('designWebsite').value.trim();
+
+    if (nombre.length < 2){
+      setDesignStatus('error', 'Ingresa tu nombre.');
+      return;
+    }
+    if (!/^9\d{8}$/.test(whatsapp)){
+      setDesignStatus('error', 'Ingresa un WhatsApp peruano válido de 9 dígitos.');
+      return;
+    }
+    if (!color || !talla){
+      setDesignStatus('error', 'Selecciona el color y la talla de la prenda.');
+      return;
+    }
+    if (!selectedDesignFiles.length){
+      setDesignStatus('error', 'Adjunta al menos un archivo con tu diseño.');
+      return;
+    }
+
+    submit.disabled = true;
+    submit.textContent = 'ENVIANDO DISEÑO...';
+    setDesignStatus('success', 'Estamos subiendo tus archivos. No cierres esta página...');
+
+    try{
+      const filesPayload = await Promise.all(selectedDesignFiles.map(fileToDesignPayload));
+      const body = new URLSearchParams();
+      body.set('nombre', nombre);
+      body.set('whatsapp', whatsapp);
+      body.set('color', color);
+      body.set('talla', talla);
+      body.set('comentarios', comentarios);
+      body.set('website', website);
+      body.set('filesJson', JSON.stringify(filesPayload));
+
+      await fetch(DESIGN_FORM_ENDPOINT, {
+        method:'POST',
+        mode:'no-cors',
+        body
+      });
+
+      resetDesignForm();
+      setDesignStatus('success', '¡Listo! Recibimos tu diseño. Te enviaremos el mockup por WhatsApp.');
+    } catch(err){
+      console.error(err);
+      setDesignStatus('error', 'No pudimos enviar tus archivos. Intenta nuevamente o escríbenos por WhatsApp.');
+    } finally {
+      submit.disabled = false;
+      submit.textContent = 'ENVIAR MI DISEÑO';
+    }
+  });
+}
+
 // Refuerzo para que el video del banner se reproduzca en móviles que bloquean autoplay
 (function(){
   const v = document.querySelector('.hero-video');
@@ -1420,6 +1780,7 @@ document.addEventListener('click', (e) => {
   document.addEventListener('visibilitychange', () => { if (!document.hidden) tryPlay(); });
 })();
 
+initDesignRequestForm();
 renderBasicos();
 renderBoxyfit();
 renderPacks();
