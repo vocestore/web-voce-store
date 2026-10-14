@@ -143,6 +143,21 @@
 
 <script>
 const WHATSAPP_NUMBER = "51965165095";
+
+/* ---------------- VOCE PULSE / Google Analytics ---------------- */
+function trackVoceEvent(eventName, params = {}){
+  try{
+    if (typeof window.gtag === 'function'){
+      window.gtag('event', eventName, {
+        ...params,
+        transport_type: 'beacon'
+      });
+    }
+  } catch(err){
+    console.warn('VOCE PULSE event not sent:', eventName, err);
+  }
+}
+
 const BASICOS_PRICE = 43;
 const BASICOS_PROMO_UNIT = 27.30;
 const SHIPPING_FLAT = 9.90;
@@ -521,13 +536,41 @@ function sendToWhatsapp(cart, subtotal, shipping, total){
   ].filter(Boolean).join('\n');
 
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+
+  trackVoceEvent('confirmar_pedido', {
+    currency: 'PEN',
+    value: total,
+    cart_items: cartTotalQty(cart),
+    payment_method: pagoTexto,
+    shipping_department: depto
+  });
+
   clearCart();
-  window.location.href = url;
+  setTimeout(() => {
+    window.location.href = url;
+  }, 180);
 }
 
+document.addEventListener('click', (e) => {
+  const link = e.target.closest('a[href*="wa.me/"]');
+  if (!link) return;
+  trackVoceEvent('clic_whatsapp', {
+    link_text: (link.textContent || link.getAttribute('aria-label') || 'WhatsApp').trim().slice(0,100),
+    page_section: 'checkout'
+  });
+});
+
 const cart = loadCart();
-if (!cart.length) renderEmpty();
-else renderCheckout(cart);
+if (!cart.length){
+  renderEmpty();
+} else {
+  trackVoceEvent('begin_checkout', {
+    currency: 'PEN',
+    value: cartSubtotal(cart),
+    cart_items: cartTotalQty(cart)
+  });
+  renderCheckout(cart);
+}
 </script>
 </body>
 </html>
