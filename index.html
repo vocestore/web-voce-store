@@ -566,7 +566,7 @@
           <h2>MÁNDAME TU DISEÑO</h2>
           <p>Envíanos tu archivo, déjanos tu WhatsApp y cuéntanos cómo quieres tu prenda. Nosotros preparamos el mockup y te lo enviamos por WhatsApp antes de producir.</p>
           <ul class="design-request-steps">
-            <li><span class="design-step-num">1</span><span>Sube hasta 3 diseños en PNG, JPG o PDF.</span></li>
+            <li><span class="design-step-num">1</span><span>Sube tus diseños en PNG, JPG o PDF.</span></li>
             <li><span class="design-step-num">2</span><span>Indica color, talla y cualquier detalle que debamos considerar.</span></li>
             <li><span class="design-step-num">3</span><span>Te escribimos por WhatsApp con el mockup para que lo revises.</span></li>
           </ul>
@@ -623,7 +623,7 @@
                 <label>Archivos de tu diseño</label>
                 <div class="design-upload" id="designUploadBox" role="button" tabindex="0" aria-controls="designFilesInput">
                   <strong>📎 Toca aquí para subir tus diseños</strong>
-                  <span>Máximo 3 archivos · PNG, JPG/JPEG o PDF · hasta 5 MB por archivo</span>
+                  <span>PNG, JPG/JPEG o PDF · hasta 5 MB por archivo</span>
                   <input id="designFilesInput" type="file" accept=".png,.jpg,.jpeg,.pdf,image/png,image/jpeg,application/pdf" multiple hidden>
                 </div>
                 <div class="design-files" id="designFilesList"></div>
@@ -1562,7 +1562,6 @@ document.addEventListener('click', (e) => {
 
 /* ---------------- Solicitud de mockup / envio de diseno ---------------- */
 const DESIGN_FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbxtl7CM52OM5P_iZgQMJhdX3KrCAdj3ddHLJUCSsUc1ooQQAe9MPitS5EiYD6iThzsJ/exec";
-const DESIGN_MAX_FILES = 3;
 const DESIGN_MAX_FILE_BYTES = 5 * 1024 * 1024;
 let selectedDesignFiles = [];
 
@@ -1632,10 +1631,6 @@ function addDesignFiles(fileList){
   const incoming = Array.from(fileList || []);
 
   for (const file of incoming){
-    if (selectedDesignFiles.length >= DESIGN_MAX_FILES){
-      setDesignStatus('error', 'Puedes adjuntar como máximo 3 archivos.');
-      break;
-    }
     if (!isAllowedDesignFile(file)){
       setDesignStatus('error', `El archivo “${file.name}” no es PNG, JPG/JPEG o PDF.`);
       continue;
