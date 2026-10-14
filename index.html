@@ -11,7 +11,31 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Finalizar pedido — VOCE STORE</title>
+<title>VOCE STORE | Polos Oversize, Boxy Fit y Personalizados en Perú</title>
+<meta name="description" content="Compra polos oversize, polos Boxy Fit y prendas personalizadas en VOCE STORE. Envíos a todo el Perú, tallas S, M y L y promociones por cantidad.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://vocestore.com.pe/">
+<link rel="icon" type="image/png" href="logo-voce-store.png">
+<link rel="shortcut icon" href="logo-voce-store.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_PE">
+<meta property="og:site_name" content="VOCE STORE">
+<meta property="og:title" content="VOCE STORE | Polos Oversize, Boxy Fit y Personalizados en Perú">
+<meta property="og:description" content="Streetwear peruano: polos oversize, Boxy Fit y personalizados con envíos a todo el Perú.">
+<meta property="og:url" content="https://vocestore.com.pe/">
+<meta property="og:image" content="https://vocestore.com.pe/promo-basicos-banner.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#dcab24">
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Organization",
+  "name":"VOCE STORE",
+  "url":"https://vocestore.com.pe/",
+  "logo":"https://vocestore.com.pe/logo-voce-store.png",
+  "sameAs":["https://www.instagram.com/voce_store1/"]
+}
+</script>
 <style>
   :root{
     --bg:#ffffff;
@@ -21,123 +45,819 @@
     --panel:#f7f7f7;
     --accent:#dcab24;
     --accent-ink:#111111;
-    --error:#b91c1c;
   }
   *{box-sizing:border-box;}
   body{
-    margin:0; background:var(--bg); color:var(--ink);
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     -webkit-font-smoothing:antialiased;
   }
   a{ color:inherit; }
   img{ max-width:100%; display:block; }
+  .sr-only{
+    position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+    overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  }
 
+  /* ---- marquee ---- */
+  .marquee-wrap{
+    background:var(--ink); color:#fff; overflow:hidden;
+    white-space:nowrap; padding:8px 0;
+  }
+  .marquee{
+    display:inline-block; padding-left:100%;
+    animation: scroll 16s linear infinite;
+    font-size:13px; font-weight:700; letter-spacing:.04em;
+  }
+  .marquee span{ margin:0 40px; color:var(--accent); }
+  @keyframes scroll{
+    0%{ transform:translateX(0); }
+    100%{ transform:translateX(-100%); }
+  }
+
+  /* ---- header ---- */
   header{
-    border-bottom:1px solid var(--border); padding:14px 18px;
-    display:flex; flex-direction:column; align-items:center; gap:8px;
+    position:sticky; top:0; z-index:30;
+    background:#fff; border-bottom:1px solid var(--border);
   }
-  header img{ height:44px; }
-  header a.back{ font-size:13px; font-weight:700; color:var(--muted); text-decoration:none; }
-
-  main{ max-width:640px; margin:0 auto; padding:24px 18px 80px 18px; }
-  h1{ font-size:22px; font-weight:800; margin:0 0 4px 0; }
-  .sub{ color:var(--muted); font-size:13.5px; margin:0 0 22px 0; }
-
-  .box{
-    border:1px solid var(--border); border-radius:12px; padding:16px; margin-bottom:20px;
+  .headrow{
+    max-width:1180px; margin:0 auto; padding:12px 18px;
+    display:flex; flex-direction:column; align-items:center; gap:10px;
   }
-  .box h2{ font-size:15px; font-weight:800; margin:0 0 12px 0; }
+  .headrow-bottom{
+    width:100%; display:flex; align-items:center; justify-content:space-between; gap:14px;
+  }
+  .brand{ display:flex; align-items:center; gap:10px; text-decoration:none; }
+  .brand img{ height:72px; width:auto; border-radius:6px; }
+  nav{ display:flex; gap:16px; align-items:center; }
+  nav a{
+    font-size:13.5px; font-weight:600; text-decoration:none; color:var(--ink);
+    white-space:nowrap;
+  }
+  nav a.pill{
+    background:var(--ink); color:#fff; padding:8px 14px; border-radius:999px;
+  }
+  .cart-btn{
+    position:relative; background:none; border:1px solid var(--border);
+    border-radius:999px; padding:8px 12px; font-size:13px; font-weight:700;
+    cursor:pointer; display:flex; align-items:center; gap:6px;
+  }
+  .cart-badge{
+    background:var(--accent); color:var(--accent-ink); font-size:11px; font-weight:800;
+    border-radius:999px; min-width:18px; height:18px; display:flex; align-items:center;
+    justify-content:center; padding:0 4px;
+  }
+  .navscroll{ overflow-x:auto; scrollbar-width:none; }
+  .navscroll::-webkit-scrollbar{ display:none; }
 
+  .actions-group{ display:flex; align-items:center; gap:8px; flex:none; }
+  .search-wrap{ position:relative; }
+  .search-panel{
+    display:none; position:absolute; top:44px; right:0; width:280px; max-width:80vw;
+    background:#fff; border:1px solid var(--border); border-radius:10px; padding:10px;
+    box-shadow:0 8px 24px rgba(0,0,0,.12); z-index:45;
+  }
+  .search-panel.open{ display:block; }
+  .search-panel input{
+    width:100%; padding:9px 10px; border:1px solid var(--border); border-radius:8px; font-size:13px;
+  }
+  .search-results{ margin-top:8px; max-height:260px; overflow-y:auto; }
+  .search-item{
+    padding:9px 8px; font-size:13px; cursor:pointer; border-radius:6px; display:flex;
+    justify-content:space-between; gap:8px;
+  }
+  .search-item:hover{ background:var(--panel); }
+  .search-item .cat{ color:var(--muted); font-size:11px; }
+  .search-empty{ padding:10px 8px; font-size:12.5px; color:var(--muted); }
+
+  main{ max-width:1180px; margin:0 auto; padding:0 18px; }
+  section{ padding:44px 0; border-bottom:1px solid var(--border); }
+  .section-title{ font-size:24px; font-weight:800; letter-spacing:-0.01em; margin:0 0 4px 0; }
+  .section-sub{ color:var(--muted); font-size:14px; margin:0 0 24px 0; }
+
+  /* ---- personalizados hero (video) ---- */
+  .video-hero{
+    position:relative; border-radius:18px; overflow:hidden; background:#000;
+  }
+  .hero-video{ width:100%; height:auto; display:block; aspect-ratio:1920/776; object-fit:cover; }
+  .hero-cta-bar{
+    position:absolute; left:0; right:0; bottom:9%;
+    display:flex; align-items:center; justify-content:center;
+  }
+  @media(max-width:480px){ .hero-cta-bar .wa-cta{ font-size:12px; padding:9px 14px; } }
+  .wa-cta{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--accent); color:var(--accent-ink); font-weight:800;
+    padding:12px 20px; border-radius:10px; text-decoration:none; font-size:14.5px;
+  }
+  /* ---- envia tu diseno ---- */
+  .design-request{
+    margin-top:26px; border:1px solid var(--border); border-radius:18px; overflow:hidden;
+    background:linear-gradient(135deg,#111 0%,#1d1d1d 100%); color:#fff;
+  }
+  .design-request-inner{ display:grid; grid-template-columns:.9fr 1.1fr; min-height:100%; }
+  .design-request-copy{ padding:32px; display:flex; flex-direction:column; justify-content:center; }
+  .design-request-kicker{
+    display:inline-flex; width:max-content; max-width:100%; background:var(--accent); color:#111;
+    padding:6px 10px; border-radius:999px; font-size:11px; font-weight:900; letter-spacing:.06em;
+    text-transform:uppercase; margin-bottom:14px;
+  }
+  .design-request-copy h2{ margin:0 0 10px; font-size:30px; line-height:1.02; letter-spacing:-.02em; }
+  .design-request-copy p{ margin:0; color:#d4d4d4; font-size:14px; line-height:1.65; max-width:480px; }
+  .design-request-steps{ margin:20px 0 0; padding:0; list-style:none; display:grid; gap:10px; }
+  .design-request-steps li{ display:flex; gap:10px; align-items:flex-start; font-size:13px; color:#efefef; }
+  .design-step-num{
+    flex:none; width:24px; height:24px; border-radius:50%; background:var(--accent); color:#111;
+    font-size:11px; font-weight:900; display:flex; align-items:center; justify-content:center;
+  }
+  .design-request-form-wrap{ background:#fff; color:var(--ink); padding:26px; }
+  .design-form{ display:flex; flex-direction:column; gap:14px; }
+  .design-form-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .design-field{ min-width:0; }
+  .design-field.full{ grid-column:1 / -1; }
+  .design-field label{ display:block; font-size:12.5px; font-weight:800; margin:0 0 6px; }
+  .design-field input,
+  .design-field select,
+  .design-field textarea{
+    width:100%; border:1px solid var(--border); border-radius:10px; background:#fff; color:var(--ink);
+    font:inherit; font-size:13.5px; padding:11px 12px; outline:none;
+  }
+  .design-field textarea{ min-height:92px; resize:vertical; line-height:1.5; }
+  .design-field input:focus,
+  .design-field select:focus,
+  .design-field textarea:focus{ border-color:#b88c18; box-shadow:0 0 0 3px rgba(220,171,36,.12); }
+  .design-upload{
+    border:1.5px dashed #cfcfcf; border-radius:12px; padding:18px; text-align:center;
+    background:var(--panel); cursor:pointer; transition:.15s ease;
+  }
+  .design-upload:hover{ border-color:var(--accent); background:#fffaf0; }
+  .design-upload strong{ display:block; font-size:13.5px; margin-bottom:4px; }
+  .design-upload span{ color:var(--muted); font-size:11.5px; line-height:1.45; }
+  .design-files{ display:grid; gap:7px; margin-top:9px; }
+  .design-file-row{
+    display:flex; align-items:center; justify-content:space-between; gap:10px; padding:8px 10px;
+    border:1px solid var(--border); border-radius:9px; background:#fff; font-size:12px;
+  }
+  .design-file-name{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .design-file-remove{ border:0; background:none; color:#b91c1c; font-size:12px; font-weight:800; cursor:pointer; flex:none; }
+  .design-submit{
+    width:100%; border:0; border-radius:10px; background:var(--accent); color:#111;
+    padding:13px 16px; font-weight:900; font-size:14px; cursor:pointer;
+  }
+  .design-submit:hover{ filter:brightness(.97); }
+  .design-submit:disabled{ opacity:.55; cursor:not-allowed; }
+  .design-form-note{ margin:0; text-align:center; color:var(--muted); font-size:11.5px; line-height:1.45; }
+  .design-form-status{ display:none; border-radius:10px; padding:11px 12px; font-size:12.5px; line-height:1.45; }
+  .design-form-status.show{ display:block; }
+  .design-form-status.success{ background:#edf8f0; color:#176b36; border:1px solid #bfe2c9; }
+  .design-form-status.error{ background:#fff0f0; color:#a61b1b; border:1px solid #efc2c2; }
+  .design-honeypot{ position:absolute !important; left:-9999px !important; width:1px !important; height:1px !important; overflow:hidden !important; }
+  @media(max-width:760px){
+    .design-request-inner{ grid-template-columns:1fr; }
+    .design-request-copy{ padding:24px 20px; }
+    .design-request-copy h2{ font-size:26px; }
+    .design-request-form-wrap{ padding:20px; }
+  }
+  @media(max-width:520px){
+    .design-form-grid{ grid-template-columns:1fr; }
+    .design-field.full{ grid-column:auto; }
+  }
+
+  .personal-banners{ margin-top:26px; display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .personal-banners img{ border-radius:12px; border:1px solid var(--border); width:100%; height:100%; object-fit:cover; }
+  @media(max-width:420px){ .personal-banners{ grid-template-columns:1fr; } }
+
+  /* ---- instagram ---- */
+  .ig-block{
+    background:var(--panel); border:1px solid var(--border); border-radius:14px;
+    padding:26px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:10px;
+  }
+  .ig-block h3{ margin:0; font-size:19px; font-weight:800; }
+  .ig-block p{ margin:0; color:var(--muted); font-size:13.5px; }
+
+  .packs-grid{
+    margin-top:24px; display:grid; grid-template-columns:repeat(3,1fr); gap:14px;
+  }
+  @media(max-width:800px){ .packs-grid{ grid-template-columns:1fr; } }
+  .pack-card{
+    border:1px solid var(--border); border-radius:14px; overflow:hidden;
+    display:flex; flex-direction:column;
+  }
+  .pack-card img{ aspect-ratio:1/1; object-fit:cover; }
+  .pack-body{ padding:16px; display:flex; flex-direction:column; gap:8px; flex:1; }
+  .pack-title{ font-weight:800; font-size:16px; }
+  .pack-price{ font-size:20px; font-weight:800; }
+  .pack-note{ font-size:12px; color:var(--muted); }
+  .pack-fineprint{ font-size:11px; color:var(--muted); font-style:italic; }
+
+  /* ---- basicos grid ---- */
+  .basicos-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:16px;
+  }
+  @media(max-width:900px){ .basicos-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media(max-width:520px){ .basicos-grid{ grid-template-columns:1fr; } }
+  .basico-card{
+    border:1px solid var(--border); border-radius:14px; overflow:hidden;
+    display:flex; flex-direction:column;
+  }
+  .gallery{ position:relative; aspect-ratio:4/5; overflow:hidden; background:var(--panel); }
+  .gallery img{ width:100%; height:100%; object-fit:cover; }
+  .gallery button{
+    position:absolute; top:50%; transform:translateY(-50%);
+    background:rgba(255,255,255,.85); border:none; width:30px; height:30px;
+    border-radius:50%; font-size:14px; cursor:pointer;
+  }
+  .gallery .prev{ left:8px; } .gallery .next{ right:8px; }
+  .badge-agotado{
+    position:absolute; top:8px; right:8px; background:#fff; color:var(--ink);
+    font-size:10.5px; font-weight:800; padding:4px 8px; border-radius:6px; text-transform:uppercase;
+  }
+  .basico-body{ padding:14px; display:flex; flex-direction:column; gap:10px; }
+  .basico-name{ font-weight:800; font-size:15px; }
+  .basico-price{ font-size:14px; color:var(--muted); }
+  .basico-price b{ color:var(--ink); font-size:17px; }
+  .row{ display:flex; gap:8px; }
+  select, .qty-wrap{
+    border:1px solid var(--border); border-radius:8px; font-size:13px;
+  }
+  select{ flex:1; padding:8px; background:var(--panel); color:var(--ink); }
+  .qty-wrap{ display:flex; align-items:center; }
+  .qty-wrap button{
+    width:30px; height:36px; border:none; background:var(--panel); cursor:pointer; font-size:15px;
+  }
+  .qty-wrap span{ width:28px; text-align:center; font-weight:700; font-size:13px; }
+  .add-btn{
+    background:var(--ink); color:#fff; border:none; padding:10px; border-radius:8px;
+    font-weight:700; font-size:13.5px; cursor:pointer;
+  }
+  .add-btn.added{ background:#1f7a3f; }
+  .add-btn:disabled{ background:#cfcfcf; color:#888; cursor:not-allowed; }
+  .stockline{ font-size:11px; color:#b45309; min-height:14px; }
+
+  .promo-note{
+    background:var(--panel); border:1px solid var(--border); border-radius:10px;
+    padding:12px 16px; font-size:13px; color:var(--ink); margin-bottom:22px;
+  }
+  .promo-note b{ color:var(--accent); }
+
+  /* ---- filtro por color y talla ---- */
+  .catalog-filter{
+    display:flex; align-items:center; flex-wrap:wrap; gap:8px 10px;
+    margin:0 0 22px 0; padding:12px 14px;
+    background:var(--panel); border:1px solid var(--border); border-radius:10px;
+  }
+  .catalog-filter-label{ font-size:12.5px; font-weight:800; margin-right:2px; }
+  .catalog-filter select{
+    flex:none; width:auto; min-width:135px; background:#fff; padding:8px 30px 8px 10px;
+  }
+  .filter-clear{
+    border:1px solid var(--border); background:#fff; color:var(--ink); border-radius:8px;
+    padding:8px 11px; font-size:12px; font-weight:700; cursor:pointer;
+  }
+  .filter-clear:hover{ background:#f0f0f0; }
+  .filter-status{ font-size:12px; font-weight:700; margin-left:2px; }
+  .filter-status.error{ color:#b91c1c; }
+  .filter-status.ok{ color:#444; }
+  .filter-hidden{ display:none !important; }
+
+  /* Barra amarilla continua debajo del banner de básicos */
+  .category-marquee-wrap{
+    width:100vw; margin-left:calc(50% - 50vw); margin-top:12px; margin-bottom:26px;
+    background:var(--accent); color:#111; overflow:hidden; white-space:nowrap; padding:9px 0;
+  }
+  .category-marquee{
+    display:flex; width:max-content;
+    animation:categoryScroll 30s linear infinite;
+    font-size:13px; font-weight:900; letter-spacing:.06em;
+    will-change:transform;
+  }
+  .category-marquee-group{
+    display:flex; align-items:center; flex:none;
+  }
+  .category-marquee span{ display:block; flex:none; padding:0 28px; }
+  @keyframes categoryScroll{
+    from{ transform:translate3d(0,0,0); }
+    to{ transform:translate3d(-50%,0,0); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .category-marquee{ animation-duration:50s; }
+  }
+
+  /* Boxy Fit: ficha un poco más alta y foto sin recortes agresivos */
+  .boxyfit-grid .gallery{ aspect-ratio:3/4; background:#fff; }
+  .boxyfit-grid .gallery img{ object-fit:contain; object-position:center top; background:#fff; }
+
+  @media(max-width:520px){
+    .catalog-filter{ align-items:stretch; }
+    .catalog-filter-label{ width:100%; }
+    .catalog-filter select{ flex:1; min-width:0; }
+    .filter-status{ width:100%; }
+  }
+
+  .product-info{ margin-top:26px; }
+  .product-details{ border:1px solid var(--border); border-radius:12px; padding:14px 18px; margin-bottom:10px; }
+  .product-details summary{ font-weight:700; font-size:14px; cursor:pointer; }
+  .pd-body{ margin-top:14px; font-size:13.5px; color:#333; line-height:1.6; }
+  .pd-body h4{ font-size:13px; margin:14px 0 6px 0; }
+  .pd-body h4:first-child{ margin-top:0; }
+  .pd-body ul{ margin:0; padding-left:18px; }
+
+  .basicos-pitch{
+    margin-top:30px; background:var(--panel); border-radius:14px; padding:26px;
+    text-align:center; max-width:600px; margin-left:auto; margin-right:auto;
+  }
+  .basicos-pitch h3{ font-size:19px; font-weight:800; margin:0 0 10px 0; }
+  .basicos-pitch p{ font-size:13.5px; color:#333; line-height:1.6; margin:0 0 16px 0; }
+  .pitch-checks{ list-style:none; padding:0; margin:0 0 20px 0; text-align:left; display:inline-block; }
+  .pitch-checks li{ font-size:13.5px; margin-bottom:6px; }
+
+  /* ---- marketplaces / envios ---- */
+  .banner-block{ border-radius:14px; overflow:hidden; border:1px solid var(--border); }
+  .banner-cta{ text-align:center; margin-top:16px; }
+  .btn-outline{
+    display:inline-block; border:2px solid var(--ink); padding:11px 22px;
+    border-radius:10px; font-weight:800; font-size:14px; text-decoration:none;
+  }
+  .envios-text{ margin:16px auto 0 auto; font-size:14px; color:var(--muted); line-height:1.6; max-width:700px; text-align:center; }
+  #envios .banner-block{ max-width:600px; margin:0 auto; }
+
+  /* ---- testimonios en inicio ---- */
+  .testimonials-preview-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  .testimonial-preview-card{ border:1px solid var(--border); border-radius:12px; padding:16px; background:#fff; }
+  .testimonial-preview-stars{ color:var(--accent); font-size:14px; margin-bottom:8px; letter-spacing:.04em; }
+  .testimonial-preview-quote{ margin:0 0 14px 0; color:#2a2a2a; font-size:13.5px; line-height:1.55; }
+  .testimonial-preview-who{ display:flex; justify-content:space-between; gap:8px; align-items:baseline; font-size:12px; }
+  .testimonial-preview-name{ font-weight:800; }
+  .testimonial-preview-date{ color:var(--muted); white-space:nowrap; }
+  .testimonials-state{ text-align:center; color:var(--muted); padding:28px 0; font-size:13.5px; }
+  @media(max-width:900px){ .testimonials-preview-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media(max-width:560px){ .testimonials-preview-grid{ grid-template-columns:1fr; } }
+
+  /* ---- footer ---- */
+  footer{ padding:40px 18px 60px 18px; background:var(--ink); color:#ddd; }
+  .footer-inner{ max-width:1180px; margin:0 auto; display:grid; grid-template-columns:2fr 1fr 1fr; gap:24px; }
+  @media(max-width:700px){ .footer-inner{ grid-template-columns:1fr; } }
+  .footer-inner h4{ color:#fff; font-size:14px; margin:0 0 10px 0; }
+  .footer-inner p, .footer-inner a{ font-size:13px; color:#bdbdbd; line-height:1.8; text-decoration:none; }
+  .footer-brand{ font-weight:800; color:#fff; font-size:18px; margin-bottom:6px; }
+  .footer-bottom{ max-width:1180px; margin:26px auto 0 auto; border-top:1px solid #333; padding-top:16px; font-size:12px; color:#888; }
+
+  /* ---- cart drawer ---- */
+  .overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,.4); z-index:40;
+    display:none;
+  }
+  .overlay.open{ display:block; }
+  .drawer{
+    position:fixed; top:0; right:0; height:100%; width:360px; max-width:92vw;
+    background:#fff; z-index:50; transform:translateX(100%); transition:transform .25s ease;
+    display:flex; flex-direction:column;
+  }
+  .drawer.open{ transform:translateX(0); }
+  .drawer-head{
+    padding:16px 18px; border-bottom:1px solid var(--border);
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .drawer-head h3{ margin:0; font-size:16px; }
+  .drawer-head button{ background:none; border:none; font-size:20px; cursor:pointer; }
+  .drawer-body{ flex:1; overflow-y:auto; padding:14px 18px; }
   .cart-line{
-    display:flex; gap:10px; padding:9px 0; border-bottom:1px solid var(--border);
-    align-items:center; font-size:13.5px;
+    display:flex; gap:10px; padding:10px 0; border-bottom:1px solid var(--border);
+    align-items:center;
   }
-  .cart-line:last-child{ border-bottom:none; }
-  .cart-line img{ width:46px; height:58px; object-fit:cover; border-radius:6px; }
-  .cl-info{ flex:1; }
-  .cl-name{ font-weight:700; }
-  .cl-meta{ color:var(--muted); font-size:12px; }
-  .cl-qty{ color:var(--muted); font-size:12.5px; }
-
+  .cart-line img{ width:52px; height:65px; object-fit:cover; border-radius:6px; }
+  .cart-line-info{ flex:1; font-size:13px; }
+  .cart-line-info .cl-name{ font-weight:700; }
+  .cart-line-info .cl-meta{ color:var(--muted); font-size:12px; }
+  .cart-line .remove{ background:none; border:none; color:#b91c1c; font-size:12px; cursor:pointer; }
+  .drawer-foot{ padding:16px 18px; border-top:1px solid var(--border); }
   .totals-row{ display:flex; justify-content:space-between; font-size:13.5px; margin-bottom:6px; }
-  .totals-row.grand{ font-weight:800; font-size:16.5px; margin-top:8px; padding-top:8px; border-top:1px solid var(--border); }
-
-  .promo-hint{
-    background:var(--panel); border-radius:8px; padding:10px 12px; font-size:12.5px;
-    color:var(--ink); margin-top:10px;
+  .totals-row.grand{ font-weight:800; font-size:16px; margin-top:8px; }
+  .checkout-btn{
+    width:100%; background:var(--ink); color:#fff; border:none; padding:13px;
+    border-radius:10px; font-weight:800; font-size:14.5px; cursor:pointer; margin-top:10px;
+  }
+  .checkout-btn[disabled]{ background:#cfcfcf; color:#888; cursor:not-allowed; }
+  .empty-cart{ color:var(--muted); font-size:13.5px; text-align:center; padding:40px 0; }
+  .ship-hint{ background:var(--panel); border-radius:8px; padding:8px 10px; font-size:12px; margin-bottom:10px; text-align:center; }
+  .ship-hint b{ color:var(--accent-ink); }
+  .savings-hint{
+    background:#fff5cc; border:1px solid #ead28a; border-radius:8px;
+    padding:9px 10px; font-size:12.5px; font-weight:800; margin-bottom:10px; text-align:center;
   }
 
-  label{ display:block; font-size:13px; font-weight:700; margin:14px 0 6px 0; }
-  label.first{ margin-top:0; }
-  input, select, textarea{
-    width:100%; padding:11px 12px; border:1px solid var(--border); border-radius:8px;
-    font-size:14px; background:#fff; color:var(--ink); font-family:inherit;
+  /* ---- carrito fijo en móvil ---- */
+  .mobile-cart-bar{ display:none; }
+  @media(max-width:700px){
+    .mobile-cart-bar.visible{
+      position:fixed; left:18px; right:18px; bottom:14px; z-index:38;
+      display:block;
+    }
+    .mobile-cart-bar button{
+      width:100%; border:none; border-radius:12px; padding:14px 16px;
+      background:#111; color:#fff; font:inherit; font-size:13.5px; font-weight:800;
+      box-shadow:0 6px 24px rgba(0,0,0,.22); cursor:pointer;
+    }
+    .mobile-cart-bar.visible ~ .wa-float{ bottom:84px; }
   }
-  textarea{ resize:vertical; min-height:70px; }
-  .field-error{ color:var(--error); font-size:12px; margin-top:4px; display:none; }
-  .field-error.show{ display:block; }
-  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-  @media(max-width:480px){ .row2{ grid-template-columns:1fr; } }
 
-  .submit-btn{
-    width:100%; background:var(--ink); color:#fff; border:none; padding:15px;
-    border-radius:10px; font-weight:800; font-size:15px; cursor:pointer; margin-top:22px;
-  }
-  .submit-btn:disabled{ background:#cfcfcf; color:#888; cursor:not-allowed; }
-  .note-wa{ text-align:center; font-size:12px; color:var(--muted); margin-top:10px; }
 
-  .empty-state{ text-align:center; padding:60px 0; color:var(--muted); }
-  .empty-state a{ display:inline-block; margin-top:14px; background:var(--ink); color:#fff;
-    padding:11px 20px; border-radius:8px; font-weight:700; font-size:13.5px; text-decoration:none; }
+  /* Navegación móvil: logo + acciones arriba, categorías deslizables debajo */
+  @media(max-width:700px){
+    .headrow{
+      display:grid; grid-template-columns:1fr auto 1fr; align-items:center;
+      gap:8px 10px; padding:10px 12px 8px;
+    }
+    .brand{ grid-column:2; grid-row:1; justify-self:center; }
+    .brand img{ height:64px; }
+    .headrow-bottom{ display:contents; }
+    .actions-group{
+      grid-column:3; grid-row:1; justify-self:end; gap:6px;
+    }
+    .actions-group .cart-btn{ padding:7px 10px; }
+    .navscroll{
+      grid-column:1 / -1; grid-row:2; width:100%; min-width:0;
+      display:flex; gap:8px; overflow-x:auto; overscroll-behavior-x:contain;
+      -webkit-overflow-scrolling:touch; scroll-snap-type:x proximity;
+      padding:4px 2px 7px; scrollbar-width:none;
+    }
+    .navscroll::-webkit-scrollbar{ display:none; }
+    .navscroll a{
+      flex:0 0 auto; scroll-snap-align:start;
+      background:var(--panel); border:1px solid var(--border);
+      border-radius:999px; padding:8px 12px; font-size:13px;
+    }
+    .category-marquee-wrap{ padding:8px 0; margin-top:10px; margin-bottom:24px; }
+    .category-marquee{ font-size:11.5px; animation-duration:34s; }
+    .category-marquee span{ padding:0 20px; }
+  }
 
-  .pay-tabs{ display:flex; gap:8px; margin-bottom:14px; }
-  .pay-tab{
-    flex:1; text-align:center; padding:10px; border:1px solid var(--border); border-radius:8px;
-    font-weight:700; font-size:13.5px; cursor:pointer; background:#fff;
-  }
-  .pay-tab.active{ background:var(--ink); color:#fff; border-color:var(--ink); }
-  .pay-panel{ display:none; }
-  .pay-panel.active{ display:block; }
-  .qr-carousel{ display:flex; align-items:center; justify-content:center; gap:14px; margin:10px 0; }
-  .qr-arrow{
-    width:38px; height:38px; border-radius:50%; border:1px solid var(--border); background:#fff;
-    font-size:20px; cursor:pointer; flex:none; display:flex; align-items:center; justify-content:center;
-  }
-  .qr-big{ text-align:center; font-size:14px; font-weight:700; }
-  .qr-big img{ width:230px; height:230px; object-fit:contain; border:1px solid var(--border); border-radius:14px; margin-bottom:8px; }
-  .qr-dots{ display:flex; justify-content:center; gap:6px; margin-bottom:14px; }
-  .qr-dot{ width:7px; height:7px; border-radius:50%; background:var(--border); cursor:pointer; }
-  .qr-dot.active{ background:var(--ink); }
-  .copy-row{ display:flex; gap:6px; margin-top:8px; align-items:center; }
-  .copy-row input{ flex:1; background:var(--panel); font-weight:700; }
-  .copy-btn{ padding:10px 12px; border:1px solid var(--border); border-radius:8px; background:#fff; cursor:pointer; font-size:12.5px; font-weight:700; white-space:nowrap; }
-  .copy-btn.copied{ background:#1f7a3f; color:#fff; border-color:#1f7a3f; }
-  .titular-note{ font-size:12px; color:var(--muted); margin-top:4px; }
-  .warn-box{
-    background:#fff8e6; border:1px solid #f0d78c; border-radius:8px; padding:10px 12px;
-    font-size:12.5px; color:#5c4a00; margin-top:12px;
-  }
-  .upload-box{
-    border:1.5px dashed var(--border); border-radius:10px; padding:16px; text-align:center;
-    margin-top:14px; cursor:pointer;
-  }
-  .upload-box img{ max-height:140px; margin:0 auto 8px auto; border-radius:8px; }
-  .upload-box span{ font-size:13px; color:var(--muted); }
-
+  /* ---- floating whatsapp button ---- */
   .wa-float{ position:fixed; bottom:20px; left:20px; z-index:35; width:58px; height:58px; text-decoration:none; }
   .wa-float img{ width:100%; height:100%; display:block; filter:drop-shadow(0 4px 10px rgba(0,0,0,.3)); }
 </style>
 </head>
 <body>
 
+<div class="marquee-wrap">
+  <div class="marquee">
+    <span>✦ ENVÍO GRATIS POR COMPRAS A PARTIR DE S/150 ✦</span>
+    <span>✦ ENVÍO A TODO EL PERÚ S/9.90 ✦</span>
+    <span>✦ 3 POLOS BÁSICOS POR S/81.90 ✦</span>
+    <span>✦ ENVÍO GRATIS POR COMPRAS A PARTIR DE S/150 ✦</span>
+    <span>✦ ENVÍO A TODO EL PERÚ S/9.90 ✦</span>
+    <span>✦ 3 POLOS BÁSICOS POR S/81.90 ✦</span>
+  </div>
+</div>
+
 <header>
-  <img src="logo-voce-store.png" alt="VOCE STORE">
-  <a class="back" href="index.html">← Volver a la tienda</a>
+  <div class="headrow">
+    <a class="brand" href="#top">
+      <img src="logo-voce-store.png" alt="VOCE STORE">
+    </a>
+    <div class="headrow-bottom">
+      <nav class="navscroll">
+        <a href="#personalizados">Personalizados</a>
+        <a href="#basicos">Básicos</a>
+        <a href="#boxyfit">Boxy Fit</a>
+        <a href="#marketplaces">Marketplaces</a>
+        <a href="testimonios.html">Testimonios</a>
+        <a href="faq.html">FAQ</a>
+        <a href="politicas.html">Políticas</a>
+      </nav>
+      <div class="actions-group">
+        <div class="search-wrap">
+          <button class="cart-btn" onclick="toggleSearch()">🔍</button>
+          <div class="search-panel" id="searchPanel">
+            <input type="text" id="searchInput" placeholder="Buscar productos... (ej: negro, hoodie, pack)" oninput="runSearch()">
+            <div class="search-results" id="searchResults"></div>
+          </div>
+        </div>
+        <button class="cart-btn" onclick="openCart()">
+          🛒 <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+      </div>
+    </div>
+  </div>
 </header>
 
-<main>
-  <div id="content"></div>
+<main id="top">
+  <h1 class="sr-only">Polos Oversize, Boxy Fit y Personalizados en Perú</h1>
+
+  <section id="personalizados" style="border-bottom:none;">
+    <div class="video-hero">
+      <video class="hero-video" autoplay muted loop playsinline poster="hero-poster.jpg">
+        <source src="banner-personalizados.mp4" type="video/mp4">
+      </video>
+      <div class="hero-cta-bar">
+        <a class="wa-cta" target="_blank" rel="noopener"
+           href="https://wa.me/51965165095?text=Hola%20VOCE%20STORE%2C%20quiero%20personalizar%20una%20prenda%2C%20%C2%BFme%20ayudan%3F">
+          💬 Personalizar por WhatsApp
+        </a>
+      </div>
+    </div>
+
+    <div class="design-request" id="manda-tu-diseno">
+      <div class="design-request-inner">
+        <div class="design-request-copy">
+          <span class="design-request-kicker">Personaliza sin complicarte</span>
+          <h2>MÁNDAME TU DISEÑO</h2>
+          <p>Envíanos tu archivo, déjanos tu WhatsApp y cuéntanos cómo quieres tu prenda. Nosotros preparamos el mockup y te lo enviamos por WhatsApp antes de producir.</p>
+          <ul class="design-request-steps">
+            <li><span class="design-step-num">1</span><span>Sube tus diseños en PNG, JPG o PDF.</span></li>
+            <li><span class="design-step-num">2</span><span>Indica color, talla y cualquier detalle que debamos considerar.</span></li>
+            <li><span class="design-step-num">3</span><span>Te escribimos por WhatsApp con el mockup para que lo revises.</span></li>
+          </ul>
+        </div>
+
+        <div class="design-request-form-wrap">
+          <form class="design-form" id="designRequestForm" novalidate>
+            <div class="design-form-grid">
+              <div class="design-field">
+                <label for="designNombre">Nombre</label>
+                <input id="designNombre" name="nombre" type="text" autocomplete="name" placeholder="Tu nombre" required>
+              </div>
+
+              <div class="design-field">
+                <label for="designWhatsapp">WhatsApp</label>
+                <input id="designWhatsapp" name="whatsapp" type="tel" inputmode="numeric" autocomplete="tel" maxlength="9" placeholder="9XXXXXXXX" required>
+              </div>
+
+              <div class="design-field">
+                <label for="designColor">Color de la prenda</label>
+                <select id="designColor" name="color" required>
+                  <option value="" selected disabled>Elige un color</option>
+                  <option value="Negro">Negro</option>
+                  <option value="Blanco">Blanco</option>
+                  <option value="Perla">Perla</option>
+                  <option value="Rosado">Rosado</option>
+                  <option value="Lila">Lila</option>
+                  <option value="Vino">Vino</option>
+                  <option value="Otro / por coordinar">Otro / por coordinar</option>
+                </select>
+              </div>
+
+              <div class="design-field">
+                <label for="designTalla">Talla</label>
+                <select id="designTalla" name="talla" required>
+                  <option value="" selected disabled>Elige una talla</option>
+                  <option value="S">S</option>
+                  <option value="M">M</option>
+                  <option value="L">L</option>
+                </select>
+              </div>
+
+              <div class="design-field full">
+                <label for="designComentarios">Indicaciones o comentarios</label>
+                <textarea id="designComentarios" name="comentarios" placeholder="Ej: estampado grande en la espalda, logo pequeño al pecho, usar este diseño como referencia..."></textarea>
+              </div>
+
+              <div class="design-field full design-honeypot" aria-hidden="true">
+                <label for="designWebsite">Website</label>
+                <input id="designWebsite" name="website" type="text" tabindex="-1" autocomplete="off">
+              </div>
+
+              <div class="design-field full">
+                <label>Archivos de tu diseño</label>
+                <div class="design-upload" id="designUploadBox" role="button" tabindex="0" aria-controls="designFilesInput">
+                  <strong>📎 Toca aquí para subir tus diseños</strong>
+                  <span>PNG, JPG/JPEG o PDF · hasta 5 MB por archivo</span>
+                  <input id="designFilesInput" type="file" accept=".png,.jpg,.jpeg,.pdf,image/png,image/jpeg,application/pdf" multiple hidden>
+                </div>
+                <div class="design-files" id="designFilesList"></div>
+              </div>
+            </div>
+
+            <div class="design-form-status" id="designFormStatus" role="status" aria-live="polite"></div>
+            <button class="design-submit" id="designSubmitBtn" type="submit">ENVIAR MI DISEÑO</button>
+            <p class="design-form-note">No necesitas comprar todavía. Primero revisamos tu diseño y te enviamos el mockup por WhatsApp.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="personal-banners">
+      <img src="banner-personalizados-polos.jpg" alt="Packs de polos personalizados">
+      <img src="banner-personalizados-hoodie.jpg" alt="Packs de hoodies personalizados">
+    </div>
+
+    <div class="packs-grid" id="packsGrid"></div>
+
+    <div class="product-info">
+      <details class="product-details">
+        <summary>📏 Ver guía de tallas</summary>
+        <div class="pd-body"><img src="tabla-medidas-oversize.jpg" alt="Tabla de medidas oversize" style="border-radius:10px;"></div>
+      </details>
+      <details class="product-details">
+        <summary>Ver detalles del producto y cuidados</summary>
+        <div class="pd-body">
+          <h4>Características</h4>
+          <ul>
+            <li>Algodón jersey 30/1 reactivo peinado premium</li>
+            <li>Estampado DTF de alta durabilidad — tamaño máximo de estampado A3</li>
+            <li>Tallas corte oversize: S · M · L</li>
+          </ul>
+          <p>Los diseños que ves en las fotos son referenciales — al elegir tu pack, nos escribes y nos envías tu propio diseño para personalizarlo.</p>
+          <h4>Cuidados de la prenda</h4>
+          <ul>
+            <li>Separa las prendas blancas de las de color</li>
+            <li>Lava a mano o en máquina en modo suave, por el revés, con agua fría</li>
+            <li>No uses lejía ni detergentes abrasivos o blanqueadores</li>
+            <li>No laves en seco · Plancha a temperatura suave</li>
+          </ul>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section id="basicos">
+    <img src="promo-basicos-banner.jpg" alt="Promo Básicos: 3 polos oversize básicos por S/81.90" style="border-radius:14px; width:100%;">
+    <div class="category-marquee-wrap" aria-label="Envíos a todo el Perú">
+      <div class="category-marquee">
+        <div class="category-marquee-group">
+          <span>ENVIOS A TODO EL PERÚ</span>
+          <span>ENVIOS A TODO EL PERÚ</span>
+          <span>ENVIOS A TODO EL PERÚ</span>
+          <span>ENVIOS A TODO EL PERÚ</span>
+          <span>ENVIOS A TODO EL PERÚ</span>
+        </div>
+        <div class="category-marquee-group" aria-hidden="true">
+          <span>ENVIOS A TODO EL PERÚ</span>
+          <span>ENVIOS A TODO EL PERÚ</span>
+          <span>ENVIOS A TODO EL PERÚ</span>
+          <span>ENVIOS A TODO EL PERÚ</span>
+          <span>ENVIOS A TODO EL PERÚ</span>
+        </div>
+      </div>
+    </div>
+    <h2 class="section-title">Polos Oversize Básicos</h2>
+    <p class="section-sub">Algodón jersey 30/1 reactivo peinado premium. Corte oversize, tallas S · M · L.</p>
+    <div class="promo-note">
+      <b>S/43</b> la unidad · desde la <b>3ra unidad</b>, cada polo baja a <b>S/27.30</b> (cualquier combinación de colores).
+    </div>
+    <div class="catalog-filter" aria-label="Filtrar polos oversize básicos">
+      <span class="catalog-filter-label">Filtrar:</span>
+      <select id="basicosFilterColor" aria-label="Filtrar básicos por color"></select>
+      <select id="basicosFilterTalla" aria-label="Filtrar básicos por talla"></select>
+      <button type="button" class="filter-clear" onclick="clearCatalogFilter('basicos')">Limpiar</button>
+      <span class="filter-status" id="basicosFilterStatus" aria-live="polite"></span>
+    </div>
+    <div class="basicos-grid" id="basicosGrid"></div>
+
+    <div class="product-info">
+      <details class="product-details">
+        <summary>📏 Ver guía de tallas</summary>
+        <div class="pd-body"><img src="tabla-medidas-basicos.jpg" alt="Tabla de medidas básicos" style="border-radius:10px;"></div>
+      </details>
+      <details class="product-details">
+        <summary>Ver detalles del producto y cuidados</summary>
+        <div class="pd-body">
+          <h4>Características adicionales</h4>
+          <ul>
+            <li>Algodón jersey 30/1 reactivo peinado premium</li>
+            <li>Tallas corte oversize: S · M · L</li>
+          </ul>
+          <p><b>Importante:</b> debido a la diferencia entre pantallas, la imagen puede no reflejar el color real de la prenda. Garantizamos que el estilo es el mismo que se muestra en las fotos. Compara las medidas con las tuyas — permite un margen de 1 a 2 cm por la medición manual.</p>
+          <h4>Consideraciones</h4>
+          <ul>
+            <li>Foto referencial</li>
+            <li>Los colores pueden variar levemente según los ajustes de tu pantalla</li>
+            <li>Recomendamos medir una prenda que uses regularmente y comparar con nuestra guía de tallas</li>
+            <li>Las medidas en prendas oversize pueden tener un margen de +/- 1 a 2cm por lado</li>
+          </ul>
+          <h4>Cuidados de la prenda</h4>
+          <ul>
+            <li>Separa las prendas blancas de las de color</li>
+            <li>Lava a mano o en máquina en modo suave</li>
+            <li>Lava por el revés, con agua fría</li>
+            <li>No uses lejía ni detergentes abrasivos o blanqueadores</li>
+            <li>No laves en seco</li>
+            <li>Plancha a temperatura suave</li>
+          </ul>
+        </div>
+      </details>
+    </div>
+
+    <div class="basicos-pitch">
+      <h3>El básico que combina con todo</h3>
+      <p>Ese polo que te pones sin pensarlo, con cualquier jean o jogger, y que después de 20 lavadas sigue viéndose como nuevo. Corte oversize, algodón premium que no destiñe ni se deforma — hecho para ser el que más usas del clóset.</p>
+      <ul class="pitch-checks">
+        <li>✓ No destiñe ni encoge con el uso normal</li>
+        <li>✓ Calce oversize real, no una talla grande cualquiera</li>
+        <li>✓ Combina con todo: para el día a día o para salir</li>
+      </ul>
+      <a class="btn-outline" href="testimonios.html">Mira lo que dicen nuestros clientes →</a>
+    </div>
+  </section>
+
+  <section id="boxyfit">
+    <h2 class="section-title">Polos Boxy Fit</h2>
+    <p class="section-sub">Corte boxy fit, caída recta y estructurada. Tallas S · M · L.</p>
+    <div class="promo-note">
+      <b>S/45</b> la unidad · desde la <b>2da unidad</b>, cada polo baja a <b>S/40</b> (cualquier combinación de colores).
+    </div>
+    <div class="catalog-filter" aria-label="Filtrar polos Boxy Fit">
+      <span class="catalog-filter-label">Filtrar:</span>
+      <select id="boxyfitFilterColor" aria-label="Filtrar Boxy Fit por color"></select>
+      <select id="boxyfitFilterTalla" aria-label="Filtrar Boxy Fit por talla"></select>
+      <button type="button" class="filter-clear" onclick="clearCatalogFilter('boxyfit')">Limpiar</button>
+      <span class="filter-status" id="boxyfitFilterStatus" aria-live="polite"></span>
+    </div>
+    <div class="basicos-grid boxyfit-grid" id="boxyfitGrid"></div>
+
+    <div class="product-info">
+      <details class="product-details">
+        <summary>📏 Ver guía de tallas</summary>
+        <div class="pd-body"><img src="tabla-medidas-boxyfit.jpg" alt="Tabla de medidas Boxy Fit" style="border-radius:10px;"></div>
+      </details>
+    </div>
+  </section>
+
+  <section id="marketplaces">
+    <h2 class="section-title">También nos encuentras en</h2>
+    <p class="section-sub">Compra por marketplace si prefieres esa opción — recojo gratis en tienda disponible.</p>
+    <div class="banner-block">
+      <img src="banner-marketplaces.jpg" alt="VOCE STORE en Falabella y Ripley">
+    </div>
+    <div class="banner-cta">
+      <a class="btn-outline" href="https://vocestore.github.io/MEDIOS-DE-COMPRA/" target="_blank" rel="noopener">Ver todos los medios de compra</a>
+    </div>
+  </section>
+
+  <section id="envios" style="border-bottom:none;">
+    <h2 class="section-title">Envíos seguros</h2>
+    <div class="banner-block">
+      <img src="banner-envios-seguros.jpg" alt="Envíos seguros VOCE STORE">
+    </div>
+    <p class="envios-text">
+      En VOCE STORE, tu tranquilidad es nuestra prioridad. Hemos completado con éxito más de 10,000 envíos a todos los rincones del Perú. Trabajamos con socios logísticos de confianza y, ante cualquier inconveniente, nuestro equipo está listo para asistirte.
+    </p>
+  </section>
+
+  <section id="testimonios-home">
+    <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+    <p class="section-sub">Opiniones reales de personas que ya compraron en VOCE STORE.</p>
+    <div id="homeTestimonials"><div class="testimonials-state">Cargando testimonios...</div></div>
+    <div class="banner-cta">
+      <a class="btn-outline" href="testimonios.html">Ver todos los testimonios</a>
+    </div>
+  </section>
+
+  <section style="border-bottom:none;">
+    <div class="ig-block">
+      <h3>📸 Síguenos en Instagram</h3>
+      <p>Nuevos diseños, packs de personalizados y sorteos — todo primero en Instagram.</p>
+      <a class="btn-outline" href="https://www.instagram.com/voce_store1/" target="_blank" rel="noopener">@voce_store1</a>
+    </div>
+  </section>
+
 </main>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">VOCE STORE</div>
+      <p>Streetwear peruano inspirado en la cultura urbana.<br>Oversize · Boxy Fit · Hoodies · Accesorios</p>
+    </div>
+    <div>
+      <h4>Contacto</h4>
+      <p>
+        <a href="https://wa.me/51965165095" target="_blank" rel="noopener">WhatsApp: +51 965 165 095</a><br>
+        <a href="mailto:vocestore1@gmail.com">vocestore1@gmail.com</a>
+      </p>
+    </div>
+    <div>
+      <h4>Ayuda</h4>
+      <p>
+        <a href="faq.html">Preguntas Frecuentes</a><br>
+        <a href="politicas.html">Políticas</a><br>
+        <a href="testimonios.html">Testimonios</a><br>
+        <a href="https://forms.gle/syEqzzvzL14ruAAz9" target="_blank" rel="noopener">Libro de reclamaciones</a>
+      </p>
+      <a href="https://forms.gle/syEqzzvzL14ruAAz9" target="_blank" rel="noopener">
+        <img src="libro-reclamaciones.png" alt="Libro de Reclamaciones Digital" style="max-width:180px; margin-top:10px;">
+      </a>
+    </div>
+  </div>
+  <div class="footer-bottom">© VOCE STORE — Urban Trend, Clothes and More</div>
+</footer>
+
+<!-- Cart drawer -->
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h3>Tu carrito</h3>
+    <button onclick="closeCart()">✕</button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-foot" id="drawerFoot"></div>
+</div>
+
+<div class="mobile-cart-bar" id="mobileCartBar">
+  <button type="button" id="mobileCartButton" onclick="openCart()">Ver carrito</button>
+</div>
 
 <a class="wa-float" href="https://wa.me/51965165095?text=Hola%20VOCE%20STORE%2C%20tengo%20una%20consulta" target="_blank" rel="noopener" aria-label="WhatsApp"><img src="whatsapp-icon.png" alt="WhatsApp"></a>
 
@@ -158,103 +878,88 @@ function trackVoceEvent(eventName, params = {}){
   }
 }
 
+function analyticsSectionFor(el){
+  const section = el?.closest?.('section[id], .design-request[id]');
+  return section?.id || 'general';
+}
+
 const BASICOS_PRICE = 43;
 const BASICOS_PROMO_UNIT = 27.30;
 const SHIPPING_FLAT = 9.90;
 const FREE_SHIPPING_MIN = 150;
 
-const DEPARTAMENTOS = {
-  "Amazonas": ["Chachapoyas","Bagua","Bongará","Condorcanqui","Luya","Rodríguez de Mendoza","Utcubamba"],
-  "Áncash": ["Huaraz","Aija","Antonio Raymondi","Asunción","Bolognesi","Carhuaz","Carlos Fermín Fitzcarrald","Casma","Corongo","Huari","Huarmey","Huaylas","Mariscal Luzuriaga","Ocros","Pallasca","Pomabamba","Recuay","Santa","Sihuas","Yungay"],
-  "Apurímac": ["Abancay","Andahuaylas","Antabamba","Aymaraes","Cotabambas","Chincheros","Grau"],
-  "Arequipa": ["Arequipa","Camaná","Caravelí","Castilla","Caylloma","Condesuyos","Islay","La Unión"],
-  "Ayacucho": ["Huamanga","Cangallo","Huanca Sancos","Huanta","La Mar","Lucanas","Parinacochas","Páucar del Sara Sara","Sucre","Víctor Fajardo","Vilcas Huamán"],
-  "Cajamarca": ["Cajamarca","Cajabamba","Celendín","Chota","Contumazá","Cutervo","Hualgayoc","Jaén","San Ignacio","San Marcos","San Miguel","San Pablo","Santa Cruz"],
-  "Callao": ["Callao"],
-  "Cusco": ["Cusco","Acomayo","Anta","Calca","Canas","Canchis","Chumbivilcas","Espinar","La Convención","Paruro","Paucartambo","Quispicanchi","Urubamba"],
-  "Huancavelica": ["Huancavelica","Acobamba","Angaraes","Castrovirreyna","Churcampa","Huaytará","Tayacaja"],
-  "Huánuco": ["Huánuco","Ambo","Dos de Mayo","Huacaybamba","Huamalíes","Leoncio Prado","Marañón","Pachitea","Puerto Inca","Lauricocha","Yarowilca"],
-  "Ica": ["Ica","Chincha","Nazca","Palpa","Pisco"],
-  "Junín": ["Huancayo","Concepción","Chanchamayo","Jauja","Junín","Satipo","Tarma","Yauli","Chupaca"],
-  "La Libertad": ["Trujillo","Ascope","Bolívar","Chepén","Julcán","Otuzco","Pacasmayo","Pataz","Sánchez Carrión","Santiago de Chuco","Gran Chimú","Virú"],
-  "Lambayeque": ["Chiclayo","Ferreñafe","Lambayeque"],
-  "Lima": ["Lima (Metropolitana)","Barranca","Cajatambo","Canta","Cañete","Huaral","Huarochirí","Huaura","Oyón","Yauyos"],
-  "Loreto": ["Maynas","Alto Amazonas","Loreto","Mariscal Ramón Castilla","Requena","Ucayali","Datem del Marañón","Putumayo"],
-  "Madre de Dios": ["Tambopata","Manu","Tahuamanu"],
-  "Moquegua": ["Mariscal Nieto","General Sánchez Cerro","Ilo"],
-  "Pasco": ["Pasco","Daniel Alcides Carrión","Oxapampa"],
-  "Piura": ["Piura","Ayabaca","Huancabamba","Morropón","Paita","Sullana","Talara","Sechura"],
-  "Puno": ["Puno","Azángaro","Carabaya","Chucuito","El Collao","Huancané","Lampa","Melgar","Moho","San Antonio de Putina","San Román","Sandia","Yunguyo"],
-  "San Martín": ["Moyobamba","Bellavista","El Dorado","Huallaga","Lamas","Mariscal Cáceres","Picota","Rioja","San Martín","Tocache"],
-  "Tacna": ["Tacna","Candarave","Jorge Basadre","Tarata"],
-  "Tumbes": ["Tumbes","Contralmirante Villar","Zarumilla"],
-  "Ucayali": ["Coronel Portillo","Atalaya","Padre Abad","Purús"]
-};
-
-const BANCOS = {
-  bcp: { nombre:"BCP", cuenta:"191-98192570-0-12", titular:"Roxana Arámbulo" },
-  interbank: { nombre:"Interbank", cuenta:"898-3372407826", titular:"Roxana Arámbulo" },
-  scotiabank: { nombre:"Scotiabank", cuenta:"825-3496197", titular:"Pierre Iturrizaga" },
-};
-
-let selectedPayMethod = { type:'yape' };
-let capturaFileName = '';
-
-const QR_OPTIONS = [
-  { img:'qr-yape.jpg', label:'Yape' },
-  { img:'qr-plin.jpg', label:'Plin' },
+const COLORES = [
+  { slug:"baby-pink", nombre:"Rosado", stock:{S:Infinity,M:Infinity,L:Infinity} },
+  { slug:"blanco", nombre:"Blanco", stock:{S:Infinity,M:Infinity,L:Infinity} },
+  { slug:"lila", nombre:"Lila", stock:{S:Infinity,M:Infinity,L:Infinity} },
+  { slug:"negro", nombre:"Negro", stock:{S:Infinity,M:Infinity,L:Infinity} },
+  { slug:"perla", nombre:"Perla", stock:{S:Infinity,M:Infinity,L:Infinity} },
+  { slug:"vino", nombre:"Vino", stock:{S:Infinity,M:Infinity,L:Infinity} },
 ];
-let qrIndex = 0;
-function setQr(i){
-  qrIndex = (i + QR_OPTIONS.length) % QR_OPTIONS.length;
-  document.getElementById('qrBigImg').src = QR_OPTIONS[qrIndex].img;
-  document.getElementById('qrBigLabel').textContent = QR_OPTIONS[qrIndex].label;
-  document.querySelectorAll('.qr-dot').forEach((d,i) => d.classList.toggle('active', i === qrIndex));
-}
-function switchQr(delta){ setQr(qrIndex + delta); }
+const TALLAS = ["S","M","L"];
+
+const BOXYFIT_PRICE = 45;
+const BOXYFIT_PROMO_UNIT = 40;
+const BOXYFIT_COLORES = [
+  { slug:"beige", nombre:"Beige", stock:{S:2,M:2,L:2} },
+  { slug:"negro", nombre:"Negro", stock:{S:0,M:0,L:3} },
+  { slug:"marron", nombre:"Marrón", stock:{S:0,M:2,L:0} },
+];
+
+const PACKS = [
+  { id:"pack3", n:3, precio:"S/99.90", precioNum:99.90, img:"personalizados-pack-3.jpg", nota:"Envío S/9.90" },
+  { id:"pack6", n:6, precio:"S/199", precioNum:199, img:"personalizados-pack-6.jpg", nota:"Envío gratis" },
+  { id:"pack12", n:12, precio:"S/379.90", precioNum:379.90, img:"personalizados-pack-12.jpg", nota:"Envío gratis" },
+];
 
 function money(n){ return "S/ " + n.toFixed(2); }
 
-function switchPayTab(tab){
-  document.querySelectorAll('.pay-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
-  document.getElementById('panel-yape').classList.toggle('active', tab === 'yape');
-  document.getElementById('panel-banco').classList.toggle('active', tab === 'banco');
-  selectedPayMethod = tab === 'yape' ? { type:'yape' } : { type:'banco', banco: document.getElementById('f_banco').value };
-}
-
-function copyField(id, btn){
-  const el = document.getElementById(id);
-  navigator.clipboard.writeText(el.value.replace(/\s/g,'')).then(() => {
-    const original = btn.textContent;
-    btn.textContent = '¡Copiado!';
-    btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1500);
-  });
-}
-
-function previewCaptura(e){
-  const file = e.target.files[0];
-  if (!file) return;
-  capturaFileName = file.name;
-  const reader = new FileReader();
-  reader.onload = (ev) => {
-    document.getElementById('capturaPreviewWrap').innerHTML = `
-      <img src="${ev.target.result}" alt="Captura de pago">
-      <span>✓ ${file.name} — toca para cambiarla</span>
-    `;
-  };
-  reader.readAsDataURL(file);
-}
-
+/* ---------------- Cart state (localStorage) ---------------- */
 function loadCart(){
   try{ return JSON.parse(localStorage.getItem('voce_cart') || '[]'); }
   catch(e){ return []; }
 }
-function clearCart(){ localStorage.removeItem('voce_cart'); }
-
-const BOXYFIT_PRICE = 45;
-const BOXYFIT_PROMO_UNIT = 40;
-
+function saveCart(cart){
+  localStorage.setItem('voce_cart', JSON.stringify(cart));
+  renderCartBadge();
+}
+function addToCart(colorSlug, colorNombre, talla){
+  const cart = loadCart();
+  const line = cart.find(l => l.type==='basico' && l.colorSlug === colorSlug && l.talla === talla);
+  if (line) line.qty += 1;
+  else cart.push({ type:'basico', colorSlug, colorNombre, talla, qty:1 });
+  saveCart(cart);
+  renderDrawer();
+}
+function addPackToCart(pack){
+  const cart = loadCart();
+  const line = cart.find(l => l.type==='pack' && l.packId === pack.id);
+  if (line) line.qty += 1;
+  else cart.push({ type:'pack', packId:pack.id, n:pack.n, precio:pack.precioNum, img:pack.img, qty:1 });
+  saveCart(cart);
+  renderDrawer();
+}
+function addBoxyfitToCart(colorSlug, colorNombre, talla){
+  const cart = loadCart();
+  const line = cart.find(l => l.type==='boxyfit' && l.colorSlug === colorSlug && l.talla === talla);
+  if (line) line.qty += 1;
+  else cart.push({ type:'boxyfit', colorSlug, colorNombre, talla, qty:1 });
+  saveCart(cart);
+  renderDrawer();
+}
+function changeQty(idx, delta){
+  const cart = loadCart();
+  cart[idx].qty += delta;
+  if (cart[idx].qty <= 0) cart.splice(idx,1);
+  saveCart(cart);
+  renderDrawer();
+}
+function removeLine(idx){
+  const cart = loadCart();
+  cart.splice(idx,1);
+  saveCart(cart);
+  renderDrawer();
+}
 function basicoLines(cart){ return cart.filter(l => l.type==='basico' || !l.type); }
 function boxyfitLines(cart){ return cart.filter(l => l.type==='boxyfit'); }
 function packLines(cart){ return cart.filter(l => l.type==='pack'); }
@@ -273,304 +978,933 @@ function cartSubtotal(cart){
   const packsTotal = packLines(cart).reduce((s,l)=>s + (l.precio||0)*l.qty, 0);
   return basicosTotal + boxyfitTotal + packsTotal;
 }
+function cartSavings(cart){
+  const basicos = basicoLines(cart);
+  const bqty = basicos.reduce((s,l)=>s+l.qty,0);
+  const basicSaving = bqty >= 3 ? bqty * (BASICOS_PRICE - BASICOS_PROMO_UNIT) : 0;
 
-function renderEmpty(){
-  document.getElementById('content').innerHTML = `
-    <div class="empty-state">
-      Tu carrito está vacío.<br>Agrega algún producto antes de continuar.
-      <br><a href="index.html">Volver a la tienda</a>
-    </div>
-  `;
+  const boxyfit = boxyfitLines(cart);
+  const xqty = boxyfit.reduce((s,l)=>s+l.qty,0);
+  const boxySaving = xqty >= 2 ? xqty * (BOXYFIT_PRICE - BOXYFIT_PROMO_UNIT) : 0;
+
+  return basicSaving + boxySaving;
 }
-
-function renderCheckout(cart){
-  const subtotal = cartSubtotal(cart);
-  const shipping = subtotal >= FREE_SHIPPING_MIN ? 0 : SHIPPING_FLAT;
-  const total = subtotal + shipping;
-  const faltaParaEnvio = FREE_SHIPPING_MIN - subtotal;
-
-  const linesHtml = cart.map(l => {
-    if (l.type === 'pack'){
-      const totalLinea = (l.precio||0) * l.qty;
-      return `
-        <div class="cart-line">
-          <img src="${l.img}" alt="Pack ${l.n}">
-          <div class="cl-info">
-            <div class="cl-name">Pack ${l.n} personalizados</div>
-            <div class="cl-meta">${money(l.precio||0)} por pack${l.qty>1 ? ' · Total: '+money(totalLinea) : ''}</div>
-          </div>
-          <div class="cl-qty">x${l.qty}</div>
-        </div>
-      `;
-    }
-    if (l.type === 'boxyfit'){
-      return `
-        <div class="cart-line">
-          <img src="boxy-${l.colorSlug}-1.jpg" alt="${l.colorNombre}">
-          <div class="cl-info">
-            <div class="cl-name">Boxy Fit ${l.colorNombre}</div>
-            <div class="cl-meta">Talla ${l.talla}</div>
-          </div>
-          <div class="cl-qty">x${l.qty}</div>
-        </div>
-      `;
-    }
-    return `
-      <div class="cart-line">
-        <img src="basico-${l.colorSlug}-1.jpg" alt="${l.colorNombre}">
-        <div class="cl-info">
-          <div class="cl-name">Básico ${l.colorNombre}</div>
-          <div class="cl-meta">Talla ${l.talla}</div>
-        </div>
-        <div class="cl-qty">x${l.qty}</div>
-      </div>
-    `;
-  }).join('');
-
-  const deptOptions = Object.keys(DEPARTAMENTOS).sort().map(d => `<option value="${d}">${d}</option>`).join('');
-
-  document.getElementById('content').innerHTML = `
-    <h1>Finalizar pedido</h1>
-    <p class="sub">Revisa tu pedido y completa tus datos — lo enviamos directo a nuestro WhatsApp para coordinar el pago y el envío.</p>
-
-    <div class="box">
-      <h2>Tu pedido</h2>
-      ${linesHtml}
-      <div class="totals-row" style="margin-top:10px;"><span>Subtotal</span><span>${money(subtotal)}</span></div>
-      <div class="totals-row"><span>Envío</span><span>${shipping===0 ? 'GRATIS' : money(shipping)}</span></div>
-      <div class="totals-row grand"><span>Total</span><span>${money(total)}</span></div>
-      ${faltaParaEnvio > 0 ? `<div class="promo-hint">Te faltan <b>${money(faltaParaEnvio)}</b> en tu pedido para envío gratis.</div>` : ''}
-    </div>
-
-    <div class="box">
-      <h2>Método de pago</h2>
-      <div class="pay-tabs">
-        <div class="pay-tab active" data-tab="yape" onclick="switchPayTab('yape')">Yape / Plin</div>
-        <div class="pay-tab" data-tab="banco" onclick="switchPayTab('banco')">Transferencia bancaria</div>
-      </div>
-
-      <div class="pay-panel active" id="panel-yape">
-        <div class="qr-carousel">
-          <button type="button" class="qr-arrow" onclick="switchQr(-1)">‹</button>
-          <div class="qr-big">
-            <img id="qrBigImg" src="qr-yape.jpg" alt="QR Yape">
-            <div id="qrBigLabel">Yape</div>
-          </div>
-          <button type="button" class="qr-arrow" onclick="switchQr(1)">›</button>
-        </div>
-        <div class="qr-dots">
-          <span class="qr-dot active" data-i="0" onclick="setQr(0)"></span>
-          <span class="qr-dot" data-i="1" onclick="setQr(1)"></span>
-        </div>
-        <div class="copy-row">
-          <input type="text" id="numYapePlin" value="954 106 866" readonly>
-          <button type="button" class="copy-btn" onclick="copyField('numYapePlin', this)">Copiar</button>
-        </div>
-        <div class="titular-note">Titular: Roxana Arámbulo</div>
-      </div>
-
-      <div class="pay-panel" id="panel-banco">
-        <label class="first">Selecciona el banco</label>
-        <select id="f_banco">
-          <option value="">Selecciona...</option>
-          <option value="bcp">BCP</option>
-          <option value="interbank">Interbank</option>
-          <option value="scotiabank">Scotiabank</option>
-        </select>
-        <div id="bancoInfo"></div>
-        <div class="warn-box">Si vas a transferir desde <b>otro banco</b>, es posible que te pidan el código CCI en vez del número de cuenta — aún no lo tenemos cargado aquí. Si es tu caso, avísanos por WhatsApp y te lo pasamos directo.</div>
-      </div>
-
-      <div class="upload-box" onclick="document.getElementById('f_captura').click()">
-        <input type="file" id="f_captura" accept="image/*" style="display:none" onchange="previewCaptura(event)">
-        <div id="capturaPreviewWrap"><span>📎 Toca para seleccionar tu captura de pago</span></div>
-      </div>
-      <div class="field-error" id="e_captura">Selecciona tu captura de pago.</div>
-    </div>
-
-    <div class="box">
-      <h2>Tus datos</h2>
-      <form id="checkoutForm" novalidate>
-        <label class="first">Nombre completo</label>
-        <input type="text" id="f_nombre" required>
-        <div class="field-error" id="e_nombre">Ingresa tu nombre completo.</div>
-
-        <label>Celular / WhatsApp de contacto</label>
-        <input type="tel" id="f_celular" inputmode="numeric" placeholder="9XXXXXXXX" required>
-        <div class="field-error" id="e_celular">Ingresa un celular válido (9 dígitos).</div>
-
-        <div class="row2">
-          <div>
-            <label>Departamento</label>
-            <select id="f_departamento" required>
-              <option value="" disabled selected>Selecciona...</option>
-              ${deptOptions}
-            </select>
-            <div class="field-error" id="e_departamento">Selecciona un departamento.</div>
-          </div>
-          <div>
-            <label>Provincia</label>
-            <select id="f_provincia" required disabled>
-              <option value="" disabled selected>Elige un departamento primero</option>
-            </select>
-            <div class="field-error" id="e_provincia">Selecciona una provincia.</div>
-          </div>
-        </div>
-
-        <label>Distrito</label>
-        <input type="text" id="f_distrito" placeholder="Ej: Miraflores" required>
-        <div class="field-error" id="e_distrito">Ingresa tu distrito.</div>
-
-        <label>Dirección exacta (calle, número, referencia)</label>
-        <textarea id="f_direccion" placeholder="Av. Ejemplo 123, dpto 4B, cerca al parque..." required></textarea>
-        <div class="field-error" id="e_direccion">Ingresa tu dirección completa.</div>
-
-        <label>Comentario adicional (opcional)</label>
-        <textarea id="f_comentario" placeholder="Referencias, horario de entrega, etc."></textarea>
-
-        <button type="submit" class="submit-btn">CONFIRMAR PEDIDO</button>
-        <div class="note-wa">Se te redirigirá a WhatsApp con todo ya redactado.</div>
-      </form>
-    </div>
-  `;
-
-  const bancoSelect = document.getElementById('f_banco');
-  bancoSelect.addEventListener('change', () => {
-    const b = BANCOS[bancoSelect.value];
-    selectedPayMethod = { type:'banco', banco: bancoSelect.value };
-    if (!b){ document.getElementById('bancoInfo').innerHTML = ''; return; }
-    document.getElementById('bancoInfo').innerHTML = `
-      <label>Número de cuenta</label>
-      <div class="copy-row">
-        <input type="text" id="numCuenta" value="${b.cuenta}" readonly>
-        <button type="button" class="copy-btn" onclick="copyField('numCuenta', this)">Copiar</button>
-      </div>
-      <div class="titular-note">Titular: ${b.titular}</div>
-    `;
-  });
-
-  const deptSelect = document.getElementById('f_departamento');
-  const provSelect = document.getElementById('f_provincia');
-  deptSelect.addEventListener('change', () => {
-    const provincias = DEPARTAMENTOS[deptSelect.value] || [];
-    provSelect.innerHTML = '<option value="" disabled selected>Selecciona...</option>' +
-      provincias.map(p => `<option value="${p}">${p}</option>`).join('');
-    provSelect.disabled = false;
-  });
-
-  document.getElementById('checkoutForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (!validate()) return;
-    sendToWhatsapp(cart, subtotal, shipping, total);
-  });
-}
-
-function validate(){
-  let ok = true;
-  const checks = [
-    ['f_nombre','e_nombre', v => v.trim().length >= 3],
-    ['f_celular','e_celular', v => /^9\d{8}$/.test(v.trim())],
-    ['f_departamento','e_departamento', v => v !== ''],
-    ['f_provincia','e_provincia', v => v !== ''],
-    ['f_distrito','e_distrito', v => v.trim().length >= 2],
-    ['f_direccion','e_direccion', v => v.trim().length >= 6],
-  ];
-  const capturaOk = capturaFileName !== '';
-  document.getElementById('e_captura').classList.toggle('show', !capturaOk);
-  if (!capturaOk) ok = false;
-  if (selectedPayMethod.type === 'banco' && !selectedPayMethod.banco){
-    ok = false;
+function updateMobileCartBar(cart){
+  const bar = document.getElementById('mobileCartBar');
+  const btn = document.getElementById('mobileCartButton');
+  if (!bar || !btn) return;
+  const qty = cartTotalQty(cart);
+  if (!qty){
+    bar.classList.remove('visible');
+    return;
   }
-  checks.forEach(([fieldId, errId, fn]) => {
-    const el = document.getElementById(fieldId);
-    const errEl = document.getElementById(errId);
-    if (!fn(el.value)){
-      errEl.classList.add('show');
-      ok = false;
+  const subtotal = cartSubtotal(cart);
+  btn.textContent = `Ver carrito · ${qty} ${qty === 1 ? 'producto' : 'productos'} · ${money(subtotal)}`;
+  bar.classList.add('visible');
+}
+function renderCartBadge(){
+  const cart = loadCart();
+  document.getElementById('cartBadge').textContent = cartTotalQty(cart);
+  updateMobileCartBar(cart);
+}
+
+/* ---------------- Render: basicos grid ---------------- */
+function buildBasicoCard(color){
+  const card = document.createElement('div');
+  card.className = 'basico-card';
+  card.dataset.analyticsName = `Polo Oversize Básico ${color.nombre}`;
+  card.dataset.analyticsCategory = 'Basicos';
+  card.dataset.analyticsPrice = String(BASICOS_PRICE);
+  card.id = `basico-${color.slug}`;
+
+  const totalStock = TALLAS.reduce((s,t) => s + (color.stock?.[t]||0), 0);
+
+  let imgIndex = 0;
+  const imgs = [1,2,3,4,5].map(n => `basico-${color.slug}-${n}.jpg`);
+
+  const gallery = document.createElement('div');
+  gallery.className = 'gallery';
+  const img = document.createElement('img');
+  img.src = imgs[0];
+  img.alt = "Polo oversize básico " + color.nombre;
+  gallery.appendChild(img);
+  if (totalStock <= 0){
+    const badge = document.createElement('div');
+    badge.className = 'badge-agotado';
+    badge.textContent = 'Agotado';
+    gallery.appendChild(badge);
+  }
+
+  const prev = document.createElement('button'); prev.className='prev'; prev.textContent='‹';
+  const next = document.createElement('button'); next.className='next'; next.textContent='›';
+  prev.onclick = () => { imgIndex = (imgIndex - 1 + imgs.length) % imgs.length; img.src = imgs[imgIndex]; };
+  next.onclick = () => { imgIndex = (imgIndex + 1) % imgs.length; img.src = imgs[imgIndex]; };
+  gallery.appendChild(prev); gallery.appendChild(next);
+  card.appendChild(gallery);
+
+  const body = document.createElement('div');
+  body.className = 'basico-body';
+
+  const name = document.createElement('div');
+  name.className = 'basico-name';
+  name.textContent = "Polo Oversize Básico " + color.nombre;
+  body.appendChild(name);
+
+  const price = document.createElement('div');
+  price.className = 'basico-price';
+  price.innerHTML = `<b>${money(BASICOS_PRICE)}</b> · 3 x ${money(81.90)}`;
+  body.appendChild(price);
+
+  const row = document.createElement('div');
+  row.className = 'row';
+  const tallaSelect = document.createElement('select');
+  tallaSelect.setAttribute('data-size-select','basico');
+  TALLAS.forEach(t => {
+    const stockT = color.stock?.[t] || 0;
+    const o = document.createElement('option');
+    o.value = t;
+    o.textContent = stockT > 0 ? "Talla " + t : "Talla " + t + " (Agotado)";
+    if (stockT <= 0) o.disabled = true;
+    tallaSelect.appendChild(o);
+  });
+  const firstAvailable = TALLAS.find(t => (color.stock?.[t]||0) > 0);
+  if (firstAvailable) tallaSelect.value = firstAvailable;
+
+  const qtyWrap = document.createElement('div'); qtyWrap.className='qty-wrap';
+  const minus = document.createElement('button'); minus.textContent='−';
+  const qtySpan = document.createElement('span'); qtySpan.textContent='1';
+  const plus = document.createElement('button'); plus.textContent='+';
+  let qty = 1;
+  function maxQty(){ return Math.max(1, color.stock?.[tallaSelect.value] || 1); }
+  minus.onclick = () => { qty = Math.max(1, qty-1); qtySpan.textContent = qty; };
+  plus.onclick = () => { qty = Math.min(maxQty(), qty+1); qtySpan.textContent = qty; };
+  tallaSelect.onchange = () => { qty = 1; qtySpan.textContent = qty; updateAvailability(); };
+  qtyWrap.appendChild(minus); qtyWrap.appendChild(qtySpan); qtyWrap.appendChild(plus);
+  row.appendChild(tallaSelect); row.appendChild(qtyWrap);
+  body.appendChild(row);
+
+
+  const addBtn = document.createElement('button');
+  addBtn.className = 'add-btn';
+  function updateAvailability(){
+    const available = (color.stock?.[tallaSelect.value] || 0) > 0;
+    addBtn.disabled = !available;
+    addBtn.textContent = available ? 'Agregar al carrito' : 'Agotado';
+  }
+  addBtn.onclick = () => {
+    if ((color.stock?.[tallaSelect.value] || 0) <= 0) return;
+    const tallaElegida = tallaSelect.value;
+    for(let i=0;i<qty;i++) addToCart(color.slug, color.nombre, tallaElegida);
+    trackVoceEvent('add_to_cart', {
+      currency: 'PEN',
+      value: BASICOS_PRICE * qty,
+      items: [{
+        item_name: `Polo Oversize Básico ${color.nombre}`,
+        item_category: 'Basicos',
+        item_variant: tallaElegida,
+        price: BASICOS_PRICE,
+        quantity: qty
+      }]
+    });
+    addBtn.classList.add('added');
+    addBtn.textContent = 'Agregado ✓';
+    setTimeout(()=>{ addBtn.classList.remove('added'); updateAvailability(); }, 1200);
+  };
+  updateAvailability();
+  body.appendChild(addBtn);
+
+  card.appendChild(body);
+  return card;
+}
+
+function renderBasicos(){
+  const grid = document.getElementById('basicosGrid');
+  COLORES.forEach(c => grid.appendChild(buildBasicoCard(c)));
+}
+
+/* ---------------- Render: boxy fit ---------------- */
+function buildBoxyfitCard(color){
+  const card = document.createElement('div');
+  card.className = 'basico-card boxyfit-card';
+  card.dataset.analyticsName = `Polo Boxy Fit ${color.nombre}`;
+  card.dataset.analyticsCategory = 'Boxy Fit';
+  card.dataset.analyticsPrice = String(BOXYFIT_PRICE);
+  card.id = `boxyfit-${color.slug}`;
+
+  const totalStock = TALLAS.reduce((s,t) => s + (color.stock[t]||0), 0);
+
+  let imgIndex = 0;
+  const imgs = [1,2,3,4,5].map(n => `boxy-${color.slug}-${n}.jpg`);
+
+  const gallery = document.createElement('div');
+  gallery.className = 'gallery';
+  const img = document.createElement('img');
+  img.src = imgs[0];
+  img.alt = "Polo Boxy Fit " + color.nombre;
+  gallery.appendChild(img);
+  if (totalStock <= 0){
+    const badge = document.createElement('div');
+    badge.className = 'badge-agotado';
+    badge.textContent = 'Agotado';
+    gallery.appendChild(badge);
+  }
+
+  const prev = document.createElement('button'); prev.className='prev'; prev.textContent='‹';
+  const next = document.createElement('button'); next.className='next'; next.textContent='›';
+  prev.onclick = () => { imgIndex = (imgIndex - 1 + imgs.length) % imgs.length; img.src = imgs[imgIndex]; };
+  next.onclick = () => { imgIndex = (imgIndex + 1) % imgs.length; img.src = imgs[imgIndex]; };
+  gallery.appendChild(prev); gallery.appendChild(next);
+  card.appendChild(gallery);
+
+  const body = document.createElement('div');
+  body.className = 'basico-body';
+
+  const name = document.createElement('div');
+  name.className = 'basico-name';
+  name.textContent = "Polo Boxy Fit " + color.nombre;
+  body.appendChild(name);
+
+  const price = document.createElement('div');
+  price.className = 'basico-price';
+  price.innerHTML = `<b>${money(BOXYFIT_PRICE)}</b> · 2 x ${money(80)}`;
+  body.appendChild(price);
+
+  const row = document.createElement('div');
+  row.className = 'row';
+  const tallaSelect = document.createElement('select');
+  tallaSelect.setAttribute('data-size-select','boxyfit');
+  TALLAS.forEach(t => {
+    const stockT = color.stock[t] || 0;
+    const o = document.createElement('option');
+    o.value = t;
+    o.textContent = stockT > 0 ? "Talla " + t : "Talla " + t + " (Agotado)";
+    if (stockT <= 0) o.disabled = true;
+    tallaSelect.appendChild(o);
+  });
+  // selecciona automáticamente la primera talla con stock
+  const firstAvailable = TALLAS.find(t => (color.stock[t]||0) > 0);
+  if (firstAvailable) tallaSelect.value = firstAvailable;
+
+  const qtyWrap = document.createElement('div'); qtyWrap.className='qty-wrap';
+  const minus = document.createElement('button'); minus.textContent='−';
+  const qtySpan = document.createElement('span'); qtySpan.textContent='1';
+  const plus = document.createElement('button'); plus.textContent='+';
+  let qty = 1;
+  function maxQty(){ return Math.max(1, color.stock[tallaSelect.value] || 1); }
+  minus.onclick = () => { qty = Math.max(1, qty-1); qtySpan.textContent = qty; };
+  plus.onclick = () => { qty = Math.min(maxQty(), qty+1); qtySpan.textContent = qty; };
+  tallaSelect.onchange = () => { qty = 1; qtySpan.textContent = qty; updateAvailability(); };
+  qtyWrap.appendChild(minus); qtyWrap.appendChild(qtySpan); qtyWrap.appendChild(plus);
+  row.appendChild(tallaSelect); row.appendChild(qtyWrap);
+  body.appendChild(row);
+
+
+  const addBtn = document.createElement('button');
+  addBtn.className = 'add-btn';
+  function updateAvailability(){
+    const available = (color.stock[tallaSelect.value] || 0) > 0;
+    addBtn.disabled = !available;
+    addBtn.textContent = available ? 'Agregar al carrito' : 'Agotado';
+  }
+  addBtn.onclick = () => {
+    if ((color.stock[tallaSelect.value] || 0) <= 0) return;
+    const tallaElegida = tallaSelect.value;
+    for(let i=0;i<qty;i++) addBoxyfitToCart(color.slug, color.nombre, tallaElegida);
+    trackVoceEvent('add_to_cart', {
+      currency: 'PEN',
+      value: BOXYFIT_PRICE * qty,
+      items: [{
+        item_name: `Polo Boxy Fit ${color.nombre}`,
+        item_category: 'Boxy Fit',
+        item_variant: tallaElegida,
+        price: BOXYFIT_PRICE,
+        quantity: qty
+      }]
+    });
+    addBtn.classList.add('added');
+    addBtn.textContent = 'Agregado ✓';
+    setTimeout(()=>{ addBtn.classList.remove('added'); updateAvailability(); }, 1200);
+  };
+  updateAvailability();
+  body.appendChild(addBtn);
+
+  card.appendChild(body);
+  return card;
+}
+function renderBoxyfit(){
+  const grid = document.getElementById('boxyfitGrid');
+  BOXYFIT_COLORES.forEach(c => grid.appendChild(buildBoxyfitCard(c)));
+}
+
+/* ---------------- Render: packs ---------------- */
+function buildPackCard(pack){
+  const card = document.createElement('div');
+  card.className = 'pack-card';
+  card.dataset.analyticsName = `Pack ${pack.n} Polos Personalizados`;
+  card.dataset.analyticsCategory = 'Personalizados';
+  card.dataset.analyticsPrice = String(pack.precioNum);
+  const img = document.createElement('img');
+  img.src = pack.img; img.alt = "Pack de " + pack.n + " polos personalizados";
+  card.appendChild(img);
+  const body = document.createElement('div'); body.className='pack-body';
+  body.innerHTML = `
+    <div class="pack-title">Pack de ${pack.n} Polos Personalizados</div>
+    <div class="pack-price">${pack.precio}</div>
+    <div class="pack-note">${pack.nota}</div>
+    <div class="pack-fineprint">Al elegirlo, te escribimos por WhatsApp para coordinar tu diseño.</div>
+  `;
+  const btn = document.createElement('a');
+  btn.className = 'wa-cta'; btn.style.justifyContent='center'; btn.target='_blank'; btn.rel='noopener';
+  const msg = encodeURIComponent(`Hola VOCE STORE, quiero el Pack de ${pack.n} polos personalizados (${pack.precio}). Les envío mi diseño por acá.`);
+  btn.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
+  btn.textContent = 'Pedir por WhatsApp';
+  body.appendChild(btn);
+
+  const cartBtn = document.createElement('button');
+  cartBtn.className = 'add-btn';
+  cartBtn.textContent = 'Añadir al carrito';
+  cartBtn.onclick = () => {
+    addPackToCart(pack);
+    trackVoceEvent('add_to_cart', {
+      currency: 'PEN',
+      value: pack.precioNum,
+      items: [{
+        item_name: `Pack ${pack.n} Polos Personalizados`,
+        item_category: 'Personalizados',
+        price: pack.precioNum,
+        quantity: 1
+      }]
+    });
+    cartBtn.classList.add('added');
+    cartBtn.textContent = 'Agregado ✓';
+    setTimeout(()=>{ cartBtn.classList.remove('added'); cartBtn.textContent='Añadir al carrito'; }, 1200);
+  };
+  body.appendChild(cartBtn);
+
+  card.appendChild(body);
+  return card;
+}
+function renderPacks(){
+  const grid = document.getElementById('packsGrid');
+  PACKS.forEach(p => grid.appendChild(buildPackCard(p)));
+}
+
+/* ---------------- Filtros por color y talla ---------------- */
+function setCardSelectedSize(card, talla){
+  if (!card || !talla) return;
+  const select = card.querySelector('select[data-size-select]');
+  if (!select) return;
+  const option = Array.from(select.options).find(o => o.value === talla);
+  if (option){
+    select.value = talla;
+    select.dispatchEvent(new Event('change'));
+  }
+}
+
+function resetCardSelectedSize(card){
+  if (!card) return;
+  const select = card.querySelector('select[data-size-select]');
+  if (!select) return;
+  const option = Array.from(select.options).find(o => !o.disabled);
+  if (option){
+    select.value = option.value;
+    select.dispatchEvent(new Event('change'));
+  }
+}
+
+function setupCatalogFilter(type, colors){
+  const colorSelect = document.getElementById(`${type}FilterColor`);
+  const tallaSelect = document.getElementById(`${type}FilterTalla`);
+  if (!colorSelect || !tallaSelect) return;
+
+  colorSelect.innerHTML = '<option value="">Todos los colores</option>' +
+    colors.map(c => `<option value="${c.slug}">${c.nombre}</option>`).join('');
+  tallaSelect.innerHTML = '<option value="">Todas las tallas</option>' +
+    TALLAS.map(t => `<option value="${t}">Talla ${t}</option>`).join('');
+
+  colorSelect.addEventListener('change', () => applyCatalogFilter(type, colors));
+  tallaSelect.addEventListener('change', () => applyCatalogFilter(type, colors));
+}
+
+function clearCatalogFilter(type){
+  const colors = type === 'basicos' ? COLORES : BOXYFIT_COLORES;
+  const colorSelect = document.getElementById(`${type}FilterColor`);
+  const tallaSelect = document.getElementById(`${type}FilterTalla`);
+  if (colorSelect) colorSelect.value = '';
+  if (tallaSelect) tallaSelect.value = '';
+  applyCatalogFilter(type, colors);
+}
+
+function applyCatalogFilter(type, colors){
+  const colorSelect = document.getElementById(`${type}FilterColor`);
+  const tallaSelect = document.getElementById(`${type}FilterTalla`);
+  const status = document.getElementById(`${type}FilterStatus`);
+  const prefix = type === 'basicos' ? 'basico' : 'boxyfit';
+  const selectedColor = colorSelect?.value || '';
+  const selectedTalla = tallaSelect?.value || '';
+
+  colors.forEach(color => {
+    const card = document.getElementById(`${prefix}-${color.slug}`);
+    if (!card) return;
+
+    let visible = true;
+    if (selectedColor && color.slug !== selectedColor) visible = false;
+    if (!selectedColor && selectedTalla && (color.stock?.[selectedTalla] || 0) <= 0) visible = false;
+    card.classList.toggle('filter-hidden', !visible);
+
+    if (visible && selectedTalla) setCardSelectedSize(card, selectedTalla);
+    else if (visible) resetCardSelectedSize(card);
+  });
+
+  status.className = 'filter-status';
+  status.textContent = '';
+
+  if (selectedColor && selectedTalla){
+    const color = colors.find(c => c.slug === selectedColor);
+    const available = (color?.stock?.[selectedTalla] || 0) > 0;
+    if (!available){
+      status.classList.add('error');
+      status.textContent = 'Producto agotado, lo invitamos a elegir otra talla/color.';
     } else {
-      errEl.classList.remove('show');
+      status.classList.add('ok');
+      status.textContent = `Mostrando: ${color.nombre} · Talla ${selectedTalla}`;
     }
-  });
-  return ok;
+  } else if (selectedColor){
+    const color = colors.find(c => c.slug === selectedColor);
+    status.classList.add('ok');
+    status.textContent = color ? `Mostrando: ${color.nombre}` : '';
+  } else if (selectedTalla){
+    status.classList.add('ok');
+    status.textContent = `Mostrando productos disponibles en talla ${selectedTalla}`;
+  }
 }
 
-function sendToWhatsapp(cart, subtotal, shipping, total){
-  const nombre = document.getElementById('f_nombre').value.trim();
-  const celular = document.getElementById('f_celular').value.trim();
-  const depto = document.getElementById('f_departamento').value;
-  const prov = document.getElementById('f_provincia').value;
-  const distrito = document.getElementById('f_distrito').value.trim();
-  const direccion = document.getElementById('f_direccion').value.trim();
-  const comentario = document.getElementById('f_comentario').value.trim();
-
-  const lines = cart.map(l => {
-    if (l.type === 'pack') return `- Pack ${l.n} personalizados (${money(l.precio||0)} por pack) x${l.qty}`;
-    if (l.type === 'boxyfit') return `- Boxy Fit ${l.colorNombre}, Talla ${l.talla} x${l.qty}`;
-    return `- Básico ${l.colorNombre}, Talla ${l.talla} x${l.qty}`;
-  }).join('\n');
-
-  let pagoTexto = '';
-  if (selectedPayMethod.type === 'yape') pagoTexto = 'Yape / Plin';
-  else if (selectedPayMethod.type === 'banco') pagoTexto = 'Transferencia ' + (BANCOS[selectedPayMethod.banco]?.nombre || '');
-
-  const msg = [
-    `Hola VOCE STORE, quiero confirmar mi pedido:`,
-    ``,
-    lines,
-    ``,
-    `Subtotal: ${money(subtotal)}`,
-    `Envío: ${shipping===0 ? 'GRATIS' : money(shipping)}`,
-    `Total: ${money(total)}`,
-    ``,
-    `Datos de entrega:`,
-    `Nombre: ${nombre}`,
-    `Celular: ${celular}`,
-    `Departamento: ${depto}`,
-    `Provincia: ${prov}`,
-    `Distrito: ${distrito}`,
-    `Dirección: ${direccion}`,
-    comentario ? `Comentario: ${comentario}` : ``,
-    ``,
-    `Pago realizado por: ${pagoTexto}`,
-    `Comprobante de pago: Archivo adjunto ✅`,
-  ].filter(Boolean).join('\n');
-
-  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
-
-  trackVoceEvent('confirmar_pedido', {
-    currency: 'PEN',
-    value: total,
-    cart_items: cartTotalQty(cart),
-    payment_method: pagoTexto,
-    shipping_department: depto
-  });
-
-  clearCart();
-  setTimeout(() => {
-    window.location.href = url;
-  }, 180);
-}
-
-document.addEventListener('click', (e) => {
-  const link = e.target.closest('a[href*="wa.me/"]');
-  if (!link) return;
-  trackVoceEvent('clic_whatsapp', {
-    link_text: (link.textContent || link.getAttribute('aria-label') || 'WhatsApp').trim().slice(0,100),
-    page_section: 'checkout'
-  });
-});
-
-const cart = loadCart();
-if (!cart.length){
-  renderEmpty();
-} else {
-  trackVoceEvent('begin_checkout', {
+/* ---------------- Cart drawer ---------------- */
+function openCart(){
+  const cart = loadCart();
+  trackVoceEvent('view_cart', {
     currency: 'PEN',
     value: cartSubtotal(cart),
     cart_items: cartTotalQty(cart)
   });
-  renderCheckout(cart);
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('drawer').classList.add('open');
+  renderDrawer();
 }
+function closeCart(){
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('drawer').classList.remove('open');
+}
+function renderDrawer(){
+  const cart = loadCart();
+  const body = document.getElementById('drawerBody');
+  const foot = document.getElementById('drawerFoot');
+  body.innerHTML = '';
+
+  if (!cart.length){
+    body.innerHTML = '<div class="empty-cart">Tu carrito está vacío.<br>Agrega algún básico para empezar.</div>';
+    foot.innerHTML = '';
+    return;
+  }
+
+  cart.forEach((line, idx) => {
+    const div = document.createElement('div');
+    div.className = 'cart-line';
+    if (line.type === 'pack'){
+      const totalLinea = (line.precio||0) * line.qty;
+      div.innerHTML = `
+        <img src="${line.img}" alt="Pack ${line.n}">
+        <div class="cart-line-info">
+          <div class="cl-name">Pack ${line.n} personalizados</div>
+          <div class="cl-meta">${money(line.precio||0)} por pack${line.qty>1 ? ' · Total: '+money(totalLinea) : ''}</div>
+        </div>
+        <div class="qty-wrap">
+          <button onclick="changeQty(${idx},-1)">−</button>
+          <span>${line.qty}</span>
+          <button onclick="changeQty(${idx},1)">+</button>
+        </div>
+      `;
+    } else if (line.type === 'boxyfit'){
+      div.innerHTML = `
+        <img src="boxy-${line.colorSlug}-1.jpg" alt="${line.colorNombre}">
+        <div class="cart-line-info">
+          <div class="cl-name">Boxy Fit ${line.colorNombre}</div>
+          <div class="cl-meta">Talla ${line.talla}</div>
+        </div>
+        <div class="qty-wrap">
+          <button onclick="changeQty(${idx},-1)">−</button>
+          <span>${line.qty}</span>
+          <button onclick="changeQty(${idx},1)">+</button>
+        </div>
+      `;
+    } else {
+      div.innerHTML = `
+        <img src="basico-${line.colorSlug}-1.jpg" alt="${line.colorNombre}">
+        <div class="cart-line-info">
+          <div class="cl-name">Básico ${line.colorNombre}</div>
+          <div class="cl-meta">Talla ${line.talla}</div>
+        </div>
+        <div class="qty-wrap">
+          <button onclick="changeQty(${idx},-1)">−</button>
+          <span>${line.qty}</span>
+          <button onclick="changeQty(${idx},1)">+</button>
+        </div>
+      `;
+    }
+    body.appendChild(div);
+  });
+
+  const subtotal = cartSubtotal(cart);
+  const shipping = subtotal >= FREE_SHIPPING_MIN ? 0 : SHIPPING_FLAT;
+  const total = subtotal + shipping;
+  const falta = FREE_SHIPPING_MIN - subtotal;
+  const savings = cartSavings(cart);
+
+  foot.innerHTML = `
+    ${falta > 0 ? `<div class="ship-hint">Te faltan <b>${money(falta)}</b> para envío gratis 🚚</div>` : ''}
+    ${savings > 0 ? `<div class="savings-hint">Ahorras ${money(savings)} con las promociones de tu carrito</div>` : ''}
+    <div class="totals-row"><span>Subtotal</span><span>${money(subtotal)}</span></div>
+    <div class="totals-row"><span>Envío</span><span>${shipping===0 ? 'GRATIS' : money(shipping)}</span></div>
+    <div class="totals-row grand"><span>Total</span><span>${money(total)}</span></div>
+    <button class="checkout-btn" onclick="goCheckout()">Ir a pagar</button>
+  `;
+}
+function goCheckout(){
+  window.location.href = "checkout.html";
+}
+
+/* ---------------- Testimonios en la página principal ---------------- */
+const HOME_TESTIMONIOS_SHEET_ID = "1uoEz-3Gj8rV6esD0lbH3jSATYrWOfq_j8oT7UfkRD0c";
+const HOME_TESTIMONIOS_CSV_URL = `https://docs.google.com/spreadsheets/d/${HOME_TESTIMONIOS_SHEET_ID}/gviz/tq?tqx=out:csv`;
+
+function parseHomeTestimonialsCSV(text){
+  const rows = [];
+  let row = [], field = '', inQuotes = false;
+  for (let i=0; i<text.length; i++){
+    const c = text[i];
+    if (inQuotes){
+      if (c === '"'){
+        if (text[i+1] === '"'){ field += '"'; i++; }
+        else inQuotes = false;
+      } else field += c;
+    } else {
+      if (c === '"') inQuotes = true;
+      else if (c === ','){ row.push(field); field=''; }
+      else if (c === '\r'){}
+      else if (c === '\n'){ row.push(field); rows.push(row); row=[]; field=''; }
+      else field += c;
+    }
+  }
+  if (field.length || row.length){ row.push(field); rows.push(row); }
+  return rows.filter(r => r.length > 1 || (r.length === 1 && r[0] !== ''));
+}
+
+function parseHomeTestimonialDate(s){
+  const [datePart] = (s || '').trim().split(' ');
+  const [d,m,y] = datePart.split('/').map(Number);
+  if (!d || !m || !y) return null;
+  return new Date(y,m-1,d);
+}
+
+const HOME_TESTIMONIAL_MONTHS = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+function formatHomeTestimonialDate(dateObj){
+  if (!dateObj) return '';
+  return `${dateObj.getDate()} ${HOME_TESTIMONIAL_MONTHS[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
+}
+
+function escapeHomeTestimonialText(value){
+  return String(value || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+async function loadHomeTestimonials(){
+  const content = document.getElementById('homeTestimonials');
+  if (!content) return;
+  try{
+    const res = await fetch(HOME_TESTIMONIOS_CSV_URL);
+    if (!res.ok) throw new Error('fetch failed');
+    const rows = parseHomeTestimonialsCSV(await res.text());
+    if (!rows.length) throw new Error('empty');
+
+    const headers = rows[0].map(h => h.trim().toLowerCase());
+    const idxFecha = headers.findIndex(h => h.includes('marca temporal'));
+    const idxNombre = headers.findIndex(h => h.includes('tu nombre'));
+    const idxMotivo = headers.findIndex(h => h.includes('indicarnos la razón') || h.includes('indicarnos la razon'));
+    if (idxNombre < 0 || idxMotivo < 0) throw new Error('headers');
+
+    const items = [];
+    for (let i=1; i<rows.length; i++){
+      const r = rows[i];
+      const nombre = (r[idxNombre] || '').trim();
+      const motivo = (r[idxMotivo] || '').trim();
+      if (!nombre || !motivo) continue;
+      items.push({ nombre, motivo, fecha: idxFecha >= 0 ? parseHomeTestimonialDate(r[idxFecha] || '') : null });
+    }
+    items.sort((a,b) => (b.fecha?.getTime() || 0) - (a.fecha?.getTime() || 0));
+    const preview = items.slice(0,4);
+    if (!preview.length) throw new Error('no items');
+
+    content.innerHTML = `<div class="testimonials-preview-grid">` + preview.map(it => `
+      <article class="testimonial-preview-card">
+        <div class="testimonial-preview-stars" aria-label="5 estrellas">★★★★★</div>
+        <p class="testimonial-preview-quote">“${escapeHomeTestimonialText(it.motivo)}”</p>
+        <div class="testimonial-preview-who">
+          <span class="testimonial-preview-name">${escapeHomeTestimonialText(it.nombre)}</span>
+          <span class="testimonial-preview-date">${formatHomeTestimonialDate(it.fecha)}</span>
+        </div>
+      </article>
+    `).join('') + `</div>`;
+  } catch(err){
+    content.innerHTML = '<div class="testimonials-state">No pudimos cargar las opiniones en este momento. Puedes verlas en la página de testimonios.</div>';
+  }
+}
+
+function buildSearchIndex(){
+  const idx = [];
+  COLORES.forEach(c => {
+    idx.push({
+      label: `Polo Oversize Básico ${c.nombre}`,
+      cat: "Básico",
+      anchor: "#basicos",
+      keywords: ["polo","basico","básico","oversize", c.nombre.toLowerCase(), c.slug]
+    });
+  });
+  BOXYFIT_COLORES.forEach(c => {
+    idx.push({
+      label: `Polo Boxy Fit ${c.nombre}`,
+      cat: "Boxy Fit",
+      anchor: "#boxyfit",
+      keywords: ["boxy","boxyfit","boxy fit","polo", c.nombre.toLowerCase(), c.slug]
+    });
+  });
+  PACKS.forEach(p => {
+    idx.push({
+      label: `Pack ${p.n} Polos Personalizados (${p.precio})`,
+      cat: "Personalizado",
+      anchor: "#personalizados",
+      keywords: ["personalizado","pack","polo",String(p.n)]
+    });
+  });
+  idx.push({
+    label: "Hoodie Personalizado",
+    cat: "Personalizado",
+    anchor: "#personalizados",
+    keywords: ["hoodie","poleron","polerón","casaca","personalizado"]
+  });
+  return idx;
+}
+const SEARCH_INDEX = buildSearchIndex();
+
+function toggleSearch(){
+  const panel = document.getElementById('searchPanel');
+  panel.classList.toggle('open');
+  if (panel.classList.contains('open')) document.getElementById('searchInput').focus();
+}
+function runSearch(){
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  const resultsEl = document.getElementById('searchResults');
+  if (!q){ resultsEl.innerHTML = ''; return; }
+  const matches = SEARCH_INDEX.filter(item =>
+    item.label.toLowerCase().includes(q) ||
+    item.keywords.some(k => k.includes(q) || q.includes(k))
+  ).slice(0, 8);
+  if (!matches.length){
+    resultsEl.innerHTML = '<div class="search-empty">Sin resultados. Prueba con "básico", "pack" o un color.</div>';
+    return;
+  }
+  resultsEl.innerHTML = matches.map(m => `
+    <div class="search-item" onclick="goToSearchResult('${m.anchor}')">
+      <span>${m.label}</span><span class="cat">${m.cat}</span>
+    </div>
+  `).join('');
+}
+function goToSearchResult(anchor){
+  document.getElementById('searchPanel').classList.remove('open');
+  document.getElementById('searchInput').value = '';
+  document.getElementById('searchResults').innerHTML = '';
+  document.querySelector(anchor).scrollIntoView({ behavior:'smooth' });
+}
+document.addEventListener('click', (e) => {
+  const wrap = document.querySelector('.search-wrap');
+  if (wrap && !wrap.contains(e.target)) document.getElementById('searchPanel').classList.remove('open');
+});
+
+/* ---------------- Solicitud de mockup / envio de diseno ---------------- */
+const DESIGN_FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbxtl7CM52OM5P_iZgQMJhdX3KrCAdj3ddHLJUCSsUc1ooQQAe9MPitS5EiYD6iThzsJ/exec";
+const DESIGN_MAX_FILE_BYTES = 5 * 1024 * 1024;
+let selectedDesignFiles = [];
+
+function inferDesignMime(file){
+  if (file.type) return file.type;
+  const n = file.name.toLowerCase();
+  if (n.endsWith('.png')) return 'image/png';
+  if (n.endsWith('.jpg') || n.endsWith('.jpeg')) return 'image/jpeg';
+  if (n.endsWith('.pdf')) return 'application/pdf';
+  return '';
+}
+
+function isAllowedDesignFile(file){
+  return ['image/png','image/jpeg','application/pdf'].includes(inferDesignMime(file));
+}
+
+function setDesignStatus(type, message){
+  const el = document.getElementById('designFormStatus');
+  if (!el) return;
+  el.className = `design-form-status show ${type}`;
+  el.textContent = message;
+}
+
+function clearDesignStatus(){
+  const el = document.getElementById('designFormStatus');
+  if (!el) return;
+  el.className = 'design-form-status';
+  el.textContent = '';
+}
+
+function renderDesignFiles(){
+  const list = document.getElementById('designFilesList');
+  if (!list) return;
+  list.innerHTML = '';
+
+  selectedDesignFiles.forEach((file, idx) => {
+    const row = document.createElement('div');
+    row.className = 'design-file-row';
+    const kb = Math.max(1, Math.round(file.size / 1024));
+    row.innerHTML = `
+      <span class="design-file-name">${escapeDesignHtml(file.name)} · ${kb} KB</span>
+      <button type="button" class="design-file-remove" data-index="${idx}">Quitar</button>
+    `;
+    list.appendChild(row);
+  });
+
+  list.querySelectorAll('.design-file-remove').forEach(btn => {
+    btn.addEventListener('click', () => {
+      selectedDesignFiles.splice(Number(btn.dataset.index), 1);
+      renderDesignFiles();
+      clearDesignStatus();
+    });
+  });
+}
+
+function escapeDesignHtml(text){
+  return String(text || '')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#039;');
+}
+
+function addDesignFiles(fileList){
+  clearDesignStatus();
+  const incoming = Array.from(fileList || []);
+
+  for (const file of incoming){
+    if (!isAllowedDesignFile(file)){
+      setDesignStatus('error', `El archivo “${file.name}” no es PNG, JPG/JPEG o PDF.`);
+      continue;
+    }
+    if (file.size > DESIGN_MAX_FILE_BYTES){
+      setDesignStatus('error', `El archivo “${file.name}” supera los 5 MB.`);
+      continue;
+    }
+    const duplicate = selectedDesignFiles.some(f => f.name === file.name && f.size === file.size && f.lastModified === file.lastModified);
+    if (!duplicate) selectedDesignFiles.push(file);
+  }
+
+  renderDesignFiles();
+}
+
+function fileToDesignPayload(file){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = String(reader.result || '');
+      const comma = result.indexOf(',');
+      if (comma < 0) return reject(new Error('No se pudo leer el archivo.'));
+      resolve({
+        name: file.name,
+        mimeType: inferDesignMime(file),
+        base64: result.slice(comma + 1)
+      });
+    };
+    reader.onerror = () => reject(new Error(`No se pudo leer ${file.name}.`));
+    reader.readAsDataURL(file);
+  });
+}
+
+function resetDesignForm(){
+  const form = document.getElementById('designRequestForm');
+  if (form) form.reset();
+  selectedDesignFiles = [];
+  renderDesignFiles();
+  const input = document.getElementById('designFilesInput');
+  if (input) input.value = '';
+}
+
+function initDesignRequestForm(){
+  const form = document.getElementById('designRequestForm');
+  const input = document.getElementById('designFilesInput');
+  const box = document.getElementById('designUploadBox');
+  const submit = document.getElementById('designSubmitBtn');
+  if (!form || !input || !box || !submit) return;
+
+  box.addEventListener('click', () => input.click());
+  box.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' '){
+      e.preventDefault();
+      input.click();
+    }
+  });
+  input.addEventListener('change', () => {
+    addDesignFiles(input.files);
+    input.value = '';
+  });
+
+  ['dragenter','dragover'].forEach(evt => box.addEventListener(evt, e => {
+    e.preventDefault();
+    box.style.borderColor = 'var(--accent)';
+  }));
+  ['dragleave','drop'].forEach(evt => box.addEventListener(evt, e => {
+    e.preventDefault();
+    box.style.borderColor = '';
+  }));
+  box.addEventListener('drop', e => addDesignFiles(e.dataTransfer.files));
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    clearDesignStatus();
+
+    const nombre = document.getElementById('designNombre').value.trim();
+    const whatsapp = document.getElementById('designWhatsapp').value.trim().replace(/\s+/g,'');
+    const color = document.getElementById('designColor').value;
+    const talla = document.getElementById('designTalla').value;
+    const comentarios = document.getElementById('designComentarios').value.trim();
+    const website = document.getElementById('designWebsite').value.trim();
+
+    if (nombre.length < 2){
+      setDesignStatus('error', 'Ingresa tu nombre.');
+      return;
+    }
+    if (!/^9\d{8}$/.test(whatsapp)){
+      setDesignStatus('error', 'Ingresa un WhatsApp peruano válido de 9 dígitos.');
+      return;
+    }
+    if (!color || !talla){
+      setDesignStatus('error', 'Selecciona el color y la talla de la prenda.');
+      return;
+    }
+    if (!selectedDesignFiles.length){
+      setDesignStatus('error', 'Adjunta al menos un archivo con tu diseño.');
+      return;
+    }
+
+    submit.disabled = true;
+    submit.textContent = 'ENVIANDO DISEÑO...';
+    setDesignStatus('success', 'Estamos subiendo tus archivos. No cierres esta página...');
+
+    try{
+      const filesPayload = await Promise.all(selectedDesignFiles.map(fileToDesignPayload));
+      const body = new URLSearchParams();
+      body.set('nombre', nombre);
+      body.set('whatsapp', whatsapp);
+      body.set('color', color);
+      body.set('talla', talla);
+      body.set('comentarios', comentarios);
+      body.set('website', website);
+      body.set('filesJson', JSON.stringify(filesPayload));
+
+      await fetch(DESIGN_FORM_ENDPOINT, {
+        method:'POST',
+        mode:'no-cors',
+        body
+      });
+
+      trackVoceEvent('enviar_diseno', {
+        design_files: selectedDesignFiles.length,
+        garment_color: color,
+        garment_size: talla
+      });
+      resetDesignForm();
+      setDesignStatus('success', '¡Listo! Recibimos tu diseño. Te enviaremos el mockup por WhatsApp.');
+    } catch(err){
+      console.error(err);
+      setDesignStatus('error', 'No pudimos enviar tus archivos. Intenta nuevamente o escríbenos por WhatsApp.');
+    } finally {
+      submit.disabled = false;
+      submit.textContent = 'ENVIAR MI DISEÑO';
+    }
+  });
+}
+
+/* ---------------- VOCE PULSE: clics y productos vistos ---------------- */
+document.addEventListener('click', (e) => {
+  const link = e.target.closest('a[href]');
+  if (!link) return;
+
+  const href = link.getAttribute('href') || '';
+  if (href.includes('wa.me/')){
+    trackVoceEvent('clic_whatsapp', {
+      link_text: (link.textContent || link.getAttribute('aria-label') || 'WhatsApp').trim().slice(0,100),
+      page_section: analyticsSectionFor(link)
+    });
+  }
+
+  if (link.closest('#marketplaces')){
+    trackVoceEvent('clic_marketplace', {
+      link_text: (link.textContent || 'Marketplaces').trim().slice(0,100),
+      destination: href
+    });
+  }
+});
+
+function observeProductCards(){
+  if (!('IntersectionObserver' in window)) return;
+  const viewed = new Set();
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting || entry.intersectionRatio < 0.6) return;
+      const card = entry.target;
+      const name = card.dataset.analyticsName;
+      if (!name || viewed.has(name)) return;
+      viewed.add(name);
+      trackVoceEvent('view_item', {
+        currency: 'PEN',
+        value: Number(card.dataset.analyticsPrice || 0),
+        items: [{
+          item_name: name,
+          item_category: card.dataset.analyticsCategory || 'Producto',
+          price: Number(card.dataset.analyticsPrice || 0),
+          quantity: 1
+        }]
+      });
+      observer.unobserve(card);
+    });
+  }, { threshold: [0.6] });
+
+  document.querySelectorAll('[data-analytics-name]').forEach(card => observer.observe(card));
+}
+
+// Refuerzo para que el video del banner se reproduzca en móviles que bloquean autoplay
+(function(){
+  const v = document.querySelector('.hero-video');
+  if (!v) return;
+  v.muted = true;
+  const tryPlay = () => v.play().catch(()=>{});
+  tryPlay();
+  document.addEventListener('touchstart', tryPlay, { once:true, passive:true });
+  document.addEventListener('click', tryPlay, { once:true });
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) tryPlay(); });
+})();
+
+initDesignRequestForm();
+renderBasicos();
+renderBoxyfit();
+renderPacks();
+observeProductCards();
+setupCatalogFilter('basicos', COLORES);
+setupCatalogFilter('boxyfit', BOXYFIT_COLORES);
+loadHomeTestimonials();
+renderCartBadge();
 </script>
 </body>
 </html>
