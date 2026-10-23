@@ -349,6 +349,37 @@
   .boxyfit-grid .gallery{ aspect-ratio:3/4; background:#fff; }
   .boxyfit-grid .gallery img{ object-fit:contain; object-position:center top; background:#fff; }
 
+  /* Boxy Fit: aviso de últimas unidades */
+  .boxyfit-title-row{
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  }
+  .boxy-last-units{
+    display:inline-flex; align-items:center; gap:6px;
+    background:#111; color:var(--accent); border:2px solid var(--accent);
+    border-radius:999px; padding:7px 12px;
+    font-size:11px; font-weight:900; letter-spacing:.05em;
+    text-transform:uppercase; box-shadow:0 5px 14px rgba(0,0,0,.12);
+    animation:boxyBounce 2.8s ease-in-out infinite;
+  }
+  @keyframes boxyBounce{
+    0%, 72%, 100%{ transform:translateY(0) scale(1); }
+    78%{ transform:translateY(-7px) scale(1.03); }
+    84%{ transform:translateY(0) scale(1); }
+    90%{ transform:translateY(-3px) scale(1.01); }
+    96%{ transform:translateY(0) scale(1); }
+  }
+  .boxy-stock-badge{
+    position:absolute; top:10px; left:10px; z-index:3;
+    background:var(--accent); color:#111;
+    border-radius:999px; padding:6px 10px;
+    font-size:10.5px; font-weight:900; letter-spacing:.04em;
+    box-shadow:0 3px 10px rgba(0,0,0,.16);
+  }
+  @media(max-width:520px){
+    .boxyfit-title-row{ gap:8px; }
+    .boxy-last-units{ font-size:10px; padding:6px 10px; }
+  }
+
   @media(max-width:520px){
     .catalog-filter{ align-items:stretch; }
     .catalog-filter-label{ width:100%; }
@@ -753,8 +784,11 @@
   </section>
 
   <section id="boxyfit">
-    <h2 class="section-title">Polos Boxy Fit</h2>
-    <p class="section-sub">Corte boxy fit, caída recta y estructurada. Tallas S · M · L.</p>
+    <div class="boxyfit-title-row">
+      <h2 class="section-title" style="margin-bottom:0;">Polos Boxy Fit</h2>
+      <span class="boxy-last-units">🔥 Últimas unidades</span>
+    </div>
+    <p class="section-sub" style="margin-top:6px;">Corte boxy fit, caída recta y estructurada. Tallas S · M · L.</p>
     <div class="promo-note">
       <b>S/45</b> la unidad · desde la <b>2da unidad</b>, cada polo baja a <b>S/40</b> (cualquier combinación de colores).
     </div>
@@ -1146,6 +1180,11 @@ function buildBoxyfitCard(color){
     badge.className = 'badge-agotado';
     badge.textContent = 'Agotado';
     gallery.appendChild(badge);
+  } else {
+    const lastUnits = document.createElement('div');
+    lastUnits.className = 'boxy-stock-badge';
+    lastUnits.textContent = '🔥 ÚLTIMAS UNIDADES';
+    gallery.appendChild(lastUnits);
   }
 
   const prev = document.createElement('button'); prev.className='prev'; prev.textContent='‹';
