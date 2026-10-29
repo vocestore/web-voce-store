@@ -738,6 +738,7 @@
   const guardianFields = document.getElementById('guardianFields');
   const submitBtn = document.getElementById('submitBtn');
   const statusEl = document.getElementById('status');
+  let submitSafetyTimer = null;
 
   function toggleGuardian(){
     const active = menorEdad.value === 'si';
@@ -762,12 +763,30 @@
     submitBtn.disabled = true;
     submitBtn.textContent = 'REGISTRANDO...';
     statusEl.className = 'status';
+    statusEl.innerHTML = '<b>Estamos registrando tu Hoja de Reclamación.</b><br>No cierres esta página hasta ver la confirmación.';
+
+    clearTimeout(submitSafetyTimer);
+    submitSafetyTimer = setTimeout(() => {
+      if (!submitBtn.disabled) return;
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'VERIFICAR / INTENTAR NUEVAMENTE';
+      statusEl.className = 'status warning';
+      statusEl.innerHTML = `
+        <b>La confirmación está tardando más de lo esperado.</b><br>
+        Antes de volver a enviar, revisa el correo que registraste. Si recibiste la Hoja de Reclamación en PDF, <b>tu registro ya fue realizado</b> y no debes enviarlo nuevamente.
+      `;
+      statusEl.scrollIntoView({behavior:'smooth', block:'center'});
+    }, 45000);
   });
 
   window.addEventListener('message', (event) => {
     const data = event.data;
 
     if (!data || data.source !== 'VOCE_RECLAMOS') return;
+
+    clearTimeout(submitSafetyTimer);
+    const selectedTipo = document.querySelector('input[name="tipo"]:checked')?.value || '';
 
     submitBtn.disabled = false;
     submitBtn.textContent = 'REGISTRAR HOJA DE RECLAMACIÓN';
@@ -788,7 +807,7 @@
 
       if (typeof gtag === 'function') {
         gtag('event', 'libro_reclamacion_enviado', {
-          tipo: document.querySelector('input[name="tipo"]:checked')?.value || ''
+          tipo: selectedTipo
         });
       }
 
