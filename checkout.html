@@ -158,8 +158,12 @@ function trackVoceEvent(eventName, params = {}){
   }
 }
 
-const BASICOS_PRICE = 43;
-const BASICOS_PROMO_UNIT = 27.30;
+const STOCK_ENDPOINT = "https://script.google.com/macros/s/AKfycbxhdxGvOHEUQlQ8SLzSZAuwKqpWpcBj9svpAjI8sL-Bklj-oqlZORdilFrg6luxZ7gY/exec";
+const STOCK_CACHE_KEY = "voce_stock_cache_v1";
+
+let BASICOS_PRICE = 43;
+let BASICOS_PROMO_FROM = 3;
+let BASICOS_PROMO_UNIT = 27.30;
 const SHIPPING_FLAT = 9.90;
 const FREE_SHIPPING_MIN = 150;
 
@@ -252,8 +256,144 @@ function loadCart(){
 }
 function clearCart(){ localStorage.removeItem('voce_cart'); }
 
-const BOXYFIT_PRICE = 45;
-const BOXYFIT_PROMO_UNIT = 40;
+let BOXYFIT_PRICE = 45;
+let BOXYFIT_PROMO_FROM = 2;
+let BOXYFIT_PROMO_UNIT = 40;
+
+let STOCK_LOOKUP = {};
+
+function stockKey(type, slug, talla){
+  return `${type}:${slug}:${talla}`;
+}
+
+function applyCheckoutStockPayload(payload){
+  if (!payload || payload.ok !== true || !Array.isArray(payload.products)) return false;
+
+  STOCK_LOOKUP = {};
+
+  const basicos = payload.products.filter(p => p.category === 'basico');
+  const boxy = payload.products.filter(p => p.category === 'boxyfit');
+
+  if (basicos.length){
+    BASICOS_PRICE = Number(basicos[0].price || BASICOS_PRICE);
+    BASICOS_PROMO_FROM = Math.max(1, Number(basicos[0].promoFrom || BASICOS_PROMO_FROM));
+    BASICOS_PROMO_UNIT = Number(basicos[0].promoPrice || BASICOS_PROMO_UNIT);
+  }
+
+  if (boxy.length){
+    BOXYFIT_PRICE = Number(boxy[0].price || BOXYFIT_PRICE);
+    BOXYFIT_PROMO_FROM = Math.max(1, Number(boxy[0].promoFrom || BOXYFIT_PROMO_FROM));
+    BOXYFIT_PROMO_UNIT = Number(boxy[0].promoPrice || BOXYFIT_PROMO_UNIT);
+  }
+
+  payload.products.forEach(p => {
+    const type = p.category === 'boxyfit' ? 'boxyfit' : 'basico';
+    ['S','M','L'].forEach(talla => {
+      STOCK_LOOKUP[stockKey(type, p.slug, talla)] = {
+        stock: Math.max(0, Number(p.stock?.[talla] || 0)),
+        nombre: String(p.color || ''),
+        imagePrefix: String(p.imagePrefix || `${type === 'boxyfit' ? 'boxy' : 'basico'}-${p.slug}`)
+      };
+    });
+  });
+
+  return true;
+}
+
+function readCheckoutStockCache(){
+  try{
+    const raw = localStorage.getItem(STOCK_CACHE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return parsed?.payload || null;
+  }catch(e){
+    return null;
+  }
+}
+
+function saveCheckoutStockCache(payload){
+  try{
+    localStorage.setItem(STOCK_CACHE_KEY, JSON.stringify({savedAt:Date.now(),payload}));
+  }catch(e){}
+}
+
+function loadCheckoutStock(){
+  return new Promise(resolve => {
+    let finished = false;
+    const callbackName = '__voceCheckoutStockCallback';
+    const script = document.createElement('script');
+
+    const cleanup = () => {
+      try{ delete window[callbackName]; }catch(e){ window[callbackName] = undefined; }
+      script.remove();
+    };
+
+    const finish = ok => {
+      if (finished) return;
+      finished = true;
+      clearTimeout(timer);
+      cleanup();
+      resolve(ok);
+    };
+
+    window[callbackName] = payload => {
+      const ok = applyCheckoutStockPayload(payload);
+      if (ok) saveCheckoutStockCache(payload);
+      finish(ok);
+    };
+
+    script.onerror = () => {
+      const cached = readCheckoutStockCache();
+      if (cached) applyCheckoutStockPayload(cached);
+      finish(false);
+    };
+
+    script.src = `${STOCK_ENDPOINT}?callback=${callbackName}&_=${Date.now()}`;
+    document.head.appendChild(script);
+
+    const timer = setTimeout(() => {
+      const cached = readCheckoutStockCache();
+      if (cached) applyCheckoutStockPayload(cached);
+      finish(false);
+    }, 8000);
+  });
+}
+
+function reconcileCheckoutCart(cart){
+  let adjusted = false;
+  const next = [];
+
+  cart.forEach(line => {
+    if (line.type === 'pack'){
+      next.push(line);
+      return;
+    }
+
+    const type = line.type === 'boxyfit' ? 'boxyfit' : 'basico';
+    const info = STOCK_LOOKUP[stockKey(type, line.colorSlug, line.talla)];
+
+    if (!info){
+      next.push(line);
+      return;
+    }
+
+    if (info.stock <= 0){
+      adjusted = true;
+      return;
+    }
+
+    if (line.qty > info.stock){
+      line.qty = info.stock;
+      adjusted = true;
+    }
+
+    line.colorNombre = info.nombre || line.colorNombre;
+    line.imagePrefix = info.imagePrefix || line.imagePrefix;
+    next.push(line);
+  });
+
+  return { cart: next, adjusted };
+}
 
 function basicoLines(cart){ return cart.filter(l => l.type==='basico' || !l.type); }
 function boxyfitLines(cart){ return cart.filter(l => l.type==='boxyfit'); }
@@ -262,12 +402,12 @@ function cartTotalQty(cart){ return cart.reduce((s,l)=>s+l.qty,0); }
 function cartSubtotal(cart){
   const basicos = basicoLines(cart);
   const bqty = basicos.reduce((s,l)=>s+l.qty,0);
-  const bunit = bqty >= 3 ? BASICOS_PROMO_UNIT : BASICOS_PRICE;
+  const bunit = bqty >= BASICOS_PROMO_FROM ? BASICOS_PROMO_UNIT : BASICOS_PRICE;
   const basicosTotal = bqty * bunit;
 
   const boxyfit = boxyfitLines(cart);
   const xqty = boxyfit.reduce((s,l)=>s+l.qty,0);
-  const xunit = xqty >= 2 ? BOXYFIT_PROMO_UNIT : BOXYFIT_PRICE;
+  const xunit = xqty >= BOXYFIT_PROMO_FROM ? BOXYFIT_PROMO_UNIT : BOXYFIT_PRICE;
   const boxyfitTotal = xqty * xunit;
 
   const packsTotal = packLines(cart).reduce((s,l)=>s + (l.precio||0)*l.qty, 0);
@@ -283,7 +423,7 @@ function renderEmpty(){
   `;
 }
 
-function renderCheckout(cart){
+function renderCheckout(cart, stockAdjusted = false){
   const subtotal = cartSubtotal(cart);
   const shipping = subtotal >= FREE_SHIPPING_MIN ? 0 : SHIPPING_FLAT;
   const total = subtotal + shipping;
@@ -306,7 +446,7 @@ function renderCheckout(cart){
     if (l.type === 'boxyfit'){
       return `
         <div class="cart-line">
-          <img src="boxy-${l.colorSlug}-1.jpg" alt="${l.colorNombre}">
+          <img src="${l.imagePrefix || `boxy-${l.colorSlug}`}-1.jpg" alt="${l.colorNombre}">
           <div class="cl-info">
             <div class="cl-name">Boxy Fit ${l.colorNombre}</div>
             <div class="cl-meta">Talla ${l.talla}</div>
@@ -317,7 +457,7 @@ function renderCheckout(cart){
     }
     return `
       <div class="cart-line">
-        <img src="basico-${l.colorSlug}-1.jpg" alt="${l.colorNombre}">
+        <img src="${l.imagePrefix || `basico-${l.colorSlug}`}-1.jpg" alt="${l.colorNombre}">
         <div class="cl-info">
           <div class="cl-name">Básico ${l.colorNombre}</div>
           <div class="cl-meta">Talla ${l.talla}</div>
@@ -329,7 +469,13 @@ function renderCheckout(cart){
 
   const deptOptions = Object.keys(DEPARTAMENTOS).sort().map(d => `<option value="${d}">${d}</option>`).join('');
 
-  document.getElementById('content').innerHTML = `
+    document.getElementById('content').innerHTML = `
+    ${stockAdjusted ? `
+      <div style="margin-bottom:14px;padding:12px 14px;border:1px solid #e8c76a;background:#fff8df;border-radius:10px;font-size:13px;line-height:1.45;">
+        <b>Actualizamos tu carrito según el stock disponible.</b><br>
+        Alguna cantidad o variante ya no estaba disponible y fue ajustada automáticamente.
+      </div>
+    ` : ''}
     <h1>Finalizar pedido</h1>
     <p class="sub">Revisa tu pedido y completa tus datos — lo enviamos directo a nuestro WhatsApp para coordinar el pago y el envío.</p>
 
@@ -560,17 +706,32 @@ document.addEventListener('click', (e) => {
   });
 });
 
-const cart = loadCart();
-if (!cart.length){
-  renderEmpty();
-} else {
+async function initCheckout(){
+  await loadCheckoutStock();
+
+  const originalCart = loadCart();
+  const reconciled = reconcileCheckoutCart(originalCart);
+  const cart = reconciled.cart;
+
+  if (reconciled.adjusted){
+    localStorage.setItem('voce_cart', JSON.stringify(cart));
+  }
+
+  if (!cart.length){
+    renderEmpty();
+    return;
+  }
+
   trackVoceEvent('begin_checkout', {
     currency: 'PEN',
     value: cartSubtotal(cart),
     cart_items: cartTotalQty(cart)
   });
-  renderCheckout(cart);
+
+  renderCheckout(cart, reconciled.adjusted);
 }
+
+initCheckout();
 </script>
 </body>
 </html>
