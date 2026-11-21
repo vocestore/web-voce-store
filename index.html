@@ -11,8 +11,8 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VOCE STORE | Polos Oversize, Boxy Fit y Personalizados en Perú</title>
-<meta name="description" content="Compra polos oversize, polos Boxy Fit y prendas personalizadas en VOCE STORE. Envíos a todo el Perú, tallas S, M y L y promociones por cantidad.">
+<title>VOCE STORE | Polos Oversize y Personalizados en Perú</title>
+<meta name="description" content="Compra polos oversize y prendas personalizadas en VOCE STORE. Envíos a todo el Perú, tallas S, M y L y promociones por cantidad.">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://vocestore.com.pe/">
 <link rel="icon" type="image/png" href="logo-voce-store.png">
@@ -20,8 +20,8 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_PE">
 <meta property="og:site_name" content="VOCE STORE">
-<meta property="og:title" content="VOCE STORE | Polos Oversize, Boxy Fit y Personalizados en Perú">
-<meta property="og:description" content="Streetwear peruano: polos oversize, Boxy Fit y personalizados con envíos a todo el Perú.">
+<meta property="og:title" content="VOCE STORE | Polos Oversize y Personalizados en Perú">
+<meta property="og:description" content="Streetwear peruano: polos oversize y personalizados con envíos a todo el Perú.">
 <meta property="og:url" content="https://vocestore.com.pe/">
 <meta property="og:image" content="https://vocestore.com.pe/promo-basicos-banner.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -552,7 +552,6 @@
       <nav class="navscroll">
         <a href="#personalizados">Personalizados</a>
         <a href="#basicos">Básicos</a>
-        <a href="#boxyfit">Boxy Fit</a>
         <a href="#marketplaces">Marketplaces</a>
         <a href="testimonios.html">Testimonios</a>
         <a href="faq.html">FAQ</a>
@@ -575,7 +574,7 @@
 </header>
 
 <main id="top">
-  <h1 class="sr-only">Polos Oversize, Boxy Fit y Personalizados en Perú</h1>
+  <h1 class="sr-only">Polos Oversize y Personalizados en Perú</h1>
 
   <section id="personalizados" style="border-bottom:none;">
     <div class="video-hero">
@@ -783,32 +782,6 @@
     </div>
   </section>
 
-  <section id="boxyfit">
-    <div class="boxyfit-title-row">
-      <h2 class="section-title" style="margin-bottom:0;">Polos Boxy Fit</h2>
-      <span class="boxy-last-units" id="boxyLastUnitsTitle">🔥 Últimas unidades</span>
-    </div>
-    <p class="section-sub" style="margin-top:6px;">Corte boxy fit, caída recta y estructurada. Tallas S · M · L.</p>
-    <div class="promo-note" id="boxyfitPromoNote">
-      <b>S/45</b> la unidad · desde la <b>2da unidad</b>, cada polo baja a <b>S/40</b> (cualquier combinación de colores).
-    </div>
-    <div class="catalog-filter" aria-label="Filtrar polos Boxy Fit">
-      <span class="catalog-filter-label">Filtrar:</span>
-      <select id="boxyfitFilterColor" aria-label="Filtrar Boxy Fit por color"></select>
-      <select id="boxyfitFilterTalla" aria-label="Filtrar Boxy Fit por talla"></select>
-      <button type="button" class="filter-clear" onclick="clearCatalogFilter('boxyfit')">Limpiar</button>
-      <span class="filter-status" id="boxyfitFilterStatus" aria-live="polite"></span>
-    </div>
-    <div class="basicos-grid boxyfit-grid" id="boxyfitGrid"></div>
-
-    <div class="product-info">
-      <details class="product-details">
-        <summary>📏 Ver guía de tallas</summary>
-        <div class="pd-body"><img src="tabla-medidas-boxyfit.jpg" alt="Tabla de medidas Boxy Fit" style="border-radius:10px;"></div>
-      </details>
-    </div>
-  </section>
-
   <section id="marketplaces">
     <h2 class="section-title">También nos encuentras en</h2>
     <p class="section-sub">Compra por marketplace si prefieres esa opción — recojo gratis en tienda disponible.</p>
@@ -853,7 +826,7 @@
   <div class="footer-inner">
     <div>
       <div class="footer-brand">VOCE STORE</div>
-      <p>Streetwear peruano inspirado en la cultura urbana.<br>Oversize · Boxy Fit · Hoodies · Accesorios</p>
+      <p>Streetwear peruano inspirado en la cultura urbana.<br>Oversize · Hoodies · Accesorios</p>
     </div>
     <div>
       <h4>Contacto</h4>
@@ -991,14 +964,9 @@ function applyStockPayload(payload){
     BASICOS_PROMO_UNIT = Number(basicos[0].promoPrice || BASICOS_PROMO_UNIT);
   }
 
-  if (boxy.length) {
-    BOXYFIT_COLORES = boxy;
-    BOXYFIT_PRICE = Number(boxy[0].price || BOXYFIT_PRICE);
-    BOXYFIT_PROMO_FROM = Number(boxy[0].promoFrom || BOXYFIT_PROMO_FROM);
-    BOXYFIT_PROMO_UNIT = Number(boxy[0].promoPrice || BOXYFIT_PROMO_UNIT);
-  } else {
-    BOXYFIT_COLORES = [];
-  }
+  // Boxy Fit está temporalmente fuera de la tienda.
+  // Conservamos sus filas en VOCE CONTROL para poder reactivarlo más adelante.
+  BOXYFIT_COLORES = [];
 
   updateCatalogPromoCopy();
   return true;
@@ -1105,6 +1073,12 @@ function reconcileCartWithStock(){
   const next = [];
 
   cart.forEach(line => {
+    // Boxy Fit está fuera de catálogo: elimina líneas antiguas guardadas en el navegador.
+    if (line.type === 'boxyfit'){
+      changed = true;
+      return;
+    }
+
     if (line.type === 'pack'){
       next.push(line);
       return;
@@ -2199,11 +2173,9 @@ async function initStore(){
   reconcileCartWithStock();
   SEARCH_INDEX = buildSearchIndex();
   renderBasicos();
-  renderBoxyfit();
   renderPacks();
 
   setupCatalogFilter('basicos', COLORES);
-  setupCatalogFilter('boxyfit', BOXYFIT_COLORES);
 
   updateCatalogPromoCopy();
   observeProductCards();
