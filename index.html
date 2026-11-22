@@ -418,6 +418,70 @@
   .envios-text{ margin:16px auto 0 auto; font-size:14px; color:var(--muted); line-height:1.6; max-width:700px; text-align:center; }
   #envios .banner-block{ max-width:600px; margin:0 auto; }
 
+
+  /* ---- reel: así hacemos nuestras prendas ---- */
+  .making-section{ text-align:center; }
+  .making-reel-shell{
+    max-width:430px; margin:22px auto 0; padding:10px;
+    border:1px solid var(--border); border-radius:18px; background:#fff;
+    box-shadow:0 10px 28px rgba(0,0,0,.06);
+  }
+  .making-reel-frame{
+    display:block; width:100%; aspect-ratio:9/16; min-height:620px;
+    border:0; border-radius:12px; background:#f4f4f4;
+  }
+  .making-reel-actions{ margin-top:18px; text-align:center; }
+  @media(max-width:520px){
+    .making-reel-shell{ max-width:100%; padding:7px; border-radius:14px; }
+    .making-reel-frame{ min-height:600px; border-radius:10px; }
+  }
+
+  /* ---- popup promo personalizados: discreto y no invasivo ---- */
+  .promo-popup{
+    position:fixed; right:20px; bottom:92px; z-index:65;
+    width:min(330px, calc(100vw - 28px));
+    opacity:0; transform:translateY(18px) scale(.98);
+    pointer-events:none; visibility:hidden;
+    transition:opacity .25s ease, transform .25s ease, visibility .25s ease;
+  }
+  .promo-popup.show{
+    opacity:1; transform:translateY(0) scale(1);
+    pointer-events:auto; visibility:visible;
+  }
+  .promo-popup-card{
+    position:relative; overflow:hidden; border-radius:18px; background:#fff;
+    box-shadow:0 16px 48px rgba(0,0,0,.22);
+    border:1px solid rgba(0,0,0,.08);
+  }
+  .promo-popup-link{ display:block; line-height:0; }
+  .promo-popup-link img{ width:100%; height:auto; display:block; }
+  .promo-popup-close{
+    position:absolute; top:8px; right:8px; z-index:2;
+    width:32px; height:32px; border-radius:50%; border:0;
+    background:rgba(0,0,0,.82); color:#fff; font-size:18px; font-weight:800;
+    display:grid; place-items:center; cursor:pointer;
+    box-shadow:0 3px 12px rgba(0,0,0,.18);
+  }
+  .promo-popup-close:hover{ background:#000; }
+  @media(max-width:600px){
+    .promo-popup{ right:12px; bottom:78px; width:min(310px, calc(100vw - 24px)); }
+    .promo-popup-card{ border-radius:15px; }
+  }
+
+  /* ---- redes sociales footer ---- */
+  .footer-social-row{
+    max-width:1180px; margin:24px auto 0; padding-top:18px;
+    border-top:1px solid #333; display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  }
+  .footer-social-title{ color:#fff; font-size:13px; font-weight:800; margin-right:4px; }
+  .footer-social-link{
+    display:inline-flex; align-items:center; gap:6px; padding:8px 12px;
+    border:1px solid #3b3b3b; border-radius:999px; color:#ddd !important;
+    text-decoration:none; font-size:12.5px !important; font-weight:700;
+    transition:border-color .2s ease, color .2s ease, transform .2s ease;
+  }
+  .footer-social-link:hover{ border-color:var(--accent); color:#fff !important; transform:translateY(-1px); }
+
   /* ---- testimonios en inicio ---- */
   .testimonials-preview-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
   .testimonial-preview-card{ border:1px solid var(--border); border-radius:12px; padding:16px; background:#fff; }
@@ -580,129 +644,8 @@
 <main id="top">
   <h1 class="sr-only">Polos Oversize y Personalizados en Perú</h1>
 
-  <section id="personalizados" style="border-bottom:none;">
-    <div class="video-hero">
-      <video class="hero-video" autoplay muted loop playsinline preload="metadata">
-        <source src="YouCut_20261122_144936846.mp4" type="video/mp4">
-      </video>
-    </div>
-    <a class="hero-whatsapp-full" target="_blank" rel="noopener"
-       href="https://wa.me/51965165095?text=Hola%20VOCE%20STORE%2C%20quiero%20personalizar%20una%20prenda%2C%20%C2%BFme%20ayudan%3F">
-      💬 Personalizar por WhatsApp
-    </a>
+  
 
-    <div class="design-request" id="manda-tu-diseno">
-      <div class="design-request-inner">
-        <div class="design-request-copy">
-          <span class="design-request-kicker">Personaliza sin complicarte</span>
-          <h2>MÁNDAME TU DISEÑO</h2>
-          <p>Envíanos tu archivo, déjanos tu WhatsApp y cuéntanos cómo quieres tu prenda. Nosotros preparamos el mockup y te lo enviamos por WhatsApp antes de producir.</p>
-          <ul class="design-request-steps">
-            <li><span class="design-step-num">1</span><span>Sube tus diseños en PNG, JPG o PDF.</span></li>
-            <li><span class="design-step-num">2</span><span>Indica color, talla y cualquier detalle que debamos considerar.</span></li>
-            <li><span class="design-step-num">3</span><span>Te escribimos por WhatsApp con el mockup para que lo revises.</span></li>
-          </ul>
-        </div>
-
-        <div class="design-request-form-wrap">
-          <form class="design-form" id="designRequestForm" novalidate>
-            <div class="design-form-grid">
-              <div class="design-field">
-                <label for="designNombre">Nombre</label>
-                <input id="designNombre" name="nombre" type="text" autocomplete="name" placeholder="Tu nombre" required>
-              </div>
-
-              <div class="design-field">
-                <label for="designWhatsapp">WhatsApp</label>
-                <input id="designWhatsapp" name="whatsapp" type="tel" inputmode="numeric" autocomplete="tel" maxlength="9" placeholder="9XXXXXXXX" required>
-              </div>
-
-              <div class="design-field">
-                <label for="designColor">Color de la prenda</label>
-                <select id="designColor" name="color" required>
-                  <option value="" selected disabled>Elige un color</option>
-                  <option value="Negro">Negro</option>
-                  <option value="Blanco">Blanco</option>
-                  <option value="Perla">Perla</option>
-                  <option value="Rosado">Rosado</option>
-                  <option value="Lila">Lila</option>
-                  <option value="Vino">Vino</option>
-                  <option value="Otro / por coordinar">Otro / por coordinar</option>
-                </select>
-              </div>
-
-              <div class="design-field">
-                <label for="designTalla">Talla</label>
-                <select id="designTalla" name="talla" required>
-                  <option value="" selected disabled>Elige una talla</option>
-                  <option value="S">S</option>
-                  <option value="M">M</option>
-                  <option value="L">L</option>
-                </select>
-              </div>
-
-              <div class="design-field full">
-                <label for="designComentarios">Indicaciones o comentarios</label>
-                <textarea id="designComentarios" name="comentarios" placeholder="Ej: estampado grande en la espalda, logo pequeño al pecho, usar este diseño como referencia..."></textarea>
-              </div>
-
-              <div class="design-field full design-honeypot" aria-hidden="true">
-                <label for="designWebsite">Website</label>
-                <input id="designWebsite" name="website" type="text" tabindex="-1" autocomplete="off">
-              </div>
-
-              <div class="design-field full">
-                <label>Archivos de tu diseño</label>
-                <div class="design-upload" id="designUploadBox" role="button" tabindex="0" aria-controls="designFilesInput">
-                  <strong>📎 Toca aquí para subir tus diseños</strong>
-                  <span>PNG, JPG/JPEG o PDF · hasta 5 MB por archivo</span>
-                  <input id="designFilesInput" type="file" accept=".png,.jpg,.jpeg,.pdf,image/png,image/jpeg,application/pdf" multiple hidden>
-                </div>
-                <div class="design-files" id="designFilesList"></div>
-              </div>
-            </div>
-
-            <div class="design-form-status" id="designFormStatus" role="status" aria-live="polite"></div>
-            <button class="design-submit" id="designSubmitBtn" type="submit">ENVIAR MI DISEÑO</button>
-            <p class="design-form-note">No necesitas comprar todavía. Primero revisamos tu diseño y te enviamos el mockup por WhatsApp.</p>
-          </form>
-        </div>
-      </div>
-    </div>
-
-    <div class="personal-banners">
-      <img src="banner-personalizados-polos.jpg" alt="Packs de polos personalizados">
-      <img src="banner-personalizados-hoodie.jpg" alt="Packs de hoodies personalizados">
-    </div>
-
-    <div class="packs-grid" id="packsGrid"></div>
-
-    <div class="product-info">
-      <details class="product-details">
-        <summary>📏 Ver guía de tallas</summary>
-        <div class="pd-body"><img src="tabla-medidas-oversize.jpg" alt="Tabla de medidas oversize" style="border-radius:10px;"></div>
-      </details>
-      <details class="product-details">
-        <summary>Ver detalles del producto y cuidados</summary>
-        <div class="pd-body">
-          <h4>Características</h4>
-          <ul>
-            <li>Algodón jersey 30/1 reactivo peinado premium</li>
-            <li>Estampado DTF de alta durabilidad — tamaño máximo de estampado A3</li>
-            <li>Tallas corte oversize: S · M · L</li>
-          </ul>
-          <p>Los diseños que ves en las fotos son referenciales — al elegir tu pack, nos escribes y nos envías tu propio diseño para personalizarlo.</p>
-          <h4>Cuidados de la prenda</h4>
-          <ul>
-            <li>Separa las prendas blancas de las de color</li>
-            <li>Lava a mano o en máquina en modo suave, por el revés, con agua fría</li>
-            <li>No uses lejía ni detergentes abrasivos o blanqueadores</li>
-            <li>No laves en seco · Plancha a temperatura suave</li>
-          </ul>
-        </div>
-      </details>
-    </div>
-  </section>
 
   <section id="basicos">
     <img src="promo-basicos-banner.jpg" alt="Promo Básicos: 3 polos oversize básicos por S/81.90" style="border-radius:14px; width:100%;">
@@ -805,20 +748,33 @@
     </p>
   </section>
 
+
+  <section id="asi-hacemos" class="making-section">
+    <h2 class="section-title">ASI HACEMOS NUESTRAS PRENDAS</h2>
+    <p class="section-sub">Mira parte del proceso detrás de nuestros personalizados.</p>
+    <div class="making-reel-shell">
+      <iframe
+        class="making-reel-frame"
+        src="https://www.instagram.com/reel/Daa1Zr2Pa_o/embed"
+        title="Así hacemos nuestras prendas - VOCE STORE"
+        loading="lazy"
+        scrolling="no"
+        allowtransparency="true"
+        allowfullscreen
+        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+      </iframe>
+    </div>
+    <div class="making-reel-actions">
+      <a class="btn-outline" href="https://www.instagram.com/voce_store1/" target="_blank" rel="noopener">Síguenos en IG ↗</a>
+    </div>
+  </section>
+
   <section id="testimonios-home">
     <h2 class="section-title">Lo que dicen nuestros clientes</h2>
     <p class="section-sub">Opiniones reales de personas que ya compraron en VOCE STORE.</p>
     <div id="homeTestimonials"><div class="testimonials-state">Cargando testimonios...</div></div>
     <div class="banner-cta">
       <a class="btn-outline" href="testimonios.html">Ver todos los testimonios</a>
-    </div>
-  </section>
-
-  <section style="border-bottom:none;">
-    <div class="ig-block">
-      <h3>📸 Síguenos en Instagram</h3>
-      <p>Nuevos diseños, packs de personalizados y sorteos — todo primero en Instagram.</p>
-      <a class="btn-outline" href="https://www.instagram.com/voce_store1/" target="_blank" rel="noopener">@voce_store1</a>
     </div>
   </section>
 
@@ -850,8 +806,30 @@
       </a>
     </div>
   </div>
+
+  <div class="footer-social-row" aria-label="Redes sociales de VOCE STORE">
+    <span class="footer-social-title">Síguenos</span>
+    <a class="footer-social-link" href="https://www.instagram.com/voce_store1/" target="_blank" rel="noopener">↗ Instagram</a>
+    <a class="footer-social-link" href="https://www.facebook.com/vocestore1" target="_blank" rel="noopener">↗ Facebook</a>
+    <a class="footer-social-link" href="https://www.tiktok.com/@voce_store1" target="_blank" rel="noopener">↗ TikTok</a>
+  </div>
+
   <div class="footer-bottom">© VOCE STORE — Urban Trend, Clothes and More</div>
 </footer>
+
+
+<!-- Popup promo personalizados -->
+<div class="promo-popup" id="personalizadosPromoPopup" aria-hidden="true">
+  <div class="promo-popup-card">
+    <button class="promo-popup-close" id="personalizadosPromoClose" type="button" aria-label="Cerrar promoción">×</button>
+    <a class="promo-popup-link"
+       href="https://wa.me/51965165095?text=Hola%20VOCE%20STORE%20%2C%20quiero%20personalizar%20polos%20oversize%20%2C%20te%20mando%20mis%20dise%C3%B1os%20para%20que%20me%20muestres%20como%20quedar%C3%ADan"
+       target="_blank" rel="noopener"
+       aria-label="Quiero personalizar polos oversize por WhatsApp">
+      <img src="popup-personalizados.webp" alt="Promoción de polos oversize personalizados VOCE STORE">
+    </a>
+  </div>
+</div>
 
 <!-- Cart drawer -->
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
@@ -2155,17 +2133,72 @@ function observeProductCards(){
   document.querySelectorAll('[data-analytics-name]').forEach(card => observer.observe(card));
 }
 
-// Refuerzo para que el video del banner se reproduzca en móviles que bloquean autoplay
+// Reproducción robusta del banner en desktop y móvil.
 (function(){
   const v = document.querySelector('.hero-video');
   if (!v) return;
+
   v.muted = true;
-  const tryPlay = () => v.play().catch(()=>{});
-  tryPlay();
+  v.defaultMuted = true;
+  v.setAttribute('muted', '');
+  v.setAttribute('playsinline', '');
+  v.setAttribute('webkit-playsinline', '');
+
+  const tryPlay = () => {
+    const p = v.play();
+    if (p && typeof p.catch === 'function') p.catch(() => {});
+  };
+
+  if (v.readyState >= 2) tryPlay();
+  v.addEventListener('loadeddata', tryPlay);
+  v.addEventListener('canplay', tryPlay);
+  window.addEventListener('load', tryPlay);
   document.addEventListener('touchstart', tryPlay, { once:true, passive:true });
-  document.addEventListener('click', tryPlay, { once:true });
+  document.addEventListener('pointerdown', tryPlay, { once:true, passive:true });
   document.addEventListener('visibilitychange', () => { if (!document.hidden) tryPlay(); });
+
+  // Si el MP4 falla, dejamos visible el poster en vez de un bloque negro.
+  v.addEventListener('error', () => {
+    v.removeAttribute('src');
+    v.load();
+  });
 })();
+
+
+// Popup sutil de personalizados: aparece una vez cada 24 horas.
+(function(){
+  const popup = document.getElementById('personalizadosPromoPopup');
+  const close = document.getElementById('personalizadosPromoClose');
+  if (!popup || !close) return;
+
+  const KEY = 'voce_personalizados_popup_closed_at';
+  const DAY = 24 * 60 * 60 * 1000;
+  let lastClosed = 0;
+
+  try { lastClosed = Number(localStorage.getItem(KEY) || 0); } catch(e) {}
+
+  if (Date.now() - lastClosed < DAY) return;
+
+  const showPopup = () => {
+    popup.classList.add('show');
+    popup.setAttribute('aria-hidden', 'false');
+  };
+
+  const hidePopup = () => {
+    popup.classList.remove('show');
+    popup.setAttribute('aria-hidden', 'true');
+    try { localStorage.setItem(KEY, String(Date.now())); } catch(e) {}
+  };
+
+  window.setTimeout(showPopup, 3200);
+  close.addEventListener('click', hidePopup);
+
+  const promoLink = popup.querySelector('.promo-popup-link');
+  if (promoLink) promoLink.addEventListener('click', () => {
+    try { localStorage.setItem(KEY, String(Date.now())); } catch(e) {}
+  });
+})();
+
 
 async function initStore(){
   initDesignRequestForm();
