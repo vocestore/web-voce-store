@@ -261,7 +261,31 @@
     display:grid; grid-template-columns:repeat(3,1fr); gap:16px;
   }
   @media(max-width:900px){ .basicos-grid{ grid-template-columns:repeat(2,1fr); } }
-  @media(max-width:520px){ .basicos-grid{ grid-template-columns:1fr; } }
+
+  /* En móvil, los básicos se convierten en carrusel horizontal.
+     Desktop/tablet conservan el grid actual. */
+  @media(max-width:520px){
+    .basicos-grid{
+      display:flex;
+      gap:12px;
+      overflow-x:auto;
+      overflow-y:hidden;
+      padding:0 18px 10px 0;
+      scroll-snap-type:x mandatory;
+      scroll-padding-left:0;
+      -webkit-overflow-scrolling:touch;
+      scrollbar-width:none;
+      overscroll-behavior-x:contain;
+    }
+    .basicos-grid::-webkit-scrollbar{ display:none; }
+
+    .basicos-grid .basico-card{
+      flex:0 0 82%;
+      max-width:300px;
+      min-width:255px;
+      scroll-snap-align:start;
+    }
+  }
   .basico-card{
     border:1px solid var(--border); border-radius:14px; overflow:hidden;
     display:flex; flex-direction:column;
