@@ -23,7 +23,7 @@
 <meta property="og:title" content="VOCE STORE | Polos Oversize y Personalizados en Perú">
 <meta property="og:description" content="Streetwear peruano: polos oversize y personalizados con envíos a todo el Perú.">
 <meta property="og:url" content="https://vocestore.com.pe/">
-<meta property="og:image" content="https://vocestore.com.pe/nuevo%20banner%20basicos.png">
+<meta property="og:image" content="https://vocestore.com.pe/promo-basicos-banner.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#dcab24">
 <script type="application/ld+json">
@@ -141,16 +141,20 @@
   .video-hero{
     position:relative; border-radius:18px; overflow:hidden; background:#000;
   }
-  .hero-video{ width:100%; height:auto; display:block; aspect-ratio:1920/776; object-fit:cover; }
-  .hero-cta-bar{
-    position:absolute; left:0; right:0; bottom:9%;
-    display:flex; align-items:center; justify-content:center;
+  .hero-video{
+    width:100%; height:auto; display:block; aspect-ratio:1774/887; object-fit:cover;
   }
-  @media(max-width:480px){ .hero-cta-bar .wa-cta{ font-size:12px; padding:9px 14px; } }
-  .wa-cta{
-    display:inline-flex; align-items:center; gap:8px;
-    background:var(--accent); color:var(--accent-ink); font-weight:800;
-    padding:12px 20px; border-radius:10px; text-decoration:none; font-size:14.5px;
+  .hero-whatsapp-full{
+    width:100%; min-height:50px; margin-top:10px; box-sizing:border-box;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    background:var(--accent); color:var(--accent-ink); font-weight:900;
+    padding:13px 18px; border-radius:12px; text-decoration:none; font-size:15px;
+    line-height:1.2; text-align:center; transition:transform .15s ease, filter .15s ease;
+  }
+  .hero-whatsapp-full:hover{ filter:brightness(.96); transform:translateY(-1px); }
+  @media(max-width:600px){
+    .video-hero{ border-radius:14px; }
+    .hero-whatsapp-full{ min-height:48px; margin-top:8px; padding:12px 10px; font-size:14px; border-radius:10px; }
   }
   /* ---- envia tu diseno ---- */
   .design-request{
@@ -578,16 +582,14 @@
 
   <section id="personalizados" style="border-bottom:none;">
     <div class="video-hero">
-      <video class="hero-video" autoplay muted loop playsinline poster="hero-poster.jpg">
-        <source src="banner-personalizados.mp4" type="video/mp4">
+      <video class="hero-video" autoplay muted loop playsinline preload="metadata">
+        <source src="YouCut_20261122_144936846.mp4" type="video/mp4">
       </video>
-      <div class="hero-cta-bar">
-        <a class="wa-cta" target="_blank" rel="noopener"
-           href="https://wa.me/51965165095?text=Hola%20VOCE%20STORE%2C%20quiero%20personalizar%20una%20prenda%2C%20%C2%BFme%20ayudan%3F">
-          💬 Personalizar por WhatsApp
-        </a>
-      </div>
     </div>
+    <a class="hero-whatsapp-full" target="_blank" rel="noopener"
+       href="https://wa.me/51965165095?text=Hola%20VOCE%20STORE%2C%20quiero%20personalizar%20una%20prenda%2C%20%C2%BFme%20ayudan%3F">
+      💬 Personalizar por WhatsApp
+    </a>
 
     <div class="design-request" id="manda-tu-diseno">
       <div class="design-request-inner">
@@ -703,7 +705,7 @@
   </section>
 
   <section id="basicos">
-    <img src="nuevo banner basicos.png" alt="Promo Básicos: 3 polos oversize básicos por S/81.90" style="border-radius:14px; width:100%;">
+    <img src="promo-basicos-banner.jpg" alt="Promo Básicos: 3 polos oversize básicos por S/81.90" style="border-radius:14px; width:100%;">
     <div class="category-marquee-wrap" aria-label="Envíos a todo el Perú">
       <div class="category-marquee">
         <div class="category-marquee-group">
