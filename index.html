@@ -152,6 +152,20 @@
     line-height:1.2; text-align:center; transition:transform .15s ease, filter .15s ease;
   }
   .hero-whatsapp-full:hover{ filter:brightness(.96); transform:translateY(-1px); }
+
+  .hero-video-play{
+    position:absolute; inset:0; margin:auto;
+    width:max-content; height:max-content;
+    border:1px solid rgba(255,255,255,.35);
+    background:rgba(0,0,0,.72); color:#fff;
+    padding:12px 18px; border-radius:999px;
+    font-size:14px; font-weight:800; cursor:pointer;
+    display:none; align-items:center; justify-content:center;
+    backdrop-filter:blur(5px); -webkit-backdrop-filter:blur(5px);
+    box-shadow:0 8px 26px rgba(0,0,0,.28);
+    z-index:3;
+  }
+  .video-hero.needs-play .hero-video-play{ display:flex; }
   @media(max-width:600px){
     .video-hero{ border-radius:14px; }
     .hero-whatsapp-full{ min-height:48px; margin-top:8px; padding:12px 10px; font-size:14px; border-radius:10px; }
@@ -245,6 +259,30 @@
     margin-top:24px; display:grid; grid-template-columns:repeat(3,1fr); gap:14px;
   }
   @media(max-width:800px){ .packs-grid{ grid-template-columns:1fr; } }
+
+  /* En móvil, los packs 3/6/12 se deslizan horizontalmente.
+     En PC y tablet se conserva el layout actual. */
+  @media(max-width:520px){
+    .packs-grid{
+      display:flex;
+      gap:12px;
+      overflow-x:auto;
+      overflow-y:hidden;
+      padding:0 18px 10px 0;
+      scroll-snap-type:x mandatory;
+      -webkit-overflow-scrolling:touch;
+      scrollbar-width:none;
+      overscroll-behavior-x:contain;
+    }
+    .packs-grid::-webkit-scrollbar{ display:none; }
+
+    .packs-grid .pack-card{
+      flex:0 0 84%;
+      min-width:260px;
+      max-width:320px;
+      scroll-snap-align:start;
+    }
+  }
   .pack-card{
     border:1px solid var(--border); border-radius:14px; overflow:hidden;
     display:flex; flex-direction:column;
@@ -671,14 +709,14 @@
   <section id="personalizados" style="border-bottom:none;">
     <div class="video-hero">
       <video class="hero-video"
-             src="./YouCut_20261122_144936846.mp4"
-             poster="banner-personalizados-polos.jpg"
              autoplay muted loop playsinline webkit-playsinline
              preload="auto"
              disablepictureinpicture
              aria-label="Banner de polos personalizados VOCE STORE">
+        <source src="./YouCut_20261122_144936846.mp4" type="video/mp4">
         Tu navegador no puede reproducir este video.
       </video>
+      <button class="hero-video-play" type="button" aria-label="Reproducir video">▶ Ver video</button>
     </div>
     <a class="hero-whatsapp-full" target="_blank" rel="noopener"
        href="https://wa.me/51965165095?text=Hola%20VOCE%20STORE%2C%20quiero%20personalizar%20una%20prenda%2C%20%C2%BFme%20ayudan%3F">
@@ -2206,9 +2244,12 @@ function observeProductCards(){
 }
 
 // Reproducción robusta del banner en desktop y móvil.
+// No usamos poster: así Opera móvil nunca muestra una imagen vieja que no corresponde.
 (function(){
   const v = document.querySelector('.hero-video');
-  if (!v) return;
+  const hero = document.querySelector('.video-hero');
+  const playBtn = document.querySelector('.hero-video-play');
+  if (!v || !hero) return;
 
   v.muted = true;
   v.defaultMuted = true;
@@ -2216,23 +2257,43 @@ function observeProductCards(){
   v.setAttribute('playsinline', '');
   v.setAttribute('webkit-playsinline', '');
 
+  const markPlaying = () => hero.classList.remove('needs-play');
+
   const tryPlay = () => {
     const p = v.play();
-    if (p && typeof p.catch === 'function') p.catch(() => {});
+    if (p && typeof p.then === 'function') {
+      p.then(markPlaying).catch(() => hero.classList.add('needs-play'));
+    }
   };
 
-  if (v.readyState >= 2) tryPlay();
+  v.addEventListener('playing', markPlaying);
   v.addEventListener('loadeddata', tryPlay);
   v.addEventListener('canplay', tryPlay);
   window.addEventListener('load', tryPlay);
+
+  // Algunos navegadores móviles bloquean autoplay hasta la primera interacción.
   document.addEventListener('touchstart', tryPlay, { once:true, passive:true });
   document.addEventListener('pointerdown', tryPlay, { once:true, passive:true });
-  document.addEventListener('visibilitychange', () => { if (!document.hidden) tryPlay(); });
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) tryPlay();
+  });
 
-  // Si el MP4 falla, dejamos visible el poster en vez de un bloque negro.
+  if (playBtn) {
+    playBtn.addEventListener('click', (ev) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+      tryPlay();
+    });
+  }
+
+  // Si después de cargar sigue pausado, mostramos un CTA discreto para reproducir.
+  window.setTimeout(() => {
+    if (v.paused) hero.classList.add('needs-play');
+  }, 1400);
+
+  // Si el archivo falla realmente, no mostramos una imagen incorrecta.
   v.addEventListener('error', () => {
-    v.removeAttribute('src');
-    v.load();
+    hero.classList.add('needs-play');
   });
 })();
 
